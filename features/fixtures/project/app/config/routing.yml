@@ -1,0 +1,7 @@
+admin:
+    resource: "@FSiAdminBundle/Resources/config/routing/admin.yml"
+    prefix: /admin
+
+admin_translatable:
+    resource: "@FSiAdminTranslatableBundle/Resources/config/routing/admin.yml"
+    prefix: /admin
