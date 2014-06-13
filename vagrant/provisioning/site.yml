@@ -1,0 +1,10 @@
+--- 
+- name: Prepare basic env for php apps on all nodes
+  hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+    - tools
+    - apache
+    - php5
+    - composer

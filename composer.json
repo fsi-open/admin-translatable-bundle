@@ -1,0 +1,47 @@
+{
+    "name": "fsi/admin-translatable-bundle",
+    "type": "symfony-bundle",
+    "description": "Purpose of this bundle is to provide simple translation mechanisms for fsi/admin-bundle",
+    "keywords": ["admin", "symfony2", "bundle", "fsi", "translatable"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Artur Czocher",
+            "email": "wasper@wasper.pl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle" : "~2.3",
+        "fsi/admin-bundle" : "1.0.* ",
+        "fsi/doctrine-extensions": "dev-master as 1.0.x-dev",
+        "fsi/doctrine-extensions-bundle": "dev-master@dev"
+    },
+    "require-dev": {
+        "symfony/class-loader": "~2.3",
+        "ext-pdo_sqlite": "*",
+        "doctrine/doctrine-bundle": "dev-master",
+        "phpspec/phpspec": "2.0.*@dev",
+        "behat/behat": "*@stable",
+        "behat/symfony2-extension": "*@stable",
+        "behat/mink-extension": "*",
+        "behat/mink-browserkit-driver": "*",
+        "behat/mink-selenium2-driver": "*",
+        "sensiolabs/behat-page-object-extension": "*",
+        "bossa/phpspec2-expect": "dev-master"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-0": {
+            "FSi\\Bundle\\AdminTranslatableBundle\\": ""
+        }
+    },
+    "target-dir" : "FSi/Bundle/AdminTranslatableBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
