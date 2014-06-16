@@ -29,3 +29,9 @@ fsi_doctrine_extensions:
     orm:
         default:
             translatable: true
+
+fsi_admin_translatable:
+    languages:
+      - pl
+      - en
+      - de
