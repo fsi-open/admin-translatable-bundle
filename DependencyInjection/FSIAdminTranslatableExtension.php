@@ -23,6 +23,9 @@ class FSIAdminTranslatableExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
         $loader->load('listeners.xml');
+        $loader->load('context/create.xml');
+        $loader->load('context/edit.xml');
+        $loader->load('context/delete.xml');
     }
 
     /**
