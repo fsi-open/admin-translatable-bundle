@@ -17,6 +17,7 @@ class FSIAdminTranslatableExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         $container->setParameter('fsi_admin_translatable.languages', $config['languages']);
+        $container->setParameter('admin.templates.base', '@FSiAdminTranslatable/base.html.twig');
         $this->setTemplateParameters($container, $config['templates']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
