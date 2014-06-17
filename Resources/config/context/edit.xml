@@ -5,10 +5,27 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="admin_translatable.doctrine.context_builder.edit.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Edit\ContextBuilder</parameter>
         <parameter key="admin_translatable.doctrine.context.edit.request_handler.form_valid_request.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Edit\Request\FormValidRequestHandler</parameter>
     </parameters>
 
     <services>
+
+        <service id="admin_translatable.doctrine.context_builder.edit" class="%admin_translatable.doctrine.context_builder.edit.class%">
+            <argument type="service" id="admin_translatable.doctrine.context.edit"/>
+            <argument type="service" id="router" />
+            <tag name="admin.context.builder" />
+            <call method="setRequest">
+                <argument type="service" id="request" on-invalid="null" strict="false" />
+            </call>
+        </service>
+
+        <service id="admin_translatable.doctrine.context.edit" class="%admin.doctrine.context.edit.class%">
+            <argument type="collection">
+                <argument type="service" id="admin.doctrine.context.edit.request_handler.form_submit"/>
+                <argument type="service" id="admin_translatable.doctrine.context.edit.request_handler.form_valid_request"/>
+            </argument>
+        </service>
 
         <service id="admin_translatable.doctrine.context.edit.request_handler.form_valid_request"
                  class="%admin_translatable.doctrine.context.edit.request_handler.form_valid_request.class%">

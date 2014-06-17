@@ -26,6 +26,7 @@ class FSIAdminTranslatableExtension extends Extension
         $loader->load('context/create.xml');
         $loader->load('context/edit.xml');
         $loader->load('context/delete.xml');
+        $loader->load('context/list.xml');
     }
 
     /**
