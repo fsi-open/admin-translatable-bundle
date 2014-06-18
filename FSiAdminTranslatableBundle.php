@@ -2,6 +2,7 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle;
 
+use FSi\Bundle\AdminTranslatableBundle\DependencyInjection\Compiler\MenuBuilderPass;
 use FSi\Bundle\AdminTranslatableBundle\DependencyInjection\Compiler\TranslatableElementPass;
 use FSi\Bundle\AdminTranslatableBundle\DependencyInjection\FSIAdminTranslatableExtension;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -17,6 +18,7 @@ class FSiAdminTranslatableBundle extends Bundle
     {
         parent::build($container);
 
+        $container->addCompilerPass(new MenuBuilderPass());
         $container->addCompilerPass(new TranslatableElementPass(), PassConfig::TYPE_BEFORE_REMOVING);
     }
 
