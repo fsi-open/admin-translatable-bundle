@@ -32,7 +32,6 @@
         <!--Managers-->
         <service id="admin_translatable.manager.locale" class="%admin_translatable.manager.locale.class%">
             <argument type="service" id="doctrine" />
-            <argument type="service" id="service_container" />
             <argument type="service" id="session" />
         </service>
     </services>

@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManager;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class LocaleManagerSpec extends ObjectBehavior
@@ -18,7 +17,6 @@ class LocaleManagerSpec extends ObjectBehavior
         EntityManager $entityManager,
         EventManager $eventManager,
         TranslatableListener $translatableListener,
-        ContainerInterface $container,
         Session $session
     ) {
         $managerRegistry->getManager()->willReturn($entityManager);
@@ -30,36 +28,36 @@ class LocaleManagerSpec extends ObjectBehavior
                 )
             ));
 
-        $this->beConstructedWith($managerRegistry, $container, $session);
+        $this->beConstructedWith($managerRegistry, $session);
     }
 
-    function it_sets_default_locale(
+    function it_sets_locale(
         Session $session,
-        ContainerInterface $container,
+        TranslatableListener $translatableListener
+    ) {
+
+        $session->set('admin-locale', 'pl')->shouldBeCalled();
+        $translatableListener->setLocale('pl')->shouldBeCalled();
+
+        $this->setLocale('pl');
+    }
+
+    function it_gets_default_locale_when_session_is_empty(
+        Session $session,
         TranslatableListener $translatableListener
     ) {
         $session->has('admin-locale')->willReturn(false);
-        $container->getParameter('locale')->willReturn('pl');
+        $translatableListener->getDefaultLocale()->shouldBeCalled();
 
-        $session->set('admin-locale', 'pl')->shouldBeCalled();
-        $session->get('admin-locale')->willReturn('pl');
-
-        $translatableListener->setLocale('pl')->shouldBeCalled();
-
-        $this->setLocale('pl');
+        $this->getLocale();
     }
 
-    function it_sets_current_locale(
-        Session $session,
-        TranslatableListener $translatableListener
+    function it_gets_locale_when_session_is_not_empty(
+        Session $session
     ) {
         $session->has('admin-locale')->willReturn(true);
+        $session->get('admin-locale')->shouldBeCalled();
 
-        $session->set('admin-locale', 'pl')->shouldBeCalled();
-        $session->get('admin-locale')->willReturn('pl');
-
-        $translatableListener->setLocale('pl')->shouldBeCalled();
-
-        $this->setLocale('pl');
+        $this->getLocale();
     }
 }

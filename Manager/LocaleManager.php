@@ -4,7 +4,6 @@ namespace FSi\Bundle\AdminTranslatableBundle\Manager;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -23,23 +22,15 @@ class LocaleManager
     private $session;
 
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    private $container;
-
-    /**
      * @param \Doctrine\Common\Persistence\ManagerRegistry $managerRegistry
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param \Symfony\Component\HttpFoundation\Session\Session
      */
     public function __construct(
         ManagerRegistry $managerRegistry,
-        ContainerInterface $container,
         Session $session
     ) {
         $this->managerRegistry = $managerRegistry;
         $this->session = $session;
-        $this->container = $container;
     }
 
     /**
@@ -47,13 +38,8 @@ class LocaleManager
      */
     public function setLocale($locale)
     {
-        if (!$this->hasLocale()) {
-            $this->session->set('admin-locale', $this->getLocaleParameter());
-        } elseif (!empty($locale)) {
-            $this->session->set('admin-locale', $locale);
-        }
-
-        $this->setTranslatableLocale($this->getLocale());
+        $this->session->set('admin-locale', $locale);
+        $this->setTranslatableLocale($locale);
     }
 
     /**
@@ -69,26 +55,24 @@ class LocaleManager
      */
     public function getLocale()
     {
-        return $this->session->get('admin-locale');
+        if ($this->hasLocale()) {
+            return $this->session->get('admin-locale');
+        } else {
+            return $this->getTranslatableListener()->getDefaultLocale();
+        }
     }
 
     /**
      * @return bool
      */
-    public function hasLocale()
+    private function hasLocale()
     {
         return $this->session->has('admin-locale');
     }
 
     /**
-     * @return string
+     * @return \FSi\DoctrineExtensions\Translatable\TranslatableListener|null
      */
-    private function getLocaleParameter()
-    {
-        return $this->container->getParameter('locale');
-    }
-
-
     private function getTranslatableListener()
     {
         $evm = $this->managerRegistry->getManager()->getEventManager();
