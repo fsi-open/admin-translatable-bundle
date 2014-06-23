@@ -16,9 +16,9 @@ class AppKernel extends Kernel
             new FSi\Bundle\DataSourceBundle\DataSourceBundle(),
             new FSi\Bundle\DataGridBundle\DataGridBundle(),
             new FSi\Bundle\AdminBundle\FSiAdminBundle(),
-            new FSi\FixturesBundle\FSiFixturesBundle(),
-            new FSi\Bundle\AdminTranslatableBundle\FSiAdminTranslatableBundle(),
             new FSi\Bundle\DoctrineExtensionsBundle\FSiDoctrineExtensionsBundle(),
+            new FSi\Bundle\AdminTranslatableBundle\FSiAdminTranslatableBundle(),
+            new FSi\FixturesBundle\FSiFixturesBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
         );
     }

@@ -1,0 +1,6 @@
+admin:
+  events:
+    type_name: Events
+    form:
+      name:
+        label: Name
