@@ -25,17 +25,6 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     }
 
     /**
-     * @Given /^the following services were registered$/
-     */
-    public function theFollowingServicesWereRegistered(TableNode $table)
-    {
-        foreach ($table->getHash() as $serviceRow) {
-            expect($this->kernel->getContainer()->has($serviceRow['Id']))->toBe(true);
-            expect($this->kernel->getContainer()->get($serviceRow['Id']))->toBeAnInstanceOf($serviceRow['Class']);
-        }
-    }
-
-    /**
      * @Given /^I am on the "([^"]*)" page$/
      */
     public function iAmOnThePage($pageName)

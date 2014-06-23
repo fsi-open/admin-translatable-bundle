@@ -6,10 +6,15 @@
 
     <parameters>
         <parameter key="fixtures_bundle.admin.events.class">FSi\FixturesBundle\Admin\Events</parameter>
+        <parameter key="fixtures_bundle.admin.news.class">FSi\FixturesBundle\Admin\News</parameter>
     </parameters>
     <services>
         <service id="fixtures_bundle.admin.events" class="%fixtures_bundle.admin.events.class%">
             <tag name="admin.element" />
+        </service>
+
+        <service id="fixtures_bundle.admin.news" class="%fixtures_bundle.admin.news.class%">
+            <tag name="admin.element"/>
         </service>
     </services>
 

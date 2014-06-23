@@ -4,3 +4,6 @@ admin:
     form:
       name:
         label: Name
+  news:
+      title: Title
+      type_name: News
