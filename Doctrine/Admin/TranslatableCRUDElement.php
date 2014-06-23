@@ -34,9 +34,4 @@ abstract class TranslatableCRUDElement extends BaseCRUD implements TranslatableA
     {
         $this->localeManager = $localeManager;
     }
-
-    public function getLocale()
-    {
-        return $this->localeManager->getLocale();
-    }
 }

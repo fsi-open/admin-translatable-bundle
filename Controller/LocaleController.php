@@ -4,7 +4,6 @@ namespace FSi\Bundle\AdminTranslatableBundle\Controller;
 
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Router;
 
@@ -14,11 +13,6 @@ class LocaleController
      * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
      */
     private $templating;
-
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    private $container;
 
     /**
      * @var \Symfony\Component\Routing\Router
@@ -41,24 +35,29 @@ class LocaleController
     private $localeManager;
 
     /**
+     * @var array
+     */
+    private $locales;
+
+    /**
      * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param \Symfony\Component\Routing\Router $router
      * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
      * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
+     * @param array $locales
      */
     public function __construct(
         EngineInterface $templating,
-        ContainerInterface $container,
         Router $router,
         RequestStack $requestStack,
-        LocaleManager $localeManager
+        LocaleManager $localeManager,
+        array $locales
     ) {
         $this->templating = $templating;
-        $this->container = $container;
         $this->router = $router;
         $this->requestStack = $requestStack;
         $this->localeManager = $localeManager;
+        $this->locales = $locales;
     }
 
     /**
@@ -79,7 +78,7 @@ class LocaleController
      */
     private function getLocales()
     {
-        return $this->container->getParameter('fsi_admin_translatable.languages');
+        return $this->locales;
     }
 
     /**
@@ -166,7 +165,8 @@ class LocaleController
     /**
      * @return bool
      */
-    private function hasTranslatableElement() {
+    private function hasTranslatableElement()
+    {
         return array_key_exists('locale', $this->getOriginalParameters());
     }
 }

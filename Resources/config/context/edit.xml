@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="admin_translatable.doctrine.context_builder.edit.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Edit\ContextBuilder</parameter>
         <parameter key="admin_translatable.doctrine.context.edit.request_handler.form_valid_request.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Edit\Request\FormValidRequestHandler</parameter>
+        <parameter key="admin_translatable.doctrine.context.edit.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Edit\Context</parameter>
     </parameters>
 
     <services>
@@ -20,11 +21,12 @@
             </call>
         </service>
 
-        <service id="admin_translatable.doctrine.context.edit" class="%admin.doctrine.context.edit.class%">
+        <service id="admin_translatable.doctrine.context.edit" class="%admin_translatable.doctrine.context.edit.class%">
             <argument type="collection">
                 <argument type="service" id="admin.doctrine.context.edit.request_handler.form_submit"/>
                 <argument type="service" id="admin_translatable.doctrine.context.edit.request_handler.form_valid_request"/>
             </argument>
+            <argument type="service" id="admin_translatable.manager.locale" />
         </service>
 
         <service id="admin_translatable.doctrine.context.edit.request_handler.form_valid_request"

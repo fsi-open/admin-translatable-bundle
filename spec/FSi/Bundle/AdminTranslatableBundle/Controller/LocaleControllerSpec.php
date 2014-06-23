@@ -6,7 +6,6 @@ use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -17,19 +16,17 @@ class LocaleControllerSpec extends ObjectBehavior
 {
     function let(
         EngineInterface $templating,
-        ContainerInterface $container,
         Router $router,
         RequestStack $requestStack,
         LocaleManager $localeManager
     ) {
-        $this->beConstructedWith($templating, $container, $router, $requestStack, $localeManager);
+        $this->beConstructedWith($templating, $router, $requestStack, $localeManager, array('pl', 'en'));
     }
 
     function it_render_template_with_locale_dropdown(
         EngineInterface $templating,
         RequestStack $requestStack,
         Request $request,
-        ContainerInterface $container,
         Router $router,
         LocaleManager $localeManager,
         ParameterBag $parameterBag,
@@ -39,7 +36,6 @@ class LocaleControllerSpec extends ObjectBehavior
         $request->get('_route_params')->willReturn(array('element' => 'admin_news', 'locale' => 'en'));
         $request->query = $parameterBag;
         $parameterBag->all()->willReturn(array());
-        $container->getParameter('fsi_admin_translatable.languages')->willReturn(array('pl', 'en'));
         $request->get('_route')->willReturn('fsi_admin_translatable_crud_list');
         $localeManager->getLocale()->willReturn('en');
 

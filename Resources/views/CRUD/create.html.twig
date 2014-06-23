@@ -5,7 +5,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <h3 id="page-header">{{ title|trans({}, 'FSiAdminBundle') }}</h3>
-                {{ form_start(form, { action: path('fsi_admin_translatable_crud_create', { element: element.id, locale: element.locale }), 'attr': { class: 'form-horizontal' }|merge(form.vars.attr) }) }}
+                {{ form_start(form, { action: path('fsi_admin_translatable_crud_create', { element: element.id, locale: translatable_locale }), 'attr': { class: 'form-horizontal' }|merge(form.vars.attr) }) }}
                 {{ form_widget(form) }}
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">

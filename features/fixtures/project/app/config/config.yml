@@ -31,7 +31,7 @@ fsi_doctrine_extensions:
             translatable: true
 
 fsi_admin_translatable:
-    languages:
+    locales:
       - pl
       - en
       - de

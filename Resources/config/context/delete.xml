@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="admin_translatable.doctrine.context_builder.delete.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Delete\ContextBuilder</parameter>
         <parameter key="admin_translatable.doctrine.context.delete.request_handler.form_valid_request.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Delete\Request\FormValidRequestHandler</parameter>
+        <parameter key="admin_translatable.doctrine.context.delete.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Delete\Context</parameter>
     </parameters>
 
     <services>
@@ -20,12 +21,13 @@
             </call>
         </service>
 
-        <service id="admin_translatable.doctrine.context.delete" class="%admin.doctrine.context.delete.class%">
+        <service id="admin_translatable.doctrine.context.delete" class="%admin_translatable.doctrine.context.delete.class%">
             <argument type="collection">
                 <argument type="service" id="admin.doctrine.context.delete.request_handler.form_submit"/>
                 <argument type="service" id="admin_translatable.doctrine.context.delete.request_handler.form_valid_request"/>
             </argument>
             <argument type="service" id="form.factory" />
+            <argument type="service" id="admin_translatable.manager.locale" />
         </service>
 
         <service id="admin_translatable.doctrine.context.delete.request_handler.form_valid_request"

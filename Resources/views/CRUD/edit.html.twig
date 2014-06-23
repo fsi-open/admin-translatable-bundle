@@ -9,7 +9,7 @@
                 {% else %}
                     <h3 id="page-header">{{ title|trans({}, 'FSiAdminBundle') }}</h3>
                 {% endif %}
-                {{ form_start(form, { action: path('fsi_admin_translatable_crud_edit', { element: element.id, id: id, locale: element.locale }), 'attr': { class: 'form-horizontal' }|merge(form.vars.attr) }) }}
+                {{ form_start(form, { action: path('fsi_admin_translatable_crud_edit', { element: element.id, id: id, locale: translatable_locale }), 'attr': { class: 'form-horizontal' }|merge(form.vars.attr) }) }}
                 {{ form_widget(form) }}
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">

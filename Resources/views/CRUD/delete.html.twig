@@ -8,7 +8,7 @@
             </div>
         {% endblock message %}
         {% block form %}
-            {{ form_start(form, { action: path('fsi_admin_translatable_crud_delete', { element: element.id, locale: element.locale }), 'attr': { class: 'form-horizontal' }|merge(form.vars.attr) }) }}
+            {{ form_start(form, { action: path('fsi_admin_translatable_crud_delete', { element: element.id, locale: translatable_locale }), 'attr': { class: 'form-horizontal' }|merge(form.vars.attr) }) }}
             {% for index in indexes %}
                 <input type="hidden" value="{{ index }}" name="indexes[]"/>
             {% endfor %}

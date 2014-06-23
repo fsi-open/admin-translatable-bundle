@@ -16,13 +16,14 @@ class FSIAdminTranslatableExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        $container->setParameter('fsi_admin_translatable.languages', $config['languages']);
+        $container->setParameter('fsi_admin_translatable.locales', $config['locales']);
         $container->setParameter('admin.templates.base', '@FSiAdminTranslatable/base.html.twig');
         $this->setTemplateParameters($container, $config['templates']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
         $loader->load('listeners.xml');
+        $loader->load('datagrid.xml');
         $loader->load('context/create.xml');
         $loader->load('context/edit.xml');
         $loader->load('context/delete.xml');

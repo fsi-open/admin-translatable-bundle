@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="admin_translatable.doctrine.context_builder.create.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Create\ContextBuilder</parameter>
         <parameter key="admin_translatable.doctrine.context.create.request_handler.form_valid_request.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Create\Request\FormValidRequestHandler</parameter>
+        <parameter key="admin_translatable.doctrine.context.create.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Create\Context</parameter>
     </parameters>
 
     <services>
@@ -17,11 +18,12 @@
             <tag name="admin.context.builder" />
         </service>
 
-        <service id="admin_translatable.doctrine.context.create" class="%admin.doctrine.context.create.class%">
+        <service id="admin_translatable.doctrine.context.create" class="%admin_translatable.doctrine.context.create.class%">
             <argument type="collection">
                 <argument type="service" id="admin.doctrine.context.create.request_handler.form_submit"/>
                 <argument type="service" id="admin_translatable.doctrine.context.create.request_handler.form_valid_request"/>
             </argument>
+            <argument type="service" id="admin_translatable.manager.locale" />
         </service>
 
         <service id="admin_translatable.doctrine.context.create.request_handler.form_valid_request"

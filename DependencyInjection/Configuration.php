@@ -16,7 +16,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('fsi_admin_translatable');
         $rootNode
             ->children()
-                ->arrayNode('languages')
+                ->arrayNode('locales')
                     ->isRequired()
                     ->prototype('scalar')->end()
                 ->end()

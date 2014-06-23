@@ -14,10 +14,10 @@
         <!--Controllers -->
         <service id="admin_translatable.controller.locale" class="%admin_translatable.controller.locale.class%">
             <argument type="service" id="templating" />
-            <argument type="service" id="service_container"/>
             <argument type="service" id="router"/>
             <argument type="service" id="request_stack" />
             <argument type="service" id="admin_translatable.manager.locale" />
+            <argument>%fsi_admin_translatable.locales%</argument>
         </service>
 
         <service id="admin_translatable.controller.crud" class="%admin_translatable.controller.crud.class%">

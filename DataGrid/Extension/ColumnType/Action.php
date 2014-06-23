@@ -10,12 +10,20 @@ use Symfony\Component\Routing\Router;
 
 class Action extends ColumnAbstractTypeExtension
 {
+    /**
+     * @var \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager
+     */
     protected $localeManager;
 
-    protected $container;
-
+    /**
+     * @var \Symfony\Component\Routing\Router
+     */
     protected $router;
 
+    /**
+     * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
+     * @param \Symfony\Component\Routing\Router $router
+     */
     public function __construct(
         LocaleManager $localeManager,
         Router $router
@@ -24,6 +32,9 @@ class Action extends ColumnAbstractTypeExtension
         $this->router = $router;
     }
 
+    /**
+     * @return array
+     */
     public function getExtendedColumnTypes()
     {
         return array(
@@ -31,6 +42,9 @@ class Action extends ColumnAbstractTypeExtension
         );
     }
 
+    /**
+     * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     */
     public function initOptions(ColumnTypeInterface $column)
     {
         $localeManager = $this->localeManager;
@@ -45,6 +59,11 @@ class Action extends ColumnAbstractTypeExtension
         ));
     }
 
+    /**
+     * @param array $actionValues
+     * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
+     * @return mixed
+     */
     private function setRouteLocale($actionValues, $localeManager)
     {
         if (in_array('locale', $this->getRouteVariables($actionValues['route_name']))) {
@@ -54,6 +73,10 @@ class Action extends ColumnAbstractTypeExtension
         return $actionValues;
     }
 
+    /**
+     * @param string $route
+     * @return array
+     */
     private function getRouteVariables($route)
     {
         return $this->getRouteCollection()
@@ -62,6 +85,9 @@ class Action extends ColumnAbstractTypeExtension
             ->getVariables();
     }
 
+    /**
+     * @return null|\Symfony\Component\Routing\RouteCollection
+     */
     private function getRouteCollection()
     {
         return $this->router->getRouteCollection();
