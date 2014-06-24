@@ -77,8 +77,8 @@ class LocaleManager
      */
     private function getTranslatableListener()
     {
-        $evm = $this->managerRegistry->getManager()->getEventManager();
-        foreach ($evm->getListeners() as $listeners) {
+        $eventManager = $this->managerRegistry->getManager()->getEventManager();
+        foreach ($eventManager->getListeners() as $listeners) {
             foreach ($listeners as $listener) {
                 if ($listener instanceof TranslatableListener) {
                     return $listener;

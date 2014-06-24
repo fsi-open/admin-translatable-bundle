@@ -25,7 +25,7 @@ class FormValidRequestHandlerSpec extends ObjectBehavior
         $this->shouldHaveType('FSi\Bundle\AdminBundle\Admin\Context\Request\HandlerInterface');
     }
 
-    function it_handle_POST_request(
+    function it_handles_POST_request(
         FormEvent $event,
         Request $request,
         EventDispatcher $eventDispatcher,

@@ -32,7 +32,7 @@ class ContextSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf('FSi\Bundle\AdminBundle\Admin\Context\ContextInterface');
     }
 
-    function it_have_array_data(TranslatableCRUDElement $element, DataIndexerInterface $indexer)
+    function it_has_array_data(TranslatableCRUDElement $element, DataIndexerInterface $indexer)
     {
         $element->getDataIndexer()->willReturn($indexer);
         $indexer->getIndex($this->data)->willReturn(1);

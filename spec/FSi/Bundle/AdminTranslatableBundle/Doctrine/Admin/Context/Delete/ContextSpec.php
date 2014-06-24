@@ -32,7 +32,7 @@ class ContextSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf('FSi\Bundle\AdminBundle\Admin\Context\ContextInterface');
     }
 
-    function it_have_array_data()
+    function it_has_array_data()
     {
         $this->getData()->shouldBeArray();
         $this->getData()->shouldHaveKey('element');

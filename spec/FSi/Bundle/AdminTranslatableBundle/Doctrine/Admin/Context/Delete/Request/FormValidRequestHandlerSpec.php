@@ -28,7 +28,7 @@ class FormValidRequestHandlerSpec extends ObjectBehavior
         $this->shouldHaveType('FSi\Bundle\AdminBundle\Admin\Context\Request\HandlerInterface');
     }
 
-    function it_handle_request_if_confirmed(
+    function it_handles_request_if_confirmed(
         FormEvent $event,
         Request $request,
         ParameterBag $requestParameterBag,

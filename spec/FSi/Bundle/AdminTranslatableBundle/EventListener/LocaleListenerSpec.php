@@ -16,12 +16,12 @@ class LocaleListenerSpec extends ObjectBehavior
         $this->beConstructedWith($localeManager);
     }
 
-    function it_implement_Event_Subscriber_Interface()
+    function it_implements_Event_Subscriber_Interface()
     {
         $this->beAnInstanceOf('Symfony\Component\EventDispatcher\EventSubscriberInterface');
     }
 
-    function it_subscribe_kernel_request_event()
+    function it_subscribes_kernel_request_event()
     {
         $this->getSubscribedEvents()->shouldReturn(
             array(
@@ -30,14 +30,14 @@ class LocaleListenerSpec extends ObjectBehavior
         );
     }
 
-    function it_do_nothing_if_request_is_not_master(GetResponseEvent $event)
+    function it_does_nothing_if_request_is_not_master(GetResponseEvent $event)
     {
         $event->isMasterRequest()->willReturn(false);
 
         $this->onKernelRequest($event);
     }
 
-    function it_set_locale_to_locale_manager(
+    function it_sets_locale_to_locale_manager(
         GetResponseEvent $event,
         Request $request,
         LocaleManager $localeManager

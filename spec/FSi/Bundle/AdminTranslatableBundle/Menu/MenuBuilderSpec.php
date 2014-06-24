@@ -25,7 +25,7 @@ class MenuBuilderSpec extends ObjectBehavior
         $this->shouldHaveType('FSi\Bundle\AdminBundle\Menu\MenuBuilder');
     }
 
-    function it_create_menu_with_translatable_elements(
+    function it_creates_menu_with_translatable_elements(
         MenuFactory $menuFactory,
         Manager $manager,
         MenuItem $root,

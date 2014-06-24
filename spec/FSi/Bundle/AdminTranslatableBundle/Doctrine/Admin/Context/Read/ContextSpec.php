@@ -30,7 +30,7 @@ class ContextSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf('FSi\Bundle\AdminBundle\Admin\Context\ContextInterface');
     }
 
-    function it_have_array_data(TranslatableCRUDElement $element)
+    function it_has_array_data(TranslatableCRUDElement $element)
     {
         $element->getOption('crud_list_title')->shouldBeCalled();
 

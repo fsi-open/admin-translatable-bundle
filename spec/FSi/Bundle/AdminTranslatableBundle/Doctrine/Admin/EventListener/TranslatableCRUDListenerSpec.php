@@ -40,12 +40,12 @@ class TranslatableCRUDListenerSpec extends ObjectBehavior
         $this->beConstructedWith($localeManager, $managerRegistry, $propertyAccessor);
     }
 
-    function it_implement_Event_Subscriber_Interface()
+    function it_implements_Event_Subscriber_Interface()
     {
         $this->beAnInstanceOf('Symfony\Component\EventDispatcher\EventSubscriberInterface');
     }
 
-    function it_subscribe_crud_entity_pre_save_event()
+    function it_subscribes_crud_entity_pre_save_event()
     {
         $this->getSubscribedEvents()->shouldReturn(
             array(
