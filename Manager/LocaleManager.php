@@ -86,6 +86,6 @@ class LocaleManager
             }
         }
 
-        throw new RuntimeException("Unable to find Translatable Listener");
+        throw new RuntimeException('Translatable extension is not enabled in "fsi_doctrine_extensions" section of "config.yml"');
     }
 }
