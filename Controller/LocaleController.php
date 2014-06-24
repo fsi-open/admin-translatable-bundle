@@ -134,7 +134,7 @@ class LocaleController
         $routes = array();
 
         foreach ($this->getLocales() as $locale) {
-            $routes[$locale] = $this->generateRouteForLanguage($locale);
+            $routes[$locale] = $this->generateRouteForLocale($locale);
         }
 
         return $routes;
@@ -144,7 +144,7 @@ class LocaleController
      * @param string $language
      * @return string
      */
-    private function generateRouteForLanguage($language)
+    private function generateRouteForLocale($language)
     {
         $this->setParameter('locale', $language);
 
