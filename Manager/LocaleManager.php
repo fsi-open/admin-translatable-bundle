@@ -3,6 +3,7 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Manager;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use FSi\Bundle\AdminBundle\Exception\RuntimeException;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -72,6 +73,7 @@ class LocaleManager
 
     /**
      * @return \FSi\DoctrineExtensions\Translatable\TranslatableListener|null
+     * @throws \FSi\Bundle\AdminBundle\Exception\RuntimeException
      */
     private function getTranslatableListener()
     {
@@ -83,5 +85,7 @@ class LocaleManager
                 }
             }
         }
+
+        throw new RuntimeException("Unable to find Translatable Listener");
     }
 }

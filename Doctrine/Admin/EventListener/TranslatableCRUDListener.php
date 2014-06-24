@@ -4,6 +4,8 @@ namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\EventListener;
 
 use FSi\Bundle\AdminBundle\Event\CRUDEvents;
 use FSi\Bundle\AdminBundle\Event\FormEvent;
+use FSi\Bundle\AdminBundle\Exception\RuntimeException;
+use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableAwareInterface;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -58,9 +60,8 @@ class TranslatableCRUDListener implements EventSubscriberInterface
     public function setFormDataLocale(FormEvent $event)
     {
         $element = $event->getElement();
-        $implements = class_implements($element);
 
-        if (in_array('FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableAwareInterface', $implements)) {
+        if ($element instanceof TranslatableAwareInterface) {
             $entity = $event->getForm()->getData();
             $metadata = $this->getTranslatableListener()
                 ->getExtendedMetadata(
@@ -104,6 +105,7 @@ class TranslatableCRUDListener implements EventSubscriberInterface
 
     /**
      * @return \FSi\DoctrineExtensions\Translatable\TranslatableListener|null
+     * @throws \FSi\Bundle\AdminBundle\Exception\RuntimeException
      */
     private function getTranslatableListener()
     {
@@ -115,5 +117,7 @@ class TranslatableCRUDListener implements EventSubscriberInterface
                 }
             }
         }
+
+        throw new RuntimeException("Unable to find Translatable Listener");
     }
 }
