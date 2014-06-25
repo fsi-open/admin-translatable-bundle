@@ -12,4 +12,9 @@ class Grid extends Element
     {
         return $this->has('css', sprintf('th span:contains("%s")', $columnName));
     }
+
+    public function hasCellWithValue($value)
+    {
+        return $this->has('css', sprintf('tr td:contains("%s")', $value));
+    }
 }

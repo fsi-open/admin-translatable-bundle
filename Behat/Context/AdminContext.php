@@ -112,4 +112,14 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
         expect($this->getPage($page)->getTitle())->toBe($title);
     }
 
+    /**
+     * @Given /^I see events with column values$/
+     */
+    public function iSeeEventsWithColumnValues(TableNode $elements)
+    {
+        foreach ($elements->getHash() as $element) {
+            expect($this->getElement('Grid')->hasCellWithValue($element['Name']))->toBe(true);
+        }
+    }
+
 }

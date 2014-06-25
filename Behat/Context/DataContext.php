@@ -5,6 +5,7 @@ namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 use Behat\Behat\Context\BehatContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Doctrine\ORM\Tools\SchemaTool;
+use FSi\FixturesBundle\Entity\Events;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class DataContext extends BehatContext implements KernelAwareInterface
@@ -51,5 +52,30 @@ class DataContext extends BehatContext implements KernelAwareInterface
     protected function getDoctrine()
     {
         return $this->kernel->getContainer()->get('doctrine');
+    }
+
+
+    /**
+     * @Given /^there are (\d+) events in each language$/
+     */
+    public function thereAreEventsInEachLanguage($amount)
+    {
+        $locales = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.locales');
+
+        for ($eventNumber = 1; $eventNumber <= $amount; $eventNumber++) {
+            $this->addEvent($eventNumber, $locales);
+        }
+    }
+
+    private function addEvent($id, $locales)
+    {
+        $event = new Events();
+
+        foreach ($locales as $locale) {
+            $event->setLocale($locale);
+            $event->setName(sprintf('Name %s %d', $locale, $id));
+            $this->getDoctrine()->getManager()->persist($event);
+            $this->getDoctrine()->getManager()->flush();
+        }
     }
 }
