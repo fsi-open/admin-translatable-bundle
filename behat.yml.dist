@@ -1,4 +1,6 @@
 default:
+    filters:
+        tags: ~@wip
     paths:
         features: features
     context:

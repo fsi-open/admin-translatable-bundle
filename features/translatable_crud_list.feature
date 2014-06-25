@@ -19,11 +19,10 @@ Feature: List of elements
       | Name          |
     And I should see "Events List" page title "List of elements"
 
-
   Scenario: Changing the translatable language for events list
     Given I am on the "Events list" page
     And I click "pl" link from translatable language dropdown
-    And I see events with column values
+    And I see events with name values
       | Name      |
       | Name pl 1 |
       | Name pl 2 |
@@ -31,7 +30,7 @@ Feature: List of elements
       | Name pl 4 |
       | Name pl 5 |
     When I click "en" link from translatable language dropdown
-    Then I see events with column values
+    Then I see events with name values
       | Name      |
       | Name en 1 |
       | Name en 2 |

@@ -113,13 +113,30 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     }
 
     /**
-     * @Given /^I see events with column values$/
+     * @Given /^I see events with name values$/
      */
     public function iSeeEventsWithColumnValues(TableNode $elements)
     {
         foreach ($elements->getHash() as $element) {
-            expect($this->getElement('Grid')->hasCellWithValue($element['Name']))->toBe(true);
+            expect($this->getElement('Grid')->hasEventNameCellWithValue($element['Name']))->toBe(true);
         }
     }
+
+    /**
+     * @Then /^I should see event with default name "([^"]*)"$/
+     */
+    public function iShouldSeeEventWithDefaultName($eventName)
+    {
+        expect($this->getElement('Grid')->hasEventNameCellWithValue($eventName))->toBe(true);
+    }
+
+    /**
+     * @Then /^I should see event with empty name value$/
+     */
+    public function iShouldSeeEventWithEmptyNameValue()
+    {
+        expect($this->getElement('Grid')->hasEventNameCellWithValue(''))->toBe(true);
+    }
+
 
 }

@@ -78,4 +78,27 @@ class DataContext extends BehatContext implements KernelAwareInterface
             $this->getDoctrine()->getManager()->flush();
         }
     }
+
+    /**
+     * @Given /^default translatable language is "([^"]*)"$/
+     */
+    public function defaultTranslatableLanguageIs($defaultLocale)
+    {
+        $this->kernel
+            ->getContainer()
+            ->get('fsi_doctrine_extensions.listener.translatable')
+            ->setDefaultLocale($defaultLocale);
+    }
+
+    /**
+     * @Given /^I add new event with name "([^"]*)" and language "([^"]*)"$/
+     */
+    public function iAddNewEventWithNameAndLanguage($eventName, $locale)
+    {
+        $event = new Events();
+        $event->setLocale($locale);
+        $event->setName($eventName);
+        $this->getDoctrine()->getManager()->persist($event);
+        $this->getDoctrine()->getManager()->flush();
+    }
 }

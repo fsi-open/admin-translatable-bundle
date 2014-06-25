@@ -13,8 +13,8 @@ class Grid extends Element
         return $this->has('css', sprintf('th span:contains("%s")', $columnName));
     }
 
-    public function hasCellWithValue($value)
+    public function hasEventNameCellWithValue($value)
     {
-        return $this->has('css', sprintf('tr td:contains("%s")', $value));
+        return $this->has('css', sprintf('tr td div#admin_events_name:contains("%s")', $value));
     }
 }
