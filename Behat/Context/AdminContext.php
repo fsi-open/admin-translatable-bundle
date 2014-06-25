@@ -17,6 +17,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     function __construct()
     {
         $this->useContext('data', new DataContext());
+        $this->useContext('TranslatableCRUD', new TranslatableCRUDContext());
     }
 
     public function setKernel(KernelInterface $kernel)
@@ -45,7 +46,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      */
     public function theFollowingLanguagesWereDefined(TableNode $languages)
     {
-        $definedLanguages = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.languages');
+        $definedLanguages = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.locales');
 
         foreach ($languages as $language) {
             expect(in_array($language, $definedLanguages))->toBe(true);
@@ -53,27 +54,62 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     }
 
     /**
-     * @Then /^I should see translatable switcher$/
+     * @Then /^I should see translatable switcher on the "([^"]*)" page$/
      */
-    public function iShouldSeeTranslatableSwitcher()
+    public function iShouldSeeTranslatableSwitcherOnThePage($page)
+
     {
-        expect($this->getPage('Admin Panel')->hasMenu())->toBe(true);
+        expect($this->getPage($page)->hasTranslatableSwitcher())->toBe(true);
     }
 
     /**
-     * @Given /^translatable switcher should have three options$/
+     * @Given /^translatable switcher should have three options on the "([^"]*)" page$/
      */
-    public function translatableSwitcherShouldHaveThreeOptions()
+    public function translatableSwitcherShouldHaveThreeOptionsOnThePage($page)
+
     {
-//        var_dump($this->getPage('Admin Panel')->getHtml()); die();
-        expect($this->getPage('Admin Panel')->getNumberOfLanguageOptions())->toBe(3);
+        expect($this->getPage($page)->getNumberOfLanguageOptions())->toBe(3);
     }
 
     /**
-     * @Given /^translatable switcher should be inactive$/
+     * @Given /^translatable switcher should be inactive on the "([^"]*)" page$/
      */
-    public function translatableSwitcherShouldBeInactive()
+    public function translatableSwitcherShouldBeInactiveOnThePage($page)
+
     {
-        expect($this->getPage('Admin Panel')->isTranslatableSwitcherActive())->toBe(false);
+        expect($this->getPage($page)->isTranslatableSwitcherActive())->toBe(false);
     }
+
+    /**
+     * @Given /^I click "([^"]*)" link from translatable language dropdown$/
+     */
+    public function iClickLinkFromTranslatableLanguageDropdown($translatableLocale)
+    {
+        $this->getPage('Events List')->getTranslatableLanguageDropdown()->clickLink($translatableLocale);
+    }
+
+    /**
+     * @Then /^I should see translatable dropdown with "([^"]*)"$/
+     */
+    public function iShouldSeeTranslatableDropdownWith($dropdownText)
+    {
+        expect($this->getPage('Events List')->getTranslatableLanguageDropdown()->hasLink($dropdownText))->toBe(true);
+    }
+
+    /**
+     * @When /^I follow "([^"]*)" url from top bar$/
+     */
+    public function iFollowUrlFromTopBar($menuElement)
+    {
+        $this->getPage('Admin Panel')->getMenu()->clickLink($menuElement);
+    }
+
+    /**
+     * @Given /^I should see "([^"]*)" page title "([^"]*)"$/
+     */
+    public function iShouldSeePageTitle($page, $title)
+    {
+        expect($this->getPage($page)->getTitle())->toBe($title);
+    }
+
 }
