@@ -4,4 +4,36 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="admin_translatable.controller.locale.class">FSi\Bundle\AdminTranslatableBundle\Controller\LocaleController</parameter>
+        <parameter key="admin_translatable.controller.crud.class">FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableCRUDController</parameter>
+        <parameter key="admin_translatable.manager.locale.class">FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager</parameter>
+    </parameters>
+
+    <services>
+        <!--Controllers -->
+        <service id="admin_translatable.controller.locale" class="%admin_translatable.controller.locale.class%">
+            <argument type="service" id="templating" />
+            <argument type="service" id="router"/>
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="admin_translatable.manager.locale" />
+            <argument>%fsi_admin_translatable.locales%</argument>
+        </service>
+
+        <service id="admin_translatable.controller.crud" class="%admin_translatable.controller.crud.class%">
+            <argument type="service" id="templating"/>
+            <argument type="service" id="admin.context.manager"/>
+            <argument>%admin_translatable.templates.crud_list%</argument>
+            <argument>%admin_translatable.templates.crud_create%</argument>
+            <argument>%admin_translatable.templates.crud_edit%</argument>
+            <argument>%admin_translatable.templates.crud_delete%</argument>
+        </service>
+
+        <!--Managers-->
+        <service id="admin_translatable.manager.locale" class="%admin_translatable.manager.locale.class%">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="session" />
+        </service>
+    </services>
+
 </container>
