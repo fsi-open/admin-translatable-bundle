@@ -38,7 +38,25 @@ class Events extends TranslatableCRUDElement
      */
     protected function initDataGrid(DataGridFactoryInterface $factory)
     {
-        return $factory->createDataGrid($this->getId());
+        $datagrid = $factory->createDataGrid($this->getId());
+
+        $datagrid->addColumn('name', 'text', array(
+            'label' => 'admin.events.grid.name'
+        ));
+
+        $datagrid->addColumn('actions', 'action', array(
+            'label' => 'admin.grid.actions',
+            'field_mapping' => array('id'),
+            'actions' => array(
+                'edit' => array(
+                    'route_name' => 'fsi_admin_translatable_crud_edit',
+                    'additional_parameters' => array('element' => $this->getId()),
+                    'parameters_field_mapping' => array('id' => 'id')
+                ),
+            )
+        ));
+
+        return $datagrid;
     }
 
     /**
@@ -58,7 +76,7 @@ class Events extends TranslatableCRUDElement
             'data_class' => $this->getClassName(),
         ));
 
-        $form->add('name', 'text', array('label' => 'admin.events.form.name.label'));
+        $form->add('name', 'text', array('label' => 'admin.events.form.name'));
 
         return $form;
     }

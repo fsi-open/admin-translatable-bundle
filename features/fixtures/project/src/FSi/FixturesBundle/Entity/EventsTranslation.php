@@ -26,7 +26,7 @@ class EventsTranslation
     private $locale;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text")
      * @var string
      */
     private $name;

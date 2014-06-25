@@ -1,9 +1,16 @@
 admin:
+  grid:
+    actions: Actions
+
   events:
     type_name: Events
+    grid:
+      name: Name
     form:
-      name:
-        label: Name
+      name: Name
   news:
+    type_name: News
+    grid:
       title: Title
-      type_name: News
+    form:
+      title: Title

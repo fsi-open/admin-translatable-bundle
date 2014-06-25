@@ -18,7 +18,7 @@ class News
     private $id;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text")
      * @var string
      */
     private $title;

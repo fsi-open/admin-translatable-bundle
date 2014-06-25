@@ -38,7 +38,25 @@ class News extends CRUDElement
      */
     protected function initDataGrid(DataGridFactoryInterface $factory)
     {
-        return $factory->createDataGrid($this->getId());
+        $datagrid = $factory->createDataGrid($this->getId());
+
+        $datagrid->addColumn('title', 'text', array(
+            'label' => 'admin.news.grid.title'
+        ));
+
+        $datagrid->addColumn('actions', 'action', array(
+            'label' => 'admin.grid.actions',
+            'field_mapping' => array('id'),
+            'actions' => array(
+                'edit' => array(
+                    'route_name' => 'fsi_admin_crud_edit',
+                    'additional_parameters' => array('element' => $this->getId()),
+                    'parameters_field_mapping' => array('id' => 'id')
+                ),
+            )
+        ));
+
+        return $datagrid;
     }
 
     /**
@@ -58,7 +76,7 @@ class News extends CRUDElement
             'data_class' => $this->getClassName(),
         ));
 
-        $form->add('title', 'text', array('label' => 'admin.news.title'));
+        $form->add('title', 'text', array('label' => 'admin.news.form.title'));
 
         return $form;
     }
