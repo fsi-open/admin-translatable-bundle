@@ -12,10 +12,10 @@ Feature: Switch to select the language translations
 
   Scenario: Admin panel translatable switcher appearance
     Given I am on the "Events list" page
-    Then I should see translatable switcher
-    And translatable switcher should have three options
+    Then I should see translatable switcher on the "Events list" page
+    And translatable switcher should have three options on the "Events list" page
 
   Scenario: Switcher is inactive for non-translatable elements
     Given I am on the "News list" page
-    Then I should see translatable switcher
-    And translatable switcher should be inactive
+    Then I should see translatable switcher on the "News list" page
+    And translatable switcher should be inactive on the "News list" page
