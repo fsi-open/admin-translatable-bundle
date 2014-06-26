@@ -17,4 +17,9 @@ class Grid extends Element
     {
         return $this->has('css', sprintf('tr td div#admin_events_name:contains("%s")', $value));
     }
+
+    public function editOnlyEvent()
+    {
+        $this->find('css', 'tr td:nth-child(3)')->clickLink('Edit');
+    }
 }
