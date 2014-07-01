@@ -34,6 +34,14 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     }
 
     /**
+     * @Given /^I am on the "([^"]*)" page with translatable language "([^"]*)"$/
+     */
+    public function iAmOnThePageWithTranslatableLamguage($pageName, $locale)
+    {
+        $this->getPage($pageName)->open(array('locale' => $locale));
+    }
+
+    /**
      * @Given /^I am on the "([^"]*)" page with id (\d+)$/
      */
     public function iAmOnThePageWithId($pageName, $id)
@@ -85,7 +93,8 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      */
     public function iClickLinkFromTranslatableLanguageDropdown($translatableLocale)
     {
-        $this->getPage('Events List')->getTranslatableLanguageDropdown()->clickLink($translatableLocale);
+        $this->getPage('Events List')->clickTranslatableDropdown();
+        $this->getPage('Events List')->findTranslatableLanguageElement($translatableLocale)->click();
     }
 
     /**
@@ -93,7 +102,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      */
     public function iShouldSeeTranslatableDropdownWith($dropdownText)
     {
-        expect($this->getPage('Events List')->getTranslatableLanguageDropdown()->hasLink($dropdownText))->toBe(true);
+        expect($this->getPage('Events List')->hasActiveTranslatableLanguage($dropdownText))->toBe(true);
     }
 
     /**

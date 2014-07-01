@@ -22,4 +22,9 @@ class Grid extends Element
     {
         $this->find('css', 'tr td:nth-child(3)')->clickLink('Edit');
     }
+
+    public function getRowsCount()
+    {
+        return count($this->findAll('css', 'tbody tr'));
+    }
 }

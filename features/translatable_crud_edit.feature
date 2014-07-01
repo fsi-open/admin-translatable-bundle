@@ -12,7 +12,7 @@ Feature: Edit element
     And default translatable language is "en"
     And I add new event with name "Event en" and language "en"
 
-  Scenario: Edit event element in another translatable language
+  Scenario: Edit event element in different translatable language
     Given I am on the "Events list" page
     And I click "pl" link from translatable language dropdown
     And I edit only event element
