@@ -1,0 +1,2 @@
+vhost_name: fsi-admin-translatable-bundle.dev
+vhost_docroot: /var/www/admin-translatable-bundle/features/fixtures/project/web
