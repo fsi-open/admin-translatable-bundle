@@ -11,7 +11,7 @@ Feature: Deleting existing elements
     And default translatable language is "en"
 
   @javascript
-  Scenario: Delete single news
+  Scenario: Delete translatable element
     Given I am on the "Events list" page with translatable language "en"
     When I press checkbox in first column in first row
     And I choose action "Delete" from actions

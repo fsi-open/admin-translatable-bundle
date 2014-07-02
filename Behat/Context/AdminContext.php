@@ -36,7 +36,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     /**
      * @Given /^I am on the "([^"]*)" page with translatable language "([^"]*)"$/
      */
-    public function iAmOnThePageWithTranslatableLamguage($pageName, $locale)
+    public function iAmOnThePageWithTranslatableLanguage($pageName, $locale)
     {
         $this->getPage($pageName)->open(array('locale' => $locale));
     }

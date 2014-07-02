@@ -20,7 +20,7 @@ Feature: Create element
     When I click "pl" link from translatable language dropdown
     Then I should see event with default name "Event en"
 
-  Scenario: Create event element with with another translatable language than default
+  Scenario: Create event element with different translatable language than default
     Given I add new event with name "Event en" and language "de"
     And I am on the "Events list" page
     When I click "en" link from translatable language dropdown
