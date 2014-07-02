@@ -136,6 +136,7 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareIn
      */
     public function iShouldSeeEventsOnTheList($count)
     {
+        sleep(3);
         expect($this->getElement('Grid')->getRowsCount())->toBe((int) $count);
     }
 }

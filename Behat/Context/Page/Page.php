@@ -6,13 +6,6 @@ use SensioLabs\Behat\PageObjectExtension\PageObject\Page as BasePage;
 
 class Page extends BasePage
 {
-    public function isOpen(array $urlParameters = array())
-    {
-        $this->verifyPage();
-
-        return true;
-    }
-
     public function getTitle()
     {
         return $this->find('css', 'h3#page-header')->getText();

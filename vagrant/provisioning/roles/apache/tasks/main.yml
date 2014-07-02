@@ -37,4 +37,4 @@
 
 - name: Add to /etc/hosts
   sudo: yes
-  shell: echo '127.0.0.1 {{ vhost_name }}' > /etc/hosts
+  lineinfile: dest=/etc/hosts line="127.0.0.1 {{ vhost_name }}"
