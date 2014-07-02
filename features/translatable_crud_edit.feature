@@ -4,7 +4,10 @@ Feature: Edit element
   I need to install FSiAdminTranslatableBundle and configure form
 
   Background:
-    Given the following languages were defined
+    Given the following admin translatable elements were registered
+      | Service Id                    | Class                           |
+      | fixtures_bundle.admin.events  | FSi\FixturesBundle\Admin\Events |
+    And the following languages were defined
       | Language  |
       | en        |
       | pl        |

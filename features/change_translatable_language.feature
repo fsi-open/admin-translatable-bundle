@@ -4,7 +4,10 @@ Feature: Change translatable language
   I need to choose translatable language from list
 
   Background:
-    Given the following languages were defined
+    Given the following admin translatable elements were registered
+      | Service Id                    | Class                           |
+      | fixtures_bundle.admin.events  | FSi\FixturesBundle\Admin\Events |
+    And the following languages were defined
       | Language  |
       | en        |
       | pl        |

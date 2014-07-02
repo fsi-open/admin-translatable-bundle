@@ -4,7 +4,13 @@ Feature: Switch to select the language translations
   I need to install FSiAdminTranslatableBundle and set languages
 
   Background:
-    Given the following languages were defined
+    Given the following admin translatable elements were registered
+      | Service Id                    | Class                           |
+      | fixtures_bundle.admin.events  | FSi\FixturesBundle\Admin\Events |
+    And the following admin non-translatable elements were registered
+      | Service Id                    | Class                           |
+      | fixtures_bundle.admin.news  | FSi\FixturesBundle\Admin\News     |
+    And the following languages were defined
       | Language  |
       | en        |
       | pl        |

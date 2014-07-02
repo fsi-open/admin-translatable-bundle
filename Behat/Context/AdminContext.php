@@ -121,4 +121,15 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
         expect($this->getPage($page)->getTitle())->toBe($title);
     }
 
+    /**
+     * @Given /^the following admin translatable elements were registered$/
+     * @Given /^the following admin non-translatable elements were registered$/
+     */
+    public function theFollowingAdminTranslatableElementsWereRegistered(TableNode $elements)
+    {
+        foreach ($elements->getHash() as $serviceRow) {
+            expect($this->kernel->getContainer()->has($serviceRow['Service Id']))->toBe(true);
+            expect($this->kernel->getContainer()->get($serviceRow['Service Id']))->toBeAnInstanceOf($serviceRow['Class']);
+        }
+    }
 }

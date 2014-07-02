@@ -4,7 +4,10 @@ Feature: Deleting existing elements
   I need to install FSiAdminBundle and configure admin element
 
   Background:
-    Given there are 3 events in each language
+    Given the following admin translatable elements were registered
+      | Service Id                    | Class                           |
+      | fixtures_bundle.admin.events  | FSi\FixturesBundle\Admin\Events |
+    And there are 3 events in each language
     And default translatable language is "en"
 
   @javascript
