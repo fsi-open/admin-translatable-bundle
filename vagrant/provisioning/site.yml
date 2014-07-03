@@ -3,6 +3,8 @@
   hosts: all
   remote_user: vagrant
   sudo: yes
+  vars_files:
+    - variables.yml
   roles:
     - tools
     - apache
