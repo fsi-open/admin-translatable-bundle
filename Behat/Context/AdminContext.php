@@ -34,9 +34,9 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     }
 
     /**
-     * @Given /^I am on the "([^"]*)" page with translatable language "([^"]*)"$/
+     * @Given /^I am on the "([^"]*)" page with translatable locale "([^"]*)"$/
      */
-    public function iAmOnThePageWithTranslatableLanguage($pageName, $locale)
+    public function iAmOnThePageWithTranslatableLocale($pageName, $locale)
     {
         $this->getPage($pageName)->open(array('locale' => $locale));
     }
@@ -50,9 +50,9 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     }
 
     /**
-     * @Given /^the following languages were defined$/
+     * @Given /^the following translatable locales were defined$/
      */
-    public function theFollowingLanguagesWereDefined(TableNode $languages)
+    public function theFollowingTranslatableLocalesWereDefined(TableNode $languages)
     {
         $definedLanguages = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.locales');
 
@@ -62,44 +62,46 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     }
 
     /**
-     * @Then /^I should see translatable switcher on the "([^"]*)" page$/
+     * @Then /^I should see translatable locale list$/
      */
-    public function iShouldSeeTranslatableSwitcherOnThePage($page)
+    public function iShouldSeeTranslatableLocaleList()
     {
-        expect($this->getPage($page)->hasTranslatableSwitcher())->toBe(true);
+        expect($this->getPage('Events List')->hasTranslatableSwitcher())->toBe(true);
     }
 
     /**
-     * @Given /^translatable switcher should have three options on the "([^"]*)" page$/
+     * @Given /^translatable locale list should have following locales$/
      */
-    public function translatableSwitcherShouldHaveThreeOptionsOnThePage($page)
+    public function translatableSwitcherShouldHaveFollowingLocales(TableNode $locales)
     {
-        expect($this->getPage($page)->getNumberOfLanguageOptions())->toBe(3);
+        foreach ($locales->getHash() as $locale) {
+            expect($this->getPage('Events List')->hasFollowingLocales($locale['Locale']))->toBe(true);
+        }
     }
 
     /**
-     * @Given /^translatable switcher should be inactive on the "([^"]*)" page$/
+     * @Given /^translatable locale list should be inactive$/
      */
-    public function translatableSwitcherShouldBeInactiveOnThePage($page)
+    public function translatableLocaleListShouldBeInactive()
     {
-        expect($this->getPage($page)->isTranslatableSwitcherActive())->toBe(false);
+        expect($this->getPage('Events List')->isTranslatableSwitcherActive())->toBe(false);
     }
 
     /**
-     * @Given /^I click "([^"]*)" link from translatable language dropdown$/
+     * @Given /^I choose "([^"]*)" from translatable locale list$/
      */
-    public function iClickLinkFromTranslatableLanguageDropdown($translatableLocale)
+    public function iChooseLinkFromTranslatableLocaleList($translatableLocale)
     {
         $this->getPage('Events List')->clickTranslatableDropdown();
         $this->getPage('Events List')->findTranslatableLanguageElement($translatableLocale)->click();
     }
 
     /**
-     * @Then /^I should see translatable dropdown with "([^"]*)"$/
+     * @Then /^I should see translatable list with "([^"]*)" option selected$/
      */
-    public function iShouldSeeTranslatableDropdownWith($dropdownText)
+    public function iShouldSeeTranslatableListWithSelected($locale)
     {
-        expect($this->getPage('Events List')->hasActiveTranslatableLanguage($dropdownText))->toBe(true);
+        expect($this->getPage('Events List')->hasActiveTranslatableLanguage($locale))->toBe(true);
     }
 
     /**

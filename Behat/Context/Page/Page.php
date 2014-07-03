@@ -21,14 +21,19 @@ class Page extends BasePage
         return $this->has('css', '#translatable-switcher');
     }
 
-    public function getNumberOfLanguageOptions()
+    public function hasFollowingLocales($locale)
     {
-        return count($this->getTranslatableSwitcher()->findAll('css', 'li > ul li'));
+        return $this->getTranslatableSwitcher()->has('css', sprintf('li > ul li a:contains(%s)', $locale));
     }
 
     public function isTranslatableSwitcherActive()
     {
         return $this->getMenu()->has('css', 'li > ul.dropdown-menu');
+    }
+
+    public function hasActiveTranslatableLanguage($locale)
+    {
+        return $this->has('css', sprintf('li#translatable-language ul li.active:contains(%s)', $locale));
     }
 
     public function getMenu()

@@ -56,9 +56,9 @@ class DataContext extends BehatContext implements KernelAwareInterface
 
 
     /**
-     * @Given /^there are (\d+) events in each language$/
+     * @Given /^there are (\d+) events in each locale/
      */
-    public function thereAreEventsInEachLanguage($amount)
+    public function thereAreEventsInEachLocale($amount)
     {
         $locales = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.locales');
 
@@ -80,9 +80,9 @@ class DataContext extends BehatContext implements KernelAwareInterface
     }
 
     /**
-     * @Given /^default translatable language is "([^"]*)"$/
+     * @Given /^default translatable locale is "([^"]*)"$/
      */
-    public function defaultTranslatableLanguageIs($defaultLocale)
+    public function defaultTranslatableLocaleIs($defaultLocale)
     {
         $this->kernel
             ->getContainer()
@@ -91,9 +91,9 @@ class DataContext extends BehatContext implements KernelAwareInterface
     }
 
     /**
-     * @Given /^I add new event with name "([^"]*)" and language "([^"]*)"$/
+     * @Given /^I add new event with name "([^"]*)" in "([^"]*)" locale$/
      */
-    public function iAddNewEventWithNameAndLanguage($eventName, $locale)
+    public function iAddNewEventWithNameInLocale($eventName, $locale)
     {
         $event = new Events();
         $event->setLocale($locale);

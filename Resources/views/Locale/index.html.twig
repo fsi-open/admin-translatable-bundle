@@ -4,7 +4,7 @@
          {% if isTranslatable %}
             <ul class="dropdown-menu">
                 {% for locale,route in routes %}
-                    <li>
+                    <li {% if locale == currentLocale %}class="active"{% endif %}>
                           <a href="{{ route }}">{{ locale }}</a>
                     </li>
                 {% endfor %}

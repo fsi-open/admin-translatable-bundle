@@ -16,11 +16,6 @@ class EventsList extends Page
         return $this->find('css', 'li#translatable-language a.dropdown-toggle')->click();
     }
 
-    public function hasActiveTranslatableLanguage($dropdownText)
-    {
-        return $this->find('css', 'li#translatable-language')->hasLink($dropdownText);
-    }
-
     public function pressBatchCheckboxInRow()
     {
         $this->find('css', 'table > tbody > tr input[type="checkbox"]')->check();
@@ -29,10 +24,6 @@ class EventsList extends Page
     public function selectBatchAction($action)
     {
         $this->find('css', 'select#batch_action')->selectOption($action);
-    }
-
-    public function pressBatchActionConfirmationButton()
-    {
         $this->find('css', '#batch_action_confirmation')->click();
     }
 }

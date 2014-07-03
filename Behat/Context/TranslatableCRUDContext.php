@@ -31,9 +31,9 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareIn
     }
 
     /**
-     * @Given /^I see events with name values$/
+     * @Given /^I should see events with following names$/
      */
-    public function iSeeEventsWithColumnValues(TableNode $elements)
+    public function iShouldSeeEventsWithFollowingNames(TableNode $elements)
     {
         foreach ($elements->getHash() as $element) {
             expect($this->getElement('Grid')->hasEventNameCellWithValue($element['Name']))->toBe(true);
@@ -51,59 +51,51 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareIn
     }
 
     /**
-     * @Then /^I should see event with empty name value$/
+     * @Then /^I should see event with empty name$/
      */
-    public function iShouldSeeEventWithEmptyNameValue()
+    public function iShouldSeeEventWithEmptyName()
     {
         expect($this->getElement('Grid')->hasEventNameCellWithValue(''))->toBe(true);
     }
 
     /**
-     * @Given /^I edit only event element$/
+     * @Given /^I edit first event on the list$/
      */
-    public function iEditOnlyEventElement()
+    public function iEditFirstEventOnTheList()
     {
         $this->getElement('Grid')->editOnlyEvent();
     }
 
     /**
-     * @Given /^I change form "([^"]*)" field value to "([^"]*)"$/
+     * @Given /^I change "([^"]*)" field value to "([^"]*)"$/
      */
-    public function iChangeFormFieldValueTo($field, $value)
+    public function iChangeFieldValueTo($field, $value)
     {
         $this->getElement('Form')->fillField($field, $value);
     }
 
     /**
-     * @Given /^I press form "([^"]*)" button$/
+     * @Given /^I press "([^"]*)" button$/
      */
-    public function iPressFormButton($button)
+    public function iPressButton($button)
     {
         $this->getElement('Form')->pressButton($button);
     }
 
     /**
-     * @When /^I press checkbox in first column in first row$/
+     * @When /^I check first item on the list$/
      */
-    public function iPressCheckboxInFirstColumnInFirstRow()
+    public function iCheckFirstItemOnTheList()
     {
         $this->getPage('Events List')->pressBatchCheckboxInRow();
     }
 
     /**
-     * @Given /^I choose action "([^"]*)" from actions$/
+     * @Given /^I choose "([^"]*)" from batch action list and confirm it with "([^"]*)"$/
      */
-    public function iChooseActionFromActions($action)
+    public function iChooseFromBatchActionListAndConfirmItWith($action, $button)
     {
         $this->getPage('Events list')->selectBatchAction($action);
-    }
-
-    /**
-     * @Given /^I press confirmation button "Ok"$/
-     */
-    public function iPressConfirmationButton()
-    {
-        $this->getPage('Events list')->pressBatchActionConfirmationButton();
     }
 
     /**
