@@ -1,7 +1,7 @@
-Feature: Switch to select the language translations
-  In order to operate on languages in admin panel
+Feature: Translatable locale list appearance
+  In order to show translatable locale list
   As a developer
-  I need to install FSiAdminTranslatableBundle and set languages
+  I need to install FSiAdminTranslatableBundle and define locales
 
   Background:
     Given the following admin translatable elements were registered
@@ -10,18 +10,22 @@ Feature: Switch to select the language translations
     And the following admin non-translatable elements were registered
       | Service Id                    | Class                           |
       | fixtures_bundle.admin.news    | FSi\FixturesBundle\Admin\News   |
-    And the following languages were defined
-      | Language  |
+    And the following translatable locales were defined
+      | Locale    |
       | en        |
       | pl        |
       | de        |
 
-  Scenario: Admin panel translatable switcher appearance
+  Scenario: Translatable locale list appearance
     Given I am on the "Events list" page
-    Then I should see translatable switcher on the "Events list" page
-    And translatable switcher should have three options on the "Events list" page
+    Then I should see translatable locale list
+    And translatable locale list should have following locales
+      | Locale    |
+      | en        |
+      | pl        |
+      | de        |
 
-  Scenario: Switcher is inactive for non-translatable elements
+  Scenario: Translatable locale list is inactive for non-translatable elements
     Given I am on the "News list" page
-    Then I should see translatable switcher on the "News list" page
-    And translatable switcher should be inactive on the "News list" page
+    Then I should see translatable locale list
+    And translatable locale list should be inactive
