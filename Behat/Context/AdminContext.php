@@ -65,7 +65,6 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      * @Then /^I should see translatable switcher on the "([^"]*)" page$/
      */
     public function iShouldSeeTranslatableSwitcherOnThePage($page)
-
     {
         expect($this->getPage($page)->hasTranslatableSwitcher())->toBe(true);
     }
@@ -74,7 +73,6 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      * @Given /^translatable switcher should have three options on the "([^"]*)" page$/
      */
     public function translatableSwitcherShouldHaveThreeOptionsOnThePage($page)
-
     {
         expect($this->getPage($page)->getNumberOfLanguageOptions())->toBe(3);
     }
@@ -83,7 +81,6 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      * @Given /^translatable switcher should be inactive on the "([^"]*)" page$/
      */
     public function translatableSwitcherShouldBeInactiveOnThePage($page)
-
     {
         expect($this->getPage($page)->isTranslatableSwitcherActive())->toBe(false);
     }
