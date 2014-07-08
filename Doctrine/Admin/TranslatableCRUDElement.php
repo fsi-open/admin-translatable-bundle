@@ -8,6 +8,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 abstract class TranslatableCRUDElement extends BaseCRUD implements TranslatableAwareInterface
 {
+    /**
+     * @var \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager
+     */
     protected $localeManager;
 
     /**

@@ -3,8 +3,13 @@
   hosts: all
   remote_user: vagrant
   sudo: yes
+  vars_files:
+    - variables.yml
   roles:
     - tools
     - apache
     - php5
     - composer
+    - java
+    - xvfb
+    - selenium
