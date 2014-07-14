@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('crud_create')->defaultValue('@FSiAdminTranslatable/CRUD/create.html.twig')->end()
                         ->scalarNode('crud_edit')->defaultValue('@FSiAdminTranslatable/CRUD/edit.html.twig')->end()
                         ->scalarNode('crud_delete')->defaultValue('@FSiAdminTranslatable/CRUD/delete.html.twig')->end()
+                        ->scalarNode('resource')->defaultValue('@FSiAdminTranslatable/Resource/resource.html.twig')->end()
                     ->end()
                 ->end()
             ->end();

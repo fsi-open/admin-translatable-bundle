@@ -93,7 +93,6 @@ class TranslatableMapBuilder extends BaseMapBuilder
                 sprintf('Incorrect "translatable" declaration in "%s" element configuration', $path)
             );
         }
-
     }
 
     /**
