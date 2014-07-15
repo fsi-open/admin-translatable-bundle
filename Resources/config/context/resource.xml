@@ -26,8 +26,8 @@
                 <argument type="service" id="admin_translatable.doctrine.context.resource.request_handler.form_valid_request"/>
             </argument>
             <argument type="service" id="form.factory"/>
-            <argument type="service" id="fsi_resource_repository.map_builder" on-invalid="ignore"/>
             <argument type="service" id="admin_translatable.manager.locale" />
+            <argument type="service" id="fsi_resource_repository.map_builder" on-invalid="ignore"/>
         </service>
 
         <!--Handlers-->

@@ -17,14 +17,14 @@ class Context extends BaseContext
     /**
      * @param $requestHandlers
      * @param \Symfony\Component\Form\FormFactoryInterface $formFactory
-     * @param \FSi\Bundle\ResourceRepositoryBundle\Repository\MapBuilder $mapBuilder
      * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
+     * @param \FSi\Bundle\ResourceRepositoryBundle\Repository\MapBuilder $mapBuilder
      */
     public function __construct(
         $requestHandlers,
         FormFactoryInterface $formFactory,
-        MapBuilder $mapBuilder = null,
-        LocaleManager $localeManager
+        LocaleManager $localeManager,
+        MapBuilder $mapBuilder = null
     ) {
         parent::__construct($requestHandlers, $formFactory, $mapBuilder);
         $this->localeManager = $localeManager;

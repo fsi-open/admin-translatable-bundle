@@ -24,7 +24,6 @@ class TranslatableResourceElementSpec extends ObjectBehavior
         $this->beAnInstanceOf('FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableAwareInterface');
     }
 
-
     function it_gets_route()
     {
         $this->getRoute()->shouldReturn('fsi_admin_translatable_resource');

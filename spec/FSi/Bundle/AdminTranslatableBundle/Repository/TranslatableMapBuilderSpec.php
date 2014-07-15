@@ -22,13 +22,14 @@ class TranslatableMapBuilderSpec extends ObjectBehavior
 
     function it_should_throw_exception_when_translatable_option_is_not_boolean(LocaleManager $localeManager)
     {
-        $this->shouldThrow(
-            new ConfigurationException('Incorrect "translatable" declaration in "resource_group.resource_block.resource_a" element configuration')
-        )->during('__construct', array(
+        $this->shouldThrow('FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException')->during(
+            '__construct',
+            array(
                 __DIR__ . '/../../../../fixtures/resource_map_with_invalid_value.yml',
                 $this->resources,
                 $localeManager
-            ));
+            )
+        );
     }
 
     function it_should_return_translatable_resource_when_translatable_option_is_enabled(

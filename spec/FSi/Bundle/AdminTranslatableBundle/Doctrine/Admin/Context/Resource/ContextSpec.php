@@ -31,7 +31,7 @@ class ContextSpec extends ObjectBehavior
         $formFactory->createBuilder('form', array(),array())->willReturn($formBuilder);
         $formBuilder->getForm()->willReturn($form);
 
-        $this->beConstructedWith(array($handler), $formFactory, $builder, $localeManager);
+        $this->beConstructedWith(array($handler), $formFactory, $localeManager, $builder);
         $this->setElement($element);
     }
 

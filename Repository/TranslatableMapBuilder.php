@@ -87,12 +87,6 @@ class TranslatableMapBuilder extends BaseMapBuilder
                 sprintf('Missing "type" declaration in "%s" element configuration', $path)
             );
         }
-
-        if (isset($configuration['translatable']) && !is_bool($configuration['translatable'])) {
-            throw new ConfigurationException(
-                sprintf('Incorrect "translatable" declaration in "%s" element configuration', $path)
-            );
-        }
     }
 
     /**
@@ -112,6 +106,10 @@ class TranslatableMapBuilder extends BaseMapBuilder
                 continue;
             }
 
+            if ($key === 'translatable' && !is_bool($options)) {
+                throw new ConfigurationException('Invalid value of "translatable" option. This option accepts only boolean value.');
+            }
+
             if (!in_array($key, $validKeys)) {
                 throw new ConfigurationException(
                     sprintf('"%s" is not a valid resource type option. Try one from: %s', $key, implode(', ', $validKeys))
@@ -119,6 +117,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
             }
         }
     }
+
     /**
      * @param string $path
      * @return string
