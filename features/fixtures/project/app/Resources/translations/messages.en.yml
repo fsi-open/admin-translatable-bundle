@@ -14,3 +14,13 @@ admin:
       title: Title
     form:
       title: Title
+  non_translatable_resource:
+    name: Non-translatable Resource
+    title:
+        label: Non-translatable title
+  translatable_resource:
+    name: Translatable Resource
+    header:
+        label: Header
+    context:
+        label: Context

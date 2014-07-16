@@ -7,6 +7,8 @@
     <parameters>
         <parameter key="fixtures_bundle.admin.events.class">FSi\FixturesBundle\Admin\Events</parameter>
         <parameter key="fixtures_bundle.admin.news.class">FSi\FixturesBundle\Admin\News</parameter>
+        <parameter key="fixtures_bundle.admin.non_translatable_resource.class">FSi\FixturesBundle\Admin\NonTranslatableResource</parameter>
+        <parameter key="fixtures_bundle.admin.translatable_resource.class">FSi\FixturesBundle\Admin\TranslatableResource</parameter>
     </parameters>
     <services>
         <service id="fixtures_bundle.admin.events" class="%fixtures_bundle.admin.events.class%">
@@ -15,6 +17,14 @@
 
         <service id="fixtures_bundle.admin.news" class="%fixtures_bundle.admin.news.class%">
             <tag name="admin.element"/>
+        </service>
+
+        <service id="fixtures_bundle.admin.non_translatable_resource" class="%fixtures_bundle.admin.non_translatable_resource.class%">
+            <tag name="admin.element" alias="structure" />
+        </service>
+
+        <service id="fixtures_bundle.admin.translatable_resource" class="%fixtures_bundle.admin.translatable_resource.class%">
+            <tag name="admin.element" alias="structure" />
         </service>
     </services>
 

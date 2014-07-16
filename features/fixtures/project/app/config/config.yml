@@ -30,6 +30,9 @@ fsi_doctrine_extensions:
         default:
             translatable: true
 
+fsi_resource_repository:
+    resource_class: FSi\FixturesBundle\Entity\Resource
+
 fsi_admin_translatable:
     locales:
       - pl

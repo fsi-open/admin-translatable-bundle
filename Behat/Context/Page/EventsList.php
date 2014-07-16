@@ -6,16 +6,6 @@ class EventsList extends Page
 {
     protected $path = '/admin/{locale}/admin_events/list';
 
-    public function findTranslatableLanguageElement($translatableLocale)
-    {
-        return $this->find('css', sprintf('li#translatable-language ul li a:contains("%s")', $translatableLocale));
-    }
-
-    public function clickTranslatableDropdown()
-    {
-        return $this->find('css', 'li#translatable-language a.dropdown-toggle')->click();
-    }
-
     public function pressBatchCheckboxInRow()
     {
         $this->find('css', 'table > tbody > tr input[type="checkbox"]')->check();

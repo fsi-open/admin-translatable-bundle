@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new FSi\Bundle\AdminTranslatableBundle\FSiAdminTranslatableBundle(),
             new FSi\FixturesBundle\FSiFixturesBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+            new FSi\Bundle\ResourceRepositoryBundle\FSiResourceRepositoryBundle(),
         );
     }
 

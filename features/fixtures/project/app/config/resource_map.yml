@@ -1,0 +1,20 @@
+resources:
+    type: group
+    non_translatable_resource:
+        type: group
+        title:
+            type: text
+            form_options:
+                label: admin.non_translatable_resource.title.label
+    translatable_resource:
+        type: group
+        header:
+          translatable: true
+          type: text
+          form_options:
+                label: admin.translatable_resource.header.label
+        context:
+          translatable: true
+          type: text
+          form_options:
+                label: admin.translatable_resource.context.label
