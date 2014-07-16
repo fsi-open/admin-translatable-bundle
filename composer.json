@@ -28,7 +28,8 @@
         "behat/mink-browserkit-driver": "*",
         "behat/mink-selenium2-driver": "*",
         "sensiolabs/behat-page-object-extension": "*",
-        "bossa/phpspec2-expect": "dev-master"
+        "bossa/phpspec2-expect": "dev-master",
+        "fsi/resource-repository-bundle": "1.0.*"
     },
     "config": {
         "bin-dir": "bin"

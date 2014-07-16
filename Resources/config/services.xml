@@ -8,6 +8,7 @@
         <parameter key="admin_translatable.controller.locale.class">FSi\Bundle\AdminTranslatableBundle\Controller\LocaleController</parameter>
         <parameter key="admin_translatable.controller.crud.class">FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableCRUDController</parameter>
         <parameter key="admin_translatable.manager.locale.class">FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager</parameter>
+        <parameter key="admin_translatable.controller.resource.class">FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableResourceController</parameter>
     </parameters>
 
     <services>
@@ -27,6 +28,12 @@
             <argument>%admin_translatable.templates.crud_create%</argument>
             <argument>%admin_translatable.templates.crud_edit%</argument>
             <argument>%admin_translatable.templates.crud_delete%</argument>
+        </service>
+
+        <service id="admin_translatable.controller.resource" class="%admin_translatable.controller.resource.class%">
+            <argument type="service" id="templating"/>
+            <argument type="service" id="admin.context.manager"/>
+            <argument>%admin_translatable.templates.resource%</argument>
         </service>
 
         <!--Managers-->

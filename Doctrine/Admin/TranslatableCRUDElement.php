@@ -33,6 +33,9 @@ abstract class TranslatableCRUDElement extends BaseCRUD implements TranslatableA
         return 'fsi_admin_translatable_crud_list';
     }
 
+    /**
+     * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
+     */
     public function setLocaleManager(LocaleManager $localeManager)
     {
         $this->localeManager = $localeManager;

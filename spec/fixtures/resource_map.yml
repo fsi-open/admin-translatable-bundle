@@ -1,0 +1,9 @@
+resource_group:
+    type: group
+    resource_block:
+        type: group
+        resource_a:
+            translatable: true
+            type: text
+        resource_b:
+            type: text

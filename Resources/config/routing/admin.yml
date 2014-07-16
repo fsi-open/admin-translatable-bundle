@@ -23,3 +23,8 @@ fsi_admin_translatable_crud_delete:
     defaults:
         _controller: admin_translatable.controller.crud:deleteAction
     methods: [DELETE]
+
+fsi_admin_translatable_resource:
+    path: /{locale}/resource/{element}
+    defaults:
+        _controller: admin_translatable.controller.resource:resourceAction
