@@ -35,6 +35,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
 
     /**
      * @Given /^I am on the "([^"]*)" page with translatable locale "([^"]*)"$/
+     * @Given /^I am on the "([^"]*)" page with default translatable locale "([^"]*)"$/
      */
     public function iAmOnThePageWithTranslatableLocale($pageName, $locale)
     {
@@ -66,7 +67,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      */
     public function iShouldSeeTranslatableLocaleList()
     {
-        expect($this->getPage('Events List')->hasTranslatableSwitcher())->toBe(true);
+        expect($this->getElement('Top Menu')->hasTranslatableSwitcher())->toBe(true);
     }
 
     /**
@@ -75,7 +76,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     public function translatableSwitcherShouldHaveFollowingLocales(TableNode $locales)
     {
         foreach ($locales->getHash() as $locale) {
-            expect($this->getPage('Events List')->hasFollowingLocales($locale['Locale']))->toBe(true);
+            expect($this->getElement('Top Menu')->hasFollowingLocales($locale['Locale']))->toBe(true);
         }
     }
 
@@ -84,7 +85,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      */
     public function translatableLocaleListShouldBeInactive()
     {
-        expect($this->getPage('Events List')->isTranslatableSwitcherActive())->toBe(false);
+        expect($this->getElement('Top Menu')->isTranslatableSwitcherActive())->toBe(false);
     }
 
     /**
@@ -92,8 +93,8 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      */
     public function iChooseLinkFromTranslatableLocaleList($translatableLocale)
     {
-        $this->getPage('Events List')->clickTranslatableDropdown();
-        $this->getPage('Events List')->findTranslatableLanguageElement($translatableLocale)->click();
+        $this->getElement('Top Menu')->clickTranslatableDropdown();
+        $this->getElement('Top Menu')->findTranslatableLanguageElement($translatableLocale)->click();
     }
 
     /**
@@ -101,11 +102,12 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      */
     public function iShouldSeeTranslatableListWithSelected($locale)
     {
-        expect($this->getPage('Events List')->hasActiveTranslatableLanguage($locale))->toBe(true);
+        expect($this->getElement('Top Menu')->hasActiveTranslatableLanguage($locale))->toBe(true);
     }
 
     /**
      * @When /^I follow "([^"]*)" url from top bar$/
+     * @Given /^I follow "([^"]*)" menu element$/
      */
     public function iFollowUrlFromTopBar($menuElement)
     {
@@ -123,6 +125,8 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     /**
      * @Given /^the following admin translatable elements were registered$/
      * @Given /^the following admin non-translatable elements were registered$/
+     * @Given /^the following non-translatable resources were registered$/
+     * @Given /^the following translatable resources were registered$/
      */
     public function theFollowingAdminTranslatableElementsWereRegistered(TableNode $elements)
     {
@@ -130,5 +134,49 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
             expect($this->kernel->getContainer()->has($serviceRow['Service Id']))->toBe(true);
             expect($this->kernel->getContainer()->get($serviceRow['Service Id']))->toBeAnInstanceOf($serviceRow['Class']);
         }
+    }
+
+    /**
+     * @Given /^I should see "([^"]*)" page header "([^"]*)"$/
+     */
+    public function iShouldSeePageHeader($pageName, $headerContent)
+    {
+        expect($this->getPage($pageName)->getTitle())->toBe($headerContent);
+    }
+
+    /**
+     * @Given /^there are following resources added to resource map$/
+     */
+    public function thereAreFollowingResourcesAddedToResourceMap(TableNode $resources)
+    {
+        foreach ($resources->getHash() as $resource) {
+            expect($this->kernel->getContainer()
+                ->get('fsi_resource_repository.map_builder')
+                ->hasResource($resource['Key']))->toBe(true);
+
+            if (isset($resource['Type'])) {
+                expect($this->kernel->getContainer()
+                    ->get('fsi_resource_repository.map_builder')
+                    ->getResource($resource['Key']))->toBeAnInstanceOf(
+                        sprintf('FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\%sType', ucfirst($resource['Type']))
+                    );
+            }
+        }
+    }
+
+    /**
+     * @Given /^I fill form "([^"]*)" field with "([^"]*)"$/
+     */
+    public function iFillFormFieldWith($field, $value)
+    {
+        $this->getElement('Form')->fillField($field, $value);
+    }
+
+    /**
+     * @Given /^I should see form "([^"]*)" field with value "([^"]*)"$/
+     */
+    public function iShouldSeeFormFieldWithValue($field, $value)
+    {
+        expect($this->getElement('Form')->findField($field)->getValue())->toBe($value);
     }
 }

@@ -5,7 +5,7 @@ namespace FSi\Bundle\AdminTranslatableBundle\Menu;
 use FSi\Bundle\AdminBundle\Admin\ElementInterface;
 use FSi\Bundle\AdminBundle\Admin\Manager;
 use FSi\Bundle\AdminBundle\Menu\MenuBuilder as BaseMenuBuilder;
-use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableCRUDElement;
+use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableAwareInterface;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\MenuItem;
@@ -41,7 +41,7 @@ class MenuBuilder extends BaseMenuBuilder
         if ($element->hasOption('menu') && $element->getOption('menu') == true) {
             $parameters = $element->getRouteParameters();
 
-            if ($element instanceof TranslatableCRUDElement) {
+            if ($element instanceof TranslatableAwareInterface) {
                 $parameters['locale'] = $this->localeManager->getLocale();
             }
 

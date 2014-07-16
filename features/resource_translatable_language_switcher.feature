@@ -15,10 +15,9 @@ Feature: Translatable locale list appearance for resources
       | en        |
       | pl        |
       | de        |
-    And default translatable locale is "en"
 
   Scenario: Translatable locale list appearance for translatable resources
-    Given I am on the "Translatable Resource Edit" page
+    Given I am on the "Translatable Resource Edit" page with default translatable locale "en"
     Then I should see translatable locale list
     And translatable locale list should have following locales
       | Locale    |
