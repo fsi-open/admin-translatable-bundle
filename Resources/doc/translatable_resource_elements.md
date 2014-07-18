@@ -17,6 +17,7 @@ Update AppKernel.php
 public function registerBundles()
 {
     $bundles = array(
+        new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
         new FSi\Bundle\ResourceRepositoryBundle\FSiResourceRepositoryBundle(),
         // Admin Translatable Bundle
         ...

@@ -96,7 +96,7 @@ class User extends TranslatableCRUDElement
 
 columns:
     email:
-        type: email
+        type: text
         options:
             label: Email address
     username:
@@ -185,7 +185,7 @@ class User
 
     /**
      * @ORM\OneToMany(targetEntity="UserTranslation", mappedBy="user", indexBy="locale")
-     * @var Doctrine\Common\Collections\ArrayCollection
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $translations;
 
@@ -303,7 +303,7 @@ class UserTranslation
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="translations")
      * @ORM\JoinColumn(name="user", referencedColumnName="id")
-     * @var Doctrine\Common\Collections\ArrayCollection
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $user;
 

@@ -6,7 +6,6 @@ Add to composer.json
 
 ```
 "require": {
-        "fsi/admin-bundle": "1.0.*",
         "fsi/admin-translatable-bundle": "dev-master",
         "fsi/doctrine-extensions": "dev-master as 1.0.x-dev",
         "fsi/doctrine-extensions-bundle": "dev-master@dev"
