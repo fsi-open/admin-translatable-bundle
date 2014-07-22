@@ -6,7 +6,7 @@ use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 class Action extends ColumnAbstractTypeExtension
 {
@@ -16,17 +16,17 @@ class Action extends ColumnAbstractTypeExtension
     protected $localeManager;
 
     /**
-     * @var \Symfony\Component\Routing\Router
+     * @var \Symfony\Component\Routing\RouterInterface
      */
     protected $router;
 
     /**
      * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
-     * @param \Symfony\Component\Routing\Router $router
+     * @param \Symfony\Component\Routing\RouterInterface $router
      */
     public function __construct(
         LocaleManager $localeManager,
-        Router $router
+        RouterInterface $router
     ) {
         $this->localeManager = $localeManager;
         $this->router = $router;

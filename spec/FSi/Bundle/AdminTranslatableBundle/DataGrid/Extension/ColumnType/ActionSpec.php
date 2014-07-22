@@ -5,13 +5,13 @@ namespace spec\FSi\Bundle\AdminTranslatableBundle\DataGrid\Extension\ColumnType;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 class ActionSpec extends ObjectBehavior
 {
     function let(
         LocaleManager $localeManager,
-        Router $router
+        RouterInterface $router
     ) {
         $this->beConstructedWith($localeManager, $router);
     }
