@@ -10,13 +10,13 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 class LocaleControllerSpec extends ObjectBehavior
 {
     function let(
         EngineInterface $templating,
-        Router $router,
+        RouterInterface $router,
         RequestStack $requestStack,
         LocaleManager $localeManager
     ) {
@@ -27,7 +27,7 @@ class LocaleControllerSpec extends ObjectBehavior
         EngineInterface $templating,
         RequestStack $requestStack,
         Request $request,
-        Router $router,
+        RouterInterface $router,
         LocaleManager $localeManager,
         ParameterBag $parameterBag,
         Response $response

@@ -5,7 +5,7 @@ namespace FSi\Bundle\AdminTranslatableBundle\Controller;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 class LocaleController
 {
@@ -15,7 +15,7 @@ class LocaleController
     private $templating;
 
     /**
-     * @var \Symfony\Component\Routing\Router
+     * @var \Symfony\Component\Routing\RouterInterface
      */
     private $router;
 
@@ -41,14 +41,14 @@ class LocaleController
 
     /**
      * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
-     * @param \Symfony\Component\Routing\Router $router
+     * @param \Symfony\Component\Routing\RouterInterface $router
      * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
      * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
      * @param array $locales
      */
     public function __construct(
         EngineInterface $templating,
-        Router $router,
+        RouterInterface $router,
         RequestStack $requestStack,
         LocaleManager $localeManager,
         array $locales
