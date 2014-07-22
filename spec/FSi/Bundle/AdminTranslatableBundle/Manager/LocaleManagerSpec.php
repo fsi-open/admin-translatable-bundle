@@ -47,17 +47,24 @@ class LocaleManagerSpec extends ObjectBehavior
         TranslatableListener $translatableListener
     ) {
         $session->has('admin-locale')->willReturn(false);
-        $translatableListener->getDefaultLocale()->shouldBeCalled();
+        $translatableListener->getDefaultLocale()->willReturn('en');
 
-        $this->getLocale();
+        $this->getLocale()->shouldReturn('en');
     }
 
     function it_gets_locale_when_session_is_not_empty(
         Session $session
     ) {
         $session->has('admin-locale')->willReturn(true);
-        $session->get('admin-locale')->shouldBeCalled();
+        $session->get('admin-locale')->willReturn('en');
 
-        $this->getLocale();
+        $this->getLocale()->shouldReturn('en');
+    }
+
+    function it_gets_deafult_locale(TranslatableListener $translatableListener)
+    {
+        $translatableListener->getDefaultLocale()->willReturn('en');
+
+        $this->getDefaultLocale()->shouldReturn('en');
     }
 }
