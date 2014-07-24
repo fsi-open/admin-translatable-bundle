@@ -15,6 +15,11 @@ class TranslatableMapBuilder extends BaseMapBuilder
     protected $localeManager;
 
     /**
+     * @var array
+     */
+    protected $translatableResources;
+
+    /**
      * @param string $mapPath
      * @param string[] $resourceTypes
      * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
@@ -22,6 +27,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     public function __construct($mapPath, $resourceTypes = array(), LocaleManager $localeManager)
     {
         $this->localeManager = $localeManager;
+        $this->translatableResources = array();
         parent::__construct($mapPath, $resourceTypes);
     }
 
@@ -53,6 +59,10 @@ class TranslatableMapBuilder extends BaseMapBuilder
             }
 
             if(isset($configuration['translatable']) && $configuration['translatable'] === true) {
+
+                if (!in_array($path, $this->translatableResources))
+                    array_push($this->translatableResources, $path);
+
                 $path = $this->getTranslatablePath($path);
             }
 
@@ -125,5 +135,36 @@ class TranslatableMapBuilder extends BaseMapBuilder
     private function getTranslatablePath($path)
     {
         return sprintf('%s.%s', $path, $this->localeManager->getLocale());
+    }
+
+    /**
+     * @return array
+     */
+    private function getTranslatableResources()
+    {
+        return $this->translatableResources;
+    }
+
+    /**
+     * Get resource definition by key.
+     * It can return resource definition object or array if key represents resources group
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function getResource($key)
+    {
+        return $this->resources[$this->getValidKey($key)];
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getValidKey($key)
+    {
+        return !in_array($key, $this->getTranslatableResources())
+            ? $key
+            : sprintf('%s.%s', $key, $this->localeManager->getLocale());
     }
 }
