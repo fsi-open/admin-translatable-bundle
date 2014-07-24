@@ -46,9 +46,17 @@ class LocaleManager
     /**
      * @param string $locale
      */
-    public function setTranslatableLocale($locale)
+    private function setTranslatableLocale($locale)
     {
         $this->getTranslatableListener()->setLocale($locale);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultLocale()
+    {
+        return $this->getTranslatableListener()->getDefaultLocale();
     }
 
     /**
@@ -59,7 +67,7 @@ class LocaleManager
         if ($this->hasLocale()) {
             return $this->session->get('admin-locale');
         } else {
-            return $this->getTranslatableListener()->getDefaultLocale();
+            return $this->getDefaultLocale();
         }
     }
 
