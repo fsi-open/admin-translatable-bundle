@@ -17,7 +17,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     /**
      * @var array
      */
-    protected $translatableResources;
+    protected $keyMap;
 
     /**
      * @param string $mapPath
@@ -27,7 +27,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     public function __construct($mapPath, $resourceTypes = array(), LocaleManager $localeManager)
     {
         $this->localeManager = $localeManager;
-        $this->translatableResources = array();
+        $this->keyMap = array();
         parent::__construct($mapPath, $resourceTypes);
     }
 
@@ -58,13 +58,9 @@ class TranslatableMapBuilder extends BaseMapBuilder
                 continue;
             }
 
-            if(isset($configuration['translatable']) && $configuration['translatable'] === true) {
+            $this->addToKeyMap($configuration, $path);
 
-                if (!in_array($path, $this->translatableResources))
-                    array_push($this->translatableResources, $path);
-
-                $path = $this->getTranslatablePath($path);
-            }
+            $path = $this->getRealKey($path);
 
             $this->validateResourceConfiguration($configuration);
 
@@ -129,20 +125,27 @@ class TranslatableMapBuilder extends BaseMapBuilder
     }
 
     /**
-     * @param string $path
+     * @param string $key
      * @return string
      */
-    private function getTranslatablePath($path)
+    private function getTranslatableKey($key)
     {
-        return sprintf('%s.%s', $path, $this->localeManager->getLocale());
+        return sprintf('%s.%s', $key, $this->localeManager->getLocale());
     }
 
     /**
-     * @return array
+     * @param array $configuration
+     * @param string $key
      */
-    private function getTranslatableResources()
+    private function addToKeyMap(array $configuration, $key)
     {
-        return $this->translatableResources;
+        if(isset($configuration['translatable']) && $configuration['translatable'] === true) {
+            $this->keyMap[$key] = $this->getTranslatableKey($key);
+
+            return;
+        }
+
+        $this->keyMap[$key] = $key;
     }
 
     /**
@@ -154,17 +157,15 @@ class TranslatableMapBuilder extends BaseMapBuilder
      */
     public function getResource($key)
     {
-        return $this->resources[$this->getValidKey($key)];
+        return $this->resources[$key];
     }
 
     /**
      * @param string $key
      * @return string
      */
-    public function getValidKey($key)
+    public function getRealKey($key)
     {
-        return !in_array($key, $this->getTranslatableResources())
-            ? $key
-            : sprintf('%s.%s', $key, $this->localeManager->getLocale());
+        return $this->keyMap[$key];
     }
 }
