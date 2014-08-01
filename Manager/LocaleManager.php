@@ -23,15 +23,27 @@ class LocaleManager
     private $session;
 
     /**
+     * @var array
+     */
+    private $locales;
+
+    /**
      * @param \Doctrine\Common\Persistence\ManagerRegistry $managerRegistry
      * @param \Symfony\Component\HttpFoundation\Session\Session
      */
     public function __construct(
         ManagerRegistry $managerRegistry,
-        Session $session
+        Session $session,
+        array $locales
     ) {
         $this->managerRegistry = $managerRegistry;
         $this->session = $session;
+        $this->locales = $locales;
+    }
+
+    public function getLocales()
+    {
+        return $this->locales;
     }
 
     /**
