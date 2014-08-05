@@ -15,6 +15,11 @@ class TranslatableMapBuilder extends BaseMapBuilder
     protected $localeManager;
 
     /**
+     * @var array
+     */
+    protected $keyMap;
+
+    /**
      * @param string $mapPath
      * @param string[] $resourceTypes
      * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
@@ -22,6 +27,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     public function __construct($mapPath, $resourceTypes = array(), LocaleManager $localeManager)
     {
         $this->localeManager = $localeManager;
+        $this->keyMap = array();
         parent::__construct($mapPath, $resourceTypes);
     }
 
@@ -52,9 +58,9 @@ class TranslatableMapBuilder extends BaseMapBuilder
                 continue;
             }
 
-            if(isset($configuration['translatable']) && $configuration['translatable'] === true) {
-                $path = $this->getTranslatablePath($path);
-            }
+            $this->addToKeyMap($configuration, $path);
+
+            $path = $this->getTranslatedKey($path);
 
             $this->validateResourceConfiguration($configuration);
 
@@ -119,11 +125,47 @@ class TranslatableMapBuilder extends BaseMapBuilder
     }
 
     /**
-     * @param string $path
+     * @param string $key
      * @return string
      */
-    private function getTranslatablePath($path)
+    private function translateKey($key)
     {
-        return sprintf('%s.%s', $path, $this->localeManager->getLocale());
+        return sprintf('%s.%s', $key, $this->localeManager->getLocale());
+    }
+
+    /**
+     * @param array $configuration
+     * @param string $key
+     */
+    private function addToKeyMap(array $configuration, $key)
+    {
+        if(isset($configuration['translatable']) && $configuration['translatable'] === true) {
+            $this->keyMap[$key] = $this->translateKey($key);
+
+            return;
+        }
+
+        $this->keyMap[$key] = $key;
+    }
+
+    /**
+     * Get resource definition by key.
+     * It can return resource definition object or array if key represents resources group
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function getResource($key)
+    {
+        return $this->resources[$key];
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getTranslatedKey($key)
+    {
+        return $this->keyMap[$key];
     }
 }
