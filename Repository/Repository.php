@@ -25,13 +25,13 @@ class Repository extends BaseRepository
      */
     public function get($key)
     {
-        $entity = $this->er->get($this->builder->getRealKey($key));
+        $entity = $this->er->get($this->builder->getTranslatedKey($key));
 
         if (!isset($entity)) {
             return null;
         }
 
-        $resource = $this->builder->getResource($this->builder->getRealKey($key));
+        $resource = $this->builder->getResource($this->builder->getTranslatedKey($key));
         $accessor = PropertyAccess::createPropertyAccessor();
         $value = $accessor->getValue($entity, $resource->getResourceProperty());
 

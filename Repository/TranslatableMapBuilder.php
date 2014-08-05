@@ -60,7 +60,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
 
             $this->addToKeyMap($configuration, $path);
 
-            $path = $this->getRealKey($path);
+            $path = $this->getTranslatedKey($path);
 
             $this->validateResourceConfiguration($configuration);
 
@@ -128,7 +128,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
      * @param string $key
      * @return string
      */
-    private function getTranslatableKey($key)
+    private function translateKey($key)
     {
         return sprintf('%s.%s', $key, $this->localeManager->getLocale());
     }
@@ -140,7 +140,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     private function addToKeyMap(array $configuration, $key)
     {
         if(isset($configuration['translatable']) && $configuration['translatable'] === true) {
-            $this->keyMap[$key] = $this->getTranslatableKey($key);
+            $this->keyMap[$key] = $this->translateKey($key);
 
             return;
         }
@@ -164,7 +164,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
      * @param string $key
      * @return string
      */
-    public function getRealKey($key)
+    public function getTranslatedKey($key)
     {
         return $this->keyMap[$key];
     }

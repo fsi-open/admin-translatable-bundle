@@ -30,7 +30,7 @@ class RepositorySpec extends ObjectBehavior
     ) {
         $entity->getTextValue()->shouldBeCalled()->willReturn('resource en');
         $localeManager->getLocale()->willReturn('en');
-        $builder->getRealKey('resources_group.resource_a')->willReturn('resources_group.resource_a.en');
+        $builder->getTranslatedKey('resources_group.resource_a')->willReturn('resources_group.resource_a.en');
         $repository->get('resources_group.resource_a.en')->shouldBeCalled()->willReturn($entity);
         $builder->getResource(Argument::type('string'))->shouldBeCalled()->willReturn($resource);
         $resource->getResourceProperty()->shouldBeCalled()->willReturn('textValue');
