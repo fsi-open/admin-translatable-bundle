@@ -34,6 +34,17 @@ abstract class TranslatableCRUDElement extends BaseCRUD implements TranslatableA
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getRouteParameters()
+    {
+        $routeParameters = parent::getRouteParameters();
+        $routeParameters['locale'] = $this->localeManager->getLocale();
+
+        return $routeParameters;
+    }
+
+    /**
      * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
      */
     public function setLocaleManager(LocaleManager $localeManager)

@@ -39,15 +39,9 @@ class MenuBuilder extends BaseMenuBuilder
     protected function addElementToMenu(MenuItem $menu, Elementinterface $element)
     {
         if ($element->hasOption('menu') && $element->getOption('menu') == true) {
-            $parameters = $element->getRouteParameters();
-
-            if ($element instanceof TranslatableAwareInterface) {
-                $parameters['locale'] = $this->localeManager->getLocale();
-            }
-
             $menu->addChild($element->getName(), array(
                 'route' => $element->getRoute(),
-                'routeParameters' => $parameters,
+                'routeParameters' => $element->getRouteParameters(),
             ));
             $menu[$element->getName()]->setAttribute('class', 'admin-element');
         }
