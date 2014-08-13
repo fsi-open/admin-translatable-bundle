@@ -2,7 +2,7 @@
 
 ```php
 <?php
-// src/FSi/Bundle/DemoBundle/Admin/User
+// src/FSi/Bundle/DemoBundle/Admin/News
 
 namespace FSi\Bundle\DemoBundle\Admin;
 
@@ -11,14 +11,14 @@ use FSi\Component\DataGrid\DataGridFactoryInterface;
 use FSi\Component\DataSource\DataSourceFactoryInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
-class User extends TranslatableCRUDElement
+class News extends TranslatableCRUDElement
 {
     /**
      * {@inheritdoc}
      */
     public function getClassName()
     {
-        return 'FSiDemoBundle:User'; // Doctrine class name
+        return 'FSiDemoBundle:News'; // Doctrine class name
     }
 
     /**
@@ -26,7 +26,7 @@ class User extends TranslatableCRUDElement
      */
     public function getId()
     {
-        return 'admin_user'; // id is used in url generation http://domain.com/admin/{locale}/{id}/list
+        return 'admin_news'; // id is used in url generation http://domain.com/admin/{locale}/{id}/list
     }
 
     /**
@@ -34,7 +34,7 @@ class User extends TranslatableCRUDElement
      */
     public function getName()
     {
-        return 'User'; // names are translated in twig so you can use translation key as name
+        return 'News'; // names are translated in twig so you can use translation key as name
     }
 
     /**
@@ -47,7 +47,7 @@ class User extends TranslatableCRUDElement
             'entity' => $this->getClassName()
         ), 'datasource');
 
-        $datasource->setMaxResults(10);;
+        $datasource->setMaxResults(10);
 
         // Here you can add some fields or filters into datasource
         // To get more information about datasource you should visit https://github.com/fsi-open/datasource
@@ -75,11 +75,12 @@ class User extends TranslatableCRUDElement
     protected function initForm(FormFactoryInterface $factory, $data = null)
     {
         $form = $factory->create('form', $data, array(
-            'data_class' => 'FSi\Bundle\DemoBundle\Entity\User' // this option is important for create form
+            'data_class' => 'FSi\Bundle\DemoBundle\Entity\News' // this option is important for create form
         ));
 
-        $form->add('email', 'email');
-        $form->add('username', 'text');
+        $form->add('title', 'text');
+        $form->add('content', 'text');
+        $form->add('createdAt', 'date');
 
         // Here you should add some fields into form
         // To get more information about Symfony form you should visit http://symfony.com/doc/current/book/forms.html
@@ -92,17 +93,22 @@ class User extends TranslatableCRUDElement
 ## Configure Datagrid
 
 ```
-# src/FSi/Bundle/DemoBundle/Resources/config/datagrid/admin_user.yml
+# src/FSi/Bundle/DemoBundle/Resources/config/datagrid/admin_news.yml
 
 columns:
-    email:
+    title:
         type: text
         options:
-            label: Email address
-    username:
+            label: Title
+    content:
         type: text
         options:
-            label: Username
+            label: Content
+    created_at:
+        type: datetime
+        options:
+            label: Created At
+            datetime_format: 'Y-m-d'
     actions:
         type: action
         options:
@@ -111,8 +117,9 @@ columns:
             actions:
                 edit:
                     route_name: "fsi_admin_translatable_crud_edit"
-                    additional_parameters: { element: admin_user }
+                    additional_parameters: { element: admin_news }
                     parameters_field_mapping: { id: id }
+
 ```
 
 ## User CRUD service
@@ -130,7 +137,7 @@ Group name same as element name is translated so that you can use translation ke
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 <services>
 
-    <service id="fsi_demo_bundle.admin.user" class="FSi\Bundle\DemoBundle\Admin\User">
+    <service id="fsi_demo_bundle.admin.news" class="FSi\Bundle\DemoBundle\Admin\News">
         <tag name="admin.element"/>
     </service>
 
@@ -145,7 +152,7 @@ Read more about [FSi Translatable Doctrine Extension](https://github.com/fsi-ope
 
 ```php
 <?php
-// src/FSi/Bundle/DemoBundle/Entity/User
+// src/FSi/Bundle/DemoBundle/Entity/News
 
 namespace FSi\Bundle\DemoBundle\Entity;
 
@@ -155,7 +162,7 @@ use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 /**
  * @ORM\Entity(repositoryClass="\FSi\DoctrineExtensions\Translatable\Entity\Repository\TranslatableRepository")
  */
-class User
+class News
 {
     /**
      * @ORM\Column(name="id", type="bigint")
@@ -175,16 +182,22 @@ class User
      * @Translatable\Translatable(mappedBy="translations")
      * @var string
      */
-    private $email;
+    private $title;
 
     /**
      * @Translatable\Translatable(mappedBy="translations")
      * @var string
      */
-    private $username;
+    private $content;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserTranslation", mappedBy="user", indexBy="locale")
+     * @ORM\Column(type="date")
+     * @var date
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="NewsTranslation", mappedBy="news", indexBy="locale")
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $translations;
@@ -203,26 +216,37 @@ class User
         return $this->id;
     }
 
-    public function setEmail($email)
+    public function setTitle($title)
     {
-        $this->email = (string)$email;
+        $this->title = (string)$title;
         return $this;
     }
 
-    public function getEmail()
+    public function getTitle()
     {
-        return $this->email;
+        return $this->title;
     }
 
-    public function setUsername($username)
+    public function setContent($content)
     {
-        $this->username = (string)$username;
+        $this->content = (string)$content;
         return $this;
     }
 
-    public function getUsername()
+    public function getContent()
     {
-        return $this->username;
+        return $this->content;
+    }
+
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     public function setLocale($locale)
@@ -261,7 +285,7 @@ class User
 
 ```php
 <?php
-// src/FSi/Bundle/DemoBundle/Entity/User
+// src/FSi/Bundle/DemoBundle/Entity/NewsTranslation
 
 namespace FSi\Bundle\DemoBundle\Entity;
 
@@ -271,7 +295,7 @@ use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 /**
  * @ORM\Entity
  */
-class UserTranslation
+class NewsTranslation
 {
     /**
      * @ORM\Column(name="id", type="bigint")
@@ -292,41 +316,41 @@ class UserTranslation
      * @ORM\Column(type="string", length=255)
      * @var string
      */
-    private $email;
+    private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @var string
      */
-    private $username;
+    private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="translations")
-     * @ORM\JoinColumn(name="user", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="News", inversedBy="translations")
+     * @ORM\JoinColumn(name="news", referencedColumnName="id")
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
-    private $user;
+    private $news;
 
-    public function setEmail($email)
+    public function setTitle($title)
     {
-        $this->email = (string)$email;
+        $this->title = (string)$title;
         return $this;
     }
 
-    public function getEmail()
+    public function getTitle()
     {
-        return $this->email;
+        return $this->title;
     }
 
-    public function setUsername($username)
+    public function setContent($content)
     {
-        $this->username = (string)$username;
+        $this->content = (string)$content;
         return $this;
     }
 
-    public function getUsername()
+    public function getContent()
     {
-        return $this->username;
+        return $this->content;
     }
 
     public function setLocale($locale)

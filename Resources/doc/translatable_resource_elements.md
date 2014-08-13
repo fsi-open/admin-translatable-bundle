@@ -1,6 +1,9 @@
+# Installation
+
+##  Install Resource Repository Bundle
+
 **This element type require to install fsi/resource-repository-bundle before using it.**
 **You can read more about it [here](https://github.com/fsi-open/resource-repository-bundle)**
-# Installation
 
 Add to your composer.json following lines
 
@@ -25,7 +28,7 @@ public function registerBundles()
 }
 ```
 
-Create Resource entity
+## Create Resource entity
 
 ```php
 
@@ -45,7 +48,7 @@ class Resource extends BaseResource
 }
 ```
 
-Modify app/config/config.yml
+## Modify app/config/config.yml
 
 ```
 # app/config/config.yml
@@ -54,13 +57,13 @@ fsi_resource_repository:
     resource_class: FSi\Bundle\DemoBundle\Entity\Resource
 ```
 
-Update database with following console command
+## Update database with following console command
 
 ```
 $ php app/console doctrine:schema:update --force
 ```
 
-## Admin object class
+# Create admin object class
 
 ```php
 <?php
@@ -106,6 +109,8 @@ class MainPage extends TranslatableResourceElement
 ```
 
 # Configuration
+
+## Resource Map
 
 Let's assume we have following configuration in ``resource_map.yml``
 
