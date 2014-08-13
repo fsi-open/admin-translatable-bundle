@@ -74,4 +74,4 @@ fsi_admin_translatable:
       - de
 ```
 
-Now you could create [translatable admin elements](Resources/doc/admin_element.md)
+Now you could create [translatable admin elements](admin_element.md)
