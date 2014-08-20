@@ -40,9 +40,10 @@ class MenuBuilderSpec extends ObjectBehavior
         $manager->getElementsWithoutGroup()->willReturn(array($element));
         $manager->getGroups()->willReturn(array());
 
+        $element->getId()->willReturn('translatable_element_id');
         $element->getName()->willReturn('translatable_element_name');
         $element->getRoute()->willReturn('fsi_translatable_admin_route');
-        $element->getRouteParameters()->willReturn(array());
+        $element->getRouteParameters()->willReturn(array('element' => 'translatable_element_id', 'locale' => 'en'));
         $element->hasOption('menu')->willReturn(true);
         $element->getOption('menu')->willReturn(true);
 
@@ -50,7 +51,7 @@ class MenuBuilderSpec extends ObjectBehavior
 
         $root->addChild('translatable_element_name', array(
             'route' => 'fsi_translatable_admin_route',
-            'routeParameters' => array('locale' => 'en'),
+            'routeParameters' => array('element' => 'translatable_element_id', 'locale' => 'en'),
         ))->shouldBeCalled();
         $root->offsetGet('translatable_element_name')->willReturn($menuItem);
         $menuItem->setAttribute('class', 'admin-element')->shouldBeCalled();

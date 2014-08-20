@@ -27,4 +27,15 @@ abstract class TranslatableResourceElement extends BaseElement implements Transl
     {
         return 'fsi_admin_translatable_resource';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouteParameters()
+    {
+        $routeParameters = parent::getRouteParameters();
+        $routeParameters['locale'] = $this->localeManager->getLocale();
+
+        return $routeParameters;
+    }
 }
