@@ -28,7 +28,12 @@ class LocaleManagerSpec extends ObjectBehavior
                 )
             ));
 
-        $this->beConstructedWith($managerRegistry, $session);
+        $this->beConstructedWith($managerRegistry, $session, array('en', 'de'));
+    }
+
+    function it_returns_configured_locales()
+    {
+        $this->getLocales()->shouldReturn(array('en', 'de'));
     }
 
     function it_sets_locale(

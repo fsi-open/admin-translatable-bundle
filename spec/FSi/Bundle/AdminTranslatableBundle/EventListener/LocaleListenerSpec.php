@@ -30,9 +30,15 @@ class LocaleListenerSpec extends ObjectBehavior
         );
     }
 
-    function it_does_nothing_if_request_is_not_master(GetResponseEvent $event)
+    function it_does_nothing_if_request_is_not_master(
+        GetResponseEvent $event,
+        Request $request,
+        LocaleManager $localeManager)
     {
-        $event->isMasterRequest()->willReturn(false);
+        $event->getRequest()->willReturn($request);
+        $request->get('locale')->willReturn(null);
+
+        $localeManager->setLocale(Argument::any())->shouldNotBeCalled();
 
         $this->onKernelRequest($event);
     }
@@ -42,7 +48,6 @@ class LocaleListenerSpec extends ObjectBehavior
         Request $request,
         LocaleManager $localeManager
     ) {
-        $event->isMasterRequest()->willReturn(true);
         $event->getRequest()->willReturn($request);
         $request->get('locale')->willReturn('pl');
         $localeManager->setLocale('pl')->shouldBeCalled();

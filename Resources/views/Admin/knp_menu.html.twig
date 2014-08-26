@@ -1,0 +1,5 @@
+{% extends '@FSiAdmin/Admin/knp_menu.html.twig' %}
+
+{% block label %}
+    {{ item.label|trans(item.getExtra('translation_params', {}), 'FSiAdminTranslatableBundle') }}
+{% endblock %}

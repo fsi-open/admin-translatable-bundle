@@ -37,10 +37,6 @@ class LocaleListener implements EventSubscriberInterface
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if (!$event->isMasterRequest()) {
-            return;
-        }
-
         if ($locale = $event->getRequest()->get('locale')) {
             $this->localeManager->setLocale($locale);
         }
