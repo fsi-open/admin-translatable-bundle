@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 
 /**
- * @ORM\Entity(repositoryClass="\FSi\DoctrineExtensions\Translatable\Entity\Repository\TranslatableRepository")
+ * @ORM\Entity
  */
-class Events
+class Comment
 {
     /**
      * @ORM\Column(name="id", type="bigint")
@@ -20,29 +20,29 @@ class Events
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="\FSi\FixturesBundle\Entity\Events", inversedBy="comments")
+     * @ORM\JoinColumn(name="events", referencedColumnName="id")
+     * @var \FSi\FixturesBundle\Entity\Events
+     */
+    private $events;
+
+    /**
+     * @Translatable\Translatable(mappedBy="translations")
+     * @var string
+     */
+    private $text;
+
+    /**
      * @Translatable\Locale
      * @var string
      */
     private $locale;
 
     /**
-     * @Translatable\Translatable(mappedBy="translations")
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @ORM\OneToMany(targetEntity="\FSi\FixturesBundle\Entity\Comment", mappedBy="events", cascade="all", orphanRemoval=true)
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     */
-    private $comments;
-
-    /**
      * @ORM\OneToMany(
-     *          targetEntity="\FSi\FixturesBundle\Entity\EventsTranslation",
-     *          mappedBy="event",
-     *          indexBy="locale",
-     *          orphanRemoval=true
+     *          targetEntity="\FSi\FixturesBundle\Entity\CommentTranslation",
+     *          mappedBy="comment",
+     *          indexBy="locale"
      * )
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
@@ -50,7 +50,6 @@ class Events
 
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
         $this->translations = new ArrayCollection();
     }
 
@@ -65,17 +64,33 @@ class Events
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setText($name)
     {
-        $this->name = $name;
+        $this->text = $name;
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getText()
     {
-        return $this->name;
+        return $this->text;
+    }
+
+    /**
+     * @param \FSi\FixturesBundle\Entity\Events $event
+     */
+    public function setEvent(Events $events)
+    {
+        $this->events = $events;
+    }
+
+    /**
+     * @return \FSi\FixturesBundle\Entity\Events
+     */
+    public function getEvent()
+    {
+        return $this->events;
     }
 
     /**
@@ -94,32 +109,6 @@ class Events
     public function getLocale()
     {
         return $this->locale;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
-
-    /**
-     * @param \FSi\FixturesBundle\Entity\Comment $comment
-     */
-    public function addComment(Comment $comment)
-    {
-        $this->comments->add($comment);
-        $comment->setEvent($this);
-    }
-
-    /**
-     * @param \FSi\FixturesBundle\Entity\Comment $comment
-     */
-    public function removeComment(Comment $comment)
-    {
-        $this->comments->removeElement($comment);
-        $comment->setEvent(null);
     }
 
     /**
@@ -151,4 +140,5 @@ class Events
             return null;
         }
     }
+
 }
