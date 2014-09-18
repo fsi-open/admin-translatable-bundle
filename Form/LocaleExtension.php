@@ -21,7 +21,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     /**
      * @var \FSi\DoctrineExtensions\Translatable\TranslatableListener
      */
-    private $translatableListaner;
+    private $translatableListener;
 
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
@@ -49,7 +49,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
         PropertyAccessorInterface $propertyAccessor
     ) {
         $this->managerRegistry = $managerRegistry;
-        $this->translatableListaner = $translatableListener;
+        $this->translatableListener = $translatableListener;
         $this->propertyAccessor = $propertyAccessor;
     }
 
@@ -103,7 +103,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
      */
     private function getCurrentLocale()
     {
-        return $this->translatableListaner->getLocale();
+        return $this->translatableListener->getLocale();
     }
 
     /**
@@ -146,7 +146,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     {
         $dataClass = $this->getFormDataClass($event);
 
-        return $this->translatableListaner->getExtendedMetadata(
+        return $this->translatableListener->getExtendedMetadata(
             $this->managerRegistry->getManagerForClass($dataClass),
             $dataClass
         );
