@@ -9,7 +9,7 @@ use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 /**
  * @ORM\Entity(repositoryClass="\FSi\DoctrineExtensions\Translatable\Entity\Repository\TranslatableRepository")
  */
-class Events
+class Event
 {
     /**
      * @ORM\Column(name="id", type="bigint")
@@ -39,7 +39,7 @@ class Events
 
     /**
      * @ORM\OneToMany(
-     *          targetEntity="\FSi\FixturesBundle\Entity\EventsTranslation",
+     *          targetEntity="\FSi\FixturesBundle\Entity\EventTranslation",
      *          mappedBy="event",
      *          indexBy="locale",
      *          orphanRemoval=true

@@ -8,7 +8,7 @@ use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 /**
  * @ORM\Entity
  */
-class EventsTranslation
+class EventTranslation
 {
     /**
      * @ORM\Column(name="id", type="bigint")
@@ -33,7 +33,7 @@ class EventsTranslation
 
     /**
      * @ORM\ManyToOne(
-     *          targetEntity="\FSi\FixturesBundle\Entity\Events",
+     *          targetEntity="\FSi\FixturesBundle\Entity\Event",
      *          inversedBy="translations"
      * )
      * @ORM\JoinColumn(
@@ -41,7 +41,7 @@ class EventsTranslation
      *          referencedColumnName="id"
      * )
      *
-     * @var \FSi\FixturesBundle\Entity\Events
+     * @var \FSi\FixturesBundle\Entity\Event
      */
     private $event;
 
@@ -54,15 +54,15 @@ class EventsTranslation
     }
 
     /**
-     * @param \FSi\FixturesBundle\Entity\Events $events
+     * @param \FSi\FixturesBundle\Entity\Event $events
      */
-    public function setHeader(Events $events)
+    public function setHeader(Event $events)
     {
         $this->event = $events;
     }
 
     /**
-     * @return \FSi\FixturesBundle\Entity\Events
+     * @return \FSi\FixturesBundle\Entity\Event
      */
     public function getHeader()
     {
@@ -71,7 +71,7 @@ class EventsTranslation
 
     /**
      * @param $name
-     * @return \FSi\FixturesBundle\Entity\EventsTranslation
+     * @return \FSi\FixturesBundle\Entity\EventTranslation
      */
     public function setName($name)
     {
@@ -89,7 +89,7 @@ class EventsTranslation
 
     /**
      * @param $locale
-     * @return \FSi\FixturesBundle\Entity\EventsTranslation
+     * @return \FSi\FixturesBundle\Entity\EventTranslation
      */
     public function setLocale($locale)
     {
@@ -106,7 +106,7 @@ class EventsTranslation
     }
 
     /**
-     * @return Events
+     * @return Event
      */
     public function getEvent()
     {
@@ -114,7 +114,7 @@ class EventsTranslation
     }
 
     /**
-     * @param Events $events
+     * @param Event $event
      */
     public function setEvent($event)
     {

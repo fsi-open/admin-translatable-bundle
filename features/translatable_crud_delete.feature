@@ -5,8 +5,8 @@ Feature: Deleting existing translatable item
 
   Background:
     Given the following admin translatable elements were registered
-      | Service Id                    | Class                           |
-      | fixtures_bundle.admin.events  | FSi\FixturesBundle\Admin\Events |
+      | Service Id                  | Class                          |
+      | fixtures_bundle.admin.event | FSi\FixturesBundle\Admin\Event |
     And there are 3 events in each locale
     And default translatable locale is "en"
 

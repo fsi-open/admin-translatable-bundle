@@ -8,14 +8,14 @@ use FSi\Component\DataSource\DataSourceFactoryInterface;
 use FSi\FixturesBundle\Form\CommentType;
 use Symfony\Component\Form\FormFactoryInterface;
 
-class Events extends TranslatableCRUDElement
+class Event extends TranslatableCRUDElement
 {
     /**
      * {@inheritDoc}
      */
     public function getId()
     {
-        return 'admin_events';
+        return 'admin_event';
     }
 
     /**
@@ -31,7 +31,7 @@ class Events extends TranslatableCRUDElement
      */
     public function getClassName()
     {
-        return 'FSi\FixturesBundle\Entity\Events';
+        return 'FSi\FixturesBundle\Entity\Event';
     }
 
     /**

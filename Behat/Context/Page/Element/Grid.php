@@ -15,7 +15,7 @@ class Grid extends Element
 
     public function hasEventNameCellWithValue($value)
     {
-        return $this->has('css', sprintf('tr td div#admin_events_name:contains("%s")', $value));
+        return $this->has('css', sprintf('tr td div#admin_event_name:contains("%s")', $value));
     }
 
     public function editOnlyEvent()

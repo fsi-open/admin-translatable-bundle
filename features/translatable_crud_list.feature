@@ -5,8 +5,8 @@ Feature: List of translatable items
 
   Background:
     Given the following admin translatable elements were registered
-      | Service Id                    | Class                           |
-      | fixtures_bundle.admin.events  | FSi\FixturesBundle\Admin\Events |
+      | Service Id                  | Class                          |
+      | fixtures_bundle.admin.event | FSi\FixturesBundle\Admin\Event |
     And the following translatable locales were defined
       | Locale    |
       | en        |

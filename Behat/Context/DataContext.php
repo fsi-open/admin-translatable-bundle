@@ -6,7 +6,7 @@ use Behat\Behat\Context\BehatContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use FSi\FixturesBundle\Entity\Comment;
-use FSi\FixturesBundle\Entity\Events;
+use FSi\FixturesBundle\Entity\Event;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class DataContext extends BehatContext implements KernelAwareInterface
@@ -70,7 +70,7 @@ class DataContext extends BehatContext implements KernelAwareInterface
 
     private function addEvent($id, $locales)
     {
-        $event = new Events();
+        $event = new Event();
 
         foreach ($locales as $locale) {
             $event->setLocale($locale);
@@ -96,7 +96,7 @@ class DataContext extends BehatContext implements KernelAwareInterface
      */
     public function iAddNewEventWithNameInLocale($eventName, $locale)
     {
-        $event = new Events();
+        $event = new Event();
         $event->setLocale($locale);
         $event->setName($eventName);
         $this->getDoctrine()->getManager()->persist($event);
@@ -112,7 +112,7 @@ class DataContext extends BehatContext implements KernelAwareInterface
         $comment->setText($commentText);
         $comment->setLocale($locale);
         $event = $this->getDoctrine()->getManager()
-            ->getRepository('FSi\FixturesBundle\Entity\EventsTranslation')
+            ->getRepository('FSi\FixturesBundle\Entity\EventTranslation')
             ->findOneBy(array('name' => $eventName))
             ->getEvent();
         $comment->setEvent($event);

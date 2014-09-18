@@ -20,9 +20,9 @@ class Comment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\FSi\FixturesBundle\Entity\Events", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="\FSi\FixturesBundle\Entity\Event", inversedBy="comments")
      * @ORM\JoinColumn(name="events", referencedColumnName="id")
-     * @var \FSi\FixturesBundle\Entity\Events
+     * @var \FSi\FixturesBundle\Entity\Event
      */
     private $events;
 
@@ -78,15 +78,15 @@ class Comment
     }
 
     /**
-     * @param \FSi\FixturesBundle\Entity\Events $event
+     * @param \FSi\FixturesBundle\Entity\Event $event
      */
-    public function setEvent(Events $events)
+    public function setEvent(Event $events)
     {
         $this->events = $events;
     }
 
     /**
-     * @return \FSi\FixturesBundle\Entity\Events
+     * @return \FSi\FixturesBundle\Entity\Event
      */
     public function getEvent()
     {
@@ -95,7 +95,7 @@ class Comment
 
     /**
      * @param $locale
-     * @return \FSi\FixturesBundle\Entity\Events
+     * @return \FSi\FixturesBundle\Entity\Event
      */
     public function setLocale($locale)
     {
