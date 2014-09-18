@@ -65,12 +65,10 @@ class CommentTranslation
 
     /**
      * @param $name
-     * @return \FSi\FixturesBundle\Entity\CommentTranslation
      */
     public function setText($name)
     {
         $this->text = (string)$name;
-        return $this;
     }
 
     /**
@@ -83,12 +81,10 @@ class CommentTranslation
 
     /**
      * @param $locale
-     * @return \FSi\FixturesBundle\Entity\CommentTranslation
      */
     public function setLocale($locale)
     {
         $this->locale = (string)$locale;
-        return $this;
     }
 
     /**

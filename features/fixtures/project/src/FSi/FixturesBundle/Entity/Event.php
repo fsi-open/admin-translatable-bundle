@@ -80,12 +80,10 @@ class Event
 
     /**
      * @param $locale
-     * @return \FSi\FixturesBundle\Entity\Events
      */
     public function setLocale($locale)
     {
         $this->locale = (string)$locale;
-        return $this;
     }
 
     /**

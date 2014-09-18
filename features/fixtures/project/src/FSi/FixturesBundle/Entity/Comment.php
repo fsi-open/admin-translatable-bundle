@@ -95,12 +95,10 @@ class Comment
 
     /**
      * @param $locale
-     * @return \FSi\FixturesBundle\Entity\Event
      */
     public function setLocale($locale)
     {
         $this->locale = (string)$locale;
-        return $this;
     }
 
     /**

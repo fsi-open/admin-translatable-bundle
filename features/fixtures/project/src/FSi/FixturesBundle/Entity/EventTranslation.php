@@ -71,12 +71,10 @@ class EventTranslation
 
     /**
      * @param $name
-     * @return \FSi\FixturesBundle\Entity\EventTranslation
      */
     public function setName($name)
     {
         $this->name = (string)$name;
-        return $this;
     }
 
     /**
@@ -89,12 +87,10 @@ class EventTranslation
 
     /**
      * @param $locale
-     * @return \FSi\FixturesBundle\Entity\EventTranslation
      */
     public function setLocale($locale)
     {
         $this->locale = (string)$locale;
-        return $this;
     }
 
     /**
