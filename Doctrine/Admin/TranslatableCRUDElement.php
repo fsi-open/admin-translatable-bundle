@@ -4,7 +4,6 @@ namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 
 use FSi\Bundle\AdminBundle\Doctrine\Admin\CRUDElement as BaseCRUD;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 abstract class TranslatableCRUDElement extends BaseCRUD implements TranslatableAwareInterface
 {
@@ -12,18 +11,6 @@ abstract class TranslatableCRUDElement extends BaseCRUD implements TranslatableA
      * @var \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager
      */
     protected $localeManager;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        parent::setDefaultOptions($resolver);
-
-        $resolver->replaceDefaults(array(
-            'template_crud_list' => '@FSiAdminTranslatable/CRUD/list.html.twig'
-        ));
-    }
 
     /**
      * {@inheritdoc}
