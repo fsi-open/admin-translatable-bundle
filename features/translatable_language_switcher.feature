@@ -5,8 +5,8 @@ Feature: Translatable locale list appearance
 
   Background:
     Given the following admin translatable elements were registered
-      | Service Id                    | Class                           |
-      | fixtures_bundle.admin.events  | FSi\FixturesBundle\Admin\Events |
+      | Service Id                  | Class                          |
+      | fixtures_bundle.admin.event | FSi\FixturesBundle\Admin\Event |
     And the following admin non-translatable elements were registered
       | Service Id                    | Class                           |
       | fixtures_bundle.admin.news    | FSi\FixturesBundle\Admin\News   |

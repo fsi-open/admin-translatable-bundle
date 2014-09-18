@@ -9,7 +9,7 @@ use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 /**
  * @ORM\Entity(repositoryClass="\FSi\DoctrineExtensions\Translatable\Entity\Repository\TranslatableRepository")
  */
-class Events
+class Event
 {
     /**
      * @ORM\Column(name="id", type="bigint")
@@ -32,10 +32,17 @@ class Events
     private $name;
 
     /**
+     * @ORM\OneToMany(targetEntity="\FSi\FixturesBundle\Entity\Comment", mappedBy="events", cascade="all", orphanRemoval=true)
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $comments;
+
+    /**
      * @ORM\OneToMany(
-     *          targetEntity="\FSi\FixturesBundle\Entity\EventsTranslation",
-     *          mappedBy="events",
-     *          indexBy="locale"
+     *          targetEntity="\FSi\FixturesBundle\Entity\EventTranslation",
+     *          mappedBy="event",
+     *          indexBy="locale",
+     *          orphanRemoval=true
      * )
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
@@ -43,6 +50,7 @@ class Events
 
     public function __construct()
     {
+        $this->comments = new ArrayCollection();
         $this->translations = new ArrayCollection();
     }
 
@@ -72,12 +80,10 @@ class Events
 
     /**
      * @param $locale
-     * @return \FSi\FixturesBundle\Entity\Events
      */
     public function setLocale($locale)
     {
         $this->locale = (string)$locale;
-        return $this;
     }
 
     /**
@@ -86,6 +92,32 @@ class Events
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param \FSi\FixturesBundle\Entity\Comment $comment
+     */
+    public function addComment(Comment $comment)
+    {
+        $this->comments->add($comment);
+        $comment->setEvent($this);
+    }
+
+    /**
+     * @param \FSi\FixturesBundle\Entity\Comment $comment
+     */
+    public function removeComment(Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+        $comment->setEvent(null);
     }
 
     /**

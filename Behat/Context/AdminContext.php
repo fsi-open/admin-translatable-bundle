@@ -179,4 +179,20 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     {
         expect($this->getElement('Form')->findField($field)->getValue())->toBe($value);
     }
+
+    /**
+     * @Given /^I change first comment\'s text to "([^"]*)"$/
+     */
+    public function iChangeFirstCommentsTextTo($commentText)
+    {
+        $this->getElement('Form')->fillField('form_comments_0_text', $commentText);
+    }
+
+    /**
+     * @Then /^I should see one comment with text "([^"]*)"$/
+     */
+    public function iShouldSeeOneCommentWithText($commentText)
+    {
+        expect($this->getElement('Form')->findField('form_comments_0_text')->getValue())->toBe($commentText);
+    }
 }

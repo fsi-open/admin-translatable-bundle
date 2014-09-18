@@ -8,7 +8,7 @@ use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 /**
  * @ORM\Entity
  */
-class EventsTranslation
+class CommentTranslation
 {
     /**
      * @ORM\Column(name="id", type="bigint")
@@ -29,21 +29,15 @@ class EventsTranslation
      * @ORM\Column(type="text")
      * @var string
      */
-    private $name;
+    private $text;
 
     /**
-     * @ORM\ManyToOne(
-     *          targetEntity="\FSi\FixturesBundle\Entity\Events",
-     *          inversedBy="translations"
-     * )
-     * @ORM\JoinColumn(
-     *          name="events",
-     *          referencedColumnName="id"
-     * )
+     * @ORM\ManyToOne(targetEntity="\FSi\FixturesBundle\Entity\Comment", inversedBy="translations")
+     * @ORM\JoinColumn(name="comment", referencedColumnName="id")
      *
-     * @var \FSi\FixturesBundle\Entity\Events
+     * @var \FSi\FixturesBundle\Entity\Comment
      */
-    private $events;
+    private $comment;
 
     /**
      * @return int
@@ -54,47 +48,43 @@ class EventsTranslation
     }
 
     /**
-     * @param \FSi\FixturesBundle\Entity\Events $events
+     * @param \FSi\FixturesBundle\Entity\Comment $comment
      */
-    public function setHeader(Events $events)
+    public function setComment(Comment $comment)
     {
-        $this->events = $events;
+        $this->comment = $comment;
     }
 
     /**
-     * @return \FSi\FixturesBundle\Entity\Events
+     * @return \FSi\FixturesBundle\Entity\Comment
      */
-    public function getHeader()
+    public function getComment()
     {
-        return $this->events;
+        return $this->comment;
     }
 
     /**
      * @param $name
-     * @return \FSi\FixturesBundle\Entity\EventsTranslation
      */
-    public function setName($name)
+    public function setText($name)
     {
-        $this->name = (string)$name;
-        return $this;
+        $this->text = (string)$name;
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getText()
     {
-        return $this->name;
+        return $this->text;
     }
 
     /**
      * @param $locale
-     * @return \FSi\FixturesBundle\Entity\EventsTranslation
      */
     public function setLocale($locale)
     {
         $this->locale = (string)$locale;
-        return $this;
     }
 
     /**

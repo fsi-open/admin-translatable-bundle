@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="admin_translatable.locale_listener.class">FSi\Bundle\AdminTranslatableBundle\EventListener\LocaleListener</parameter>
-        <parameter key="admin_translatable.translatable_crud_listener.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\EventListener\TranslatableCRUDListener</parameter>
+        <parameter key="admin_translatable.form_extension.locale.class">FSi\Bundle\AdminTranslatableBundle\Form\LocaleExtension</parameter>
     </parameters>
 
     <services>
@@ -15,11 +15,11 @@
             <tag name="kernel.event_subscriber" />
         </service>
 
-        <service id="admin_translatable.translatable_crud_listener" class="%admin_translatable.translatable_crud_listener.class%">
-            <argument type="service" id="admin_translatable.manager.locale" />
+        <service id="admin_translatable.form_extension.locale" class="%admin_translatable.form_extension.locale.class%">
             <argument type="service" id="doctrine" />
+            <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
             <argument type="service" id="property_accessor" />
-            <tag name="kernel.event_subscriber" />
+            <tag name="form.type_extension" alias="form" />
         </service>
     </services>
 </container>

@@ -5,16 +5,17 @@ namespace FSi\FixturesBundle\Admin;
 use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableCRUDElement;
 use FSi\Component\DataGrid\DataGridFactoryInterface;
 use FSi\Component\DataSource\DataSourceFactoryInterface;
+use FSi\FixturesBundle\Form\CommentType;
 use Symfony\Component\Form\FormFactoryInterface;
 
-class Events extends TranslatableCRUDElement
+class Event extends TranslatableCRUDElement
 {
     /**
      * {@inheritDoc}
      */
     public function getId()
     {
-        return 'admin_events';
+        return 'admin_event';
     }
 
     /**
@@ -30,7 +31,7 @@ class Events extends TranslatableCRUDElement
      */
     public function getClassName()
     {
-        return 'FSi\FixturesBundle\Entity\Events';
+        return 'FSi\FixturesBundle\Entity\Event';
     }
 
     /**
@@ -77,6 +78,13 @@ class Events extends TranslatableCRUDElement
         ));
 
         $form->add('name', 'text', array('label' => 'admin.events.form.name'));
+
+        $form->add('comments', 'collection', array(
+            'type' => new CommentType(),
+            'allow_add' => true,
+            'allow_delete' => true,
+            'by_reference' => false
+        ));
 
         return $form;
     }
