@@ -4,10 +4,11 @@ namespace FSi\Bundle\AdminTranslatableBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
-class FSIAdminTranslatableExtension extends Extension
+class FSIAdminTranslatableExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritDoc}
@@ -17,7 +18,6 @@ class FSIAdminTranslatableExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         $container->setParameter('fsi_admin_translatable.locales', $config['locales']);
-        $container->setParameter('admin.templates.base', '@FSiAdminTranslatable/base.html.twig');
         $this->setTemplateParameters($container, $config['templates']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -40,5 +40,17 @@ class FSIAdminTranslatableExtension extends Extension
         foreach ($config as $key => $value) {
             $container->setParameter(sprintf('admin_translatable.templates.%s', $key), $value);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        $container->prependExtensionConfig('fsi_admin', array(
+            'templates' => array(
+                'base' => '@FSiAdminTranslatable/base.html.twig',
+            )
+        ));
     }
 }
