@@ -130,6 +130,10 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
      */
     private function isFormDataClassTranslatable(FormEvent $event)
     {
+        if (null === $this->getManagerForDataClass($event)) {
+            return false;
+        }
+
         $translatableMetadata = $this->getFormDataTranslatableMetadata($event);
         if (null === $translatableMetadata) {
             return false;
@@ -144,11 +148,9 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
      */
     private function getFormDataTranslatableMetadata(FormEvent $event)
     {
-        $dataClass = $this->getFormDataClass($event);
-
         return $this->translatableListener->getExtendedMetadata(
-            $this->managerRegistry->getManagerForClass($dataClass),
-            $dataClass
+            $this->getManagerForDataClass($event),
+            $this->getFormDataClass($event)
         );
     }
 
@@ -164,5 +166,14 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
             $this->getFormDataTranslatableMetadata($event)->localeProperty,
             $this->getCurrentLocale()
         );
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormEvent $event
+     * @return \Doctrine\Common\Persistence\ObjectManager|null
+     */
+    private function getManagerForDataClass(FormEvent $event)
+    {
+        return $this->managerRegistry->getManagerForClass($this->getFormDataClass($event));
     }
 }
