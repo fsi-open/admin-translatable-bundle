@@ -12,8 +12,8 @@ class ResourceRepositoryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if ($container->hasDefinition('fsi_resource_repository.repository')) {
-            $definition = $container->getDefinition('fsi_resource_repository.repository');
+        if ($container->hasDefinition('fsi_resource_repository.resource.repository')) {
+            $definition = $container->getDefinition('fsi_resource_repository.resource.repository');
             $definition->setClass('FSi\Bundle\AdminTranslatableBundle\Repository\Repository');
         }
     }
