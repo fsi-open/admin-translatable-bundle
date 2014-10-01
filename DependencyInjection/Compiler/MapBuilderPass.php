@@ -12,9 +12,8 @@ class MapBuilderPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if ($container->hasDefinition('fsi_resource_repository.map_builder') ||
-            $container->hasAlias('fsi_resource_repository.map_builder')) {
-            $definition = $container->findDefinition('fsi_resource_repository.map_builder');
+        if ($container->hasDefinition('fsi_resource_repository.resource.map_builder')) {
+            $definition = $container->getDefinition('fsi_resource_repository.resource.map_builder');
             $definition->setClass('FSi\Bundle\AdminTranslatableBundle\Repository\TranslatableMapBuilder');
             $definition->addArgument($container->getDefinition('admin_translatable.manager.locale'));
         }
