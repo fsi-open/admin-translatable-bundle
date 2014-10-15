@@ -38,11 +38,10 @@ class TranslatableMapBuilder extends BaseMapBuilder
     public function getTranslatedKey($key)
     {
         $translatedKey = $this->translateKey($key);
-        if (in_array($translatedKey, $this->translatedKeys)) {
+        if (isset($this->translatedKeys[$translatedKey])) {
             return $translatedKey;
-        } else {
-            return $key;
         }
+        return $key;
     }
 
     /**
@@ -190,12 +189,13 @@ class TranslatableMapBuilder extends BaseMapBuilder
      */
     private function addToKeyMap(array $configuration, $key)
     {
-        if ($this->isTranslatable($configuration, $key)) {
-            foreach ($this->localeManager->getLocales() as $locale) {
-                $translatedKey = $this->translateKey($key, $locale);
-                $this->translatedKeys[$translatedKey] = $translatedKey;
-            }
+        if (!$this->isTranslatable($configuration)) {
             return;
+        }
+
+        foreach ($this->localeManager->getLocales() as $locale) {
+            $translatedKey = $this->translateKey($key, $locale);
+            $this->translatedKeys[$translatedKey] = $translatedKey;
         }
     }
 }
