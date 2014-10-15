@@ -73,7 +73,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
 
             $this->validateResourceConfiguration($configuration);
 
-            $this->addToKeyMap($configuration, $path);
+            $this->addToTranslatedKeysIfTranslatable($configuration, $path);
 
             if ($this->isTranslatable($configuration)) {
                 foreach ($this->localeManager->getLocales() as $locale) {
@@ -187,7 +187,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
      * @param array $configuration
      * @param string $key
      */
-    private function addToKeyMap(array $configuration, $key)
+    private function addToTranslatedKeysIfTranslatable(array $configuration, $key)
     {
         if (!$this->isTranslatable($configuration)) {
             return;
