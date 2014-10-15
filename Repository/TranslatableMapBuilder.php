@@ -155,7 +155,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     private function createAndConfigureResource($configuration, $path)
     {
         $resource = $this->createResource($configuration, $path);
-        
+
         $this->addConstraints($resource, $configuration);
         $this->setFormOptions($resource, $configuration);
 
