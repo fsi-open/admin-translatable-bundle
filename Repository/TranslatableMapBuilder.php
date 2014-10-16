@@ -77,20 +77,10 @@ class TranslatableMapBuilder extends BaseMapBuilder
 
             if ($this->isTranslatable($configuration)) {
                 foreach ($this->localeManager->getLocales() as $locale) {
-                    $translatedKey = $this->translateKey($path, $locale);
-                    $resource = $this->createAndConfigureResource($configuration, $translatedKey);
-
-                    if ($locale === $this->localeManager->getLocale()) {
-                        $map[$key] = $resource;
-                    }
-                    $this->resources[$translatedKey] = $resource;
+                    $this->parseConfiguration($configuration, $path, $locale);
                 }
-
             } else {
-                $resource = $this->createAndConfigureResource($configuration, $path);
-
-                $map[$key] = $resource;
-                $this->resources[$path] = $map[$key];
+                $this->parseConfiguration($configuration, $path);
             }
         }
 
@@ -143,6 +133,35 @@ class TranslatableMapBuilder extends BaseMapBuilder
                     sprintf('"%s" is not a valid resource type option. Try one from: %s', $key, implode(', ', $validKeys))
                 );
             }
+        }
+    }
+
+    /**
+     * @param array $configuration
+     * @param string $key
+     * @param string|null $locale
+     */
+    private function parseConfiguration($configuration, $key, $locale = null)
+    {
+        if ($locale !== null) {
+            $key = $this->translateKey($key, $locale);
+        }
+        $resource = $this->createAndConfigureResource($configuration, $key);
+        $this->addResourceToMap($key, $resource, $locale);
+        $this->resources[$key] = $resource;
+    }
+
+    /**
+     * Add to resources map
+     *
+     * @param string $key
+     * @param mixed $resource
+     * @param string| null $locale
+     */
+    private function addResourceToMap($key, $resource, $locale = null)
+    {
+        if ($locale === null || $locale === $this->localeManager->getLocale()) {
+            $this->map[$key] = $resource;
         }
     }
 
