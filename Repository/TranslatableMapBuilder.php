@@ -77,10 +77,10 @@ class TranslatableMapBuilder extends BaseMapBuilder
 
             if ($this->isTranslatable($configuration)) {
                 foreach ($this->localeManager->getLocales() as $locale) {
-                    $this->parseConfiguration($configuration, $path, $locale);
+                    $this->parseConfiguration($map, $configuration, $path, $locale);
                 }
             } else {
-                $this->parseConfiguration($configuration, $path);
+                $this->parseConfiguration($map, $configuration, $path);
             }
         }
 
@@ -137,31 +137,32 @@ class TranslatableMapBuilder extends BaseMapBuilder
     }
 
     /**
+     * @param array &$map
      * @param array $configuration
-     * @param string $key
+     * @param string $path
      * @param string|null $locale
      */
-    private function parseConfiguration($configuration, $key, $locale = null)
+    private function parseConfiguration(&$map, $configuration, $path, $locale = null)
     {
-        if ($locale !== null) {
-            $key = $this->translateKey($key, $locale);
-        }
+        $key = ($locale === null) ? $path : $this->translateKey($path, $locale);
+
         $resource = $this->createAndConfigureResource($configuration, $key);
-        $this->addResourceToMap($key, $resource, $locale);
+        $this->addResourceToMap($map, $path, $resource, $locale);
         $this->resources[$key] = $resource;
     }
 
     /**
      * Add to resources map
      *
+     * @param array &$map
      * @param string $key
      * @param mixed $resource
      * @param string| null $locale
      */
-    private function addResourceToMap($key, $resource, $locale = null)
+    private function addResourceToMap(&$map, $key, $resource, $locale = null)
     {
         if ($locale === null || $locale === $this->localeManager->getLocale()) {
-            $this->map[$key] = $resource;
+            $map[$key] = $resource;
         }
     }
 
