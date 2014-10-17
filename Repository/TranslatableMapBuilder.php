@@ -17,7 +17,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     /**
      * @var array
      */
-    protected $keyMap;
+    protected $translatedKeys;
 
     /**
      * @param string $mapPath
@@ -27,8 +27,21 @@ class TranslatableMapBuilder extends BaseMapBuilder
     public function __construct($mapPath, $resourceTypes = array(), LocaleManager $localeManager)
     {
         $this->localeManager = $localeManager;
-        $this->keyMap = array();
+        $this->translatedKeys = array();
         parent::__construct($mapPath, $resourceTypes);
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getTranslatedKey($key)
+    {
+        $translatedKey = $this->translateKey($key);
+        if (isset($this->translatedKeys[$translatedKey])) {
+            return $translatedKey;
+        }
+        return $key;
     }
 
     /**
@@ -58,18 +71,17 @@ class TranslatableMapBuilder extends BaseMapBuilder
                 continue;
             }
 
-            $this->addToKeyMap($configuration, $path);
-
-            $path = $this->getTranslatedKey($path);
-
             $this->validateResourceConfiguration($configuration);
 
-            $resource = $this->createResource($configuration, $path);
-            $this->addConstraints($resource, $configuration);
-            $this->setFormOptions($resource, $configuration);
+            $this->addToTranslatedKeysIfTranslatable($configuration, $path);
 
-            $map[$key] = $resource;
-            $this->resources[$path] = $map[$key];
+            if ($this->isTranslatable($configuration)) {
+                foreach ($this->localeManager->getLocales() as $locale) {
+                    $this->parseConfiguration($map, $configuration, $path, $locale);
+                }
+            } else {
+                $this->parseConfiguration($map, $configuration, $path);
+            }
         }
 
         return $map;
@@ -125,47 +137,85 @@ class TranslatableMapBuilder extends BaseMapBuilder
     }
 
     /**
+     * @param array &$map
+     * @param array $configuration
+     * @param string $path
+     * @param string|null $locale
+     */
+    private function parseConfiguration(&$map, $configuration, $path, $locale = null)
+    {
+        $key = ($locale === null) ? $path : $this->translateKey($path, $locale);
+
+        $resource = $this->createAndConfigureResource($configuration, $key);
+        $this->addResourceToMap($map, $path, $resource, $locale);
+        $this->resources[$key] = $resource;
+    }
+
+    /**
+     * Add to resources map
+     *
+     * @param array &$map
      * @param string $key
+     * @param mixed $resource
+     * @param string| null $locale
+     */
+    private function addResourceToMap(&$map, $key, $resource, $locale = null)
+    {
+        if ($locale === null || $locale === $this->localeManager->getLocale()) {
+            $map[$key] = $resource;
+        }
+    }
+
+    /**
+     * @param $configuration
+     * @param $path
+     * @return ResourceInterface
+     */
+    private function createAndConfigureResource($configuration, $path)
+    {
+        $resource = $this->createResource($configuration, $path);
+
+        $this->addConstraints($resource, $configuration);
+        $this->setFormOptions($resource, $configuration);
+
+        return $resource;
+    }
+
+    /**
+     * @param $key
+     * @param null|string $locale
      * @return string
      */
-    private function translateKey($key)
+    private function translateKey($key, $locale = null)
     {
-        return sprintf('%s.%s', $key, $this->localeManager->getLocale());
+        if ($locale === null) {
+            $locale = $this->localeManager->getLocale();
+        }
+        return sprintf('%s.%s', $key, $locale);
+    }
+
+    /**
+     * @param array $configuration
+     * @return boolean
+     */
+    private function isTranslatable(array $configuration)
+    {
+        return (isset($configuration['translatable']) && $configuration['translatable'] === true);
     }
 
     /**
      * @param array $configuration
      * @param string $key
      */
-    private function addToKeyMap(array $configuration, $key)
+    private function addToTranslatedKeysIfTranslatable(array $configuration, $key)
     {
-        if(isset($configuration['translatable']) && $configuration['translatable'] === true) {
-            $this->keyMap[$key] = $this->translateKey($key);
-
+        if (!$this->isTranslatable($configuration)) {
             return;
         }
 
-        $this->keyMap[$key] = $key;
-    }
-
-    /**
-     * Get resource definition by key.
-     * It can return resource definition object or array if key represents resources group
-     *
-     * @param $key
-     * @return mixed
-     */
-    public function getResource($key)
-    {
-        return $this->resources[$key];
-    }
-
-    /**
-     * @param string $key
-     * @return string
-     */
-    public function getTranslatedKey($key)
-    {
-        return $this->keyMap[$key];
+        foreach ($this->localeManager->getLocales() as $locale) {
+            $translatedKey = $this->translateKey($key, $locale);
+            $this->translatedKeys[$translatedKey] = $translatedKey;
+        }
     }
 }

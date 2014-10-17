@@ -32,9 +32,30 @@ class TranslatableMapBuilderSpec extends ObjectBehavior
         );
     }
 
+    function it_should_return_translated_key_when_translatable_option_is_enabled(
+        LocaleManager $localeManager
+    ) {
+        $localeManager->getLocales()->willReturn(array('pl', 'en'));
+        $localeManager->getLocale()->willReturn('en');
+
+        $this->getTranslatedKey('resource_group.resource_block.resource_a')
+            ->shouldReturn('resource_group.resource_block.resource_a.en');
+    }
+
+    function it_should_return_original_key_when_translatable_option_is_disabled(
+        LocaleManager $localeManager
+    ) {
+        $localeManager->getLocales()->willReturn(array('pl', 'en'));
+        $localeManager->getLocale()->willReturn('en');
+
+        $this->getTranslatedKey('resource_group.resource_block.resource_b')
+            ->shouldReturn('resource_group.resource_block.resource_b');
+    }
+
     function it_should_return_translatable_resource_when_translatable_option_is_enabled(
         LocaleManager $localeManager
     ) {
+        $localeManager->getLocales()->willReturn(array('pl', 'en'));
         $localeManager->getLocale()->willReturn('en');
 
         $text = new TextType('resource_group.resource_block.resource_a.en');
