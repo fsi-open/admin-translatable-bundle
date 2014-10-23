@@ -47,13 +47,10 @@ class Action extends ColumnAbstractTypeExtension
      */
     public function initOptions(ColumnTypeInterface $column)
     {
-        $localeManager = $this->localeManager;
-        $self = $this;
-
         $column->getOptionsResolver()->setNormalizers(array(
-            'actions' => function (Options $options, $values) use ($self, $localeManager) {
+            'actions' => function (Options $options, $values) {
                     foreach ($values as $action => $actionValues) {
-                        $values[$action] = $self->setRouteLocale($actionValues, $localeManager);
+                        $values[$action] = $this->setRouteLocale($actionValues, $this->localeManager);
                     }
                     return $values;
                 }
@@ -65,7 +62,7 @@ class Action extends ColumnAbstractTypeExtension
      * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
      * @return mixed
      */
-    public function setRouteLocale($actionValues, $localeManager)
+    private function setRouteLocale($actionValues, $localeManager)
     {
         if (in_array('locale', $this->getRouteVariables($actionValues['route_name']))) {
             $actionValues['additional_parameters']['locale'] = $localeManager->getLocale();
