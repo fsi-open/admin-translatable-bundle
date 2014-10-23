@@ -80,10 +80,13 @@ class Action extends ColumnAbstractTypeExtension
      */
     private function getRouteVariables($route)
     {
-        return $this->getRouteCollection()
-            ->get($route)
-            ->compile()
-            ->getVariables();
+        $route = $this->getRouteCollection()->get($route);
+
+        if ($route) {
+            return $route->compile()->getVariables();
+        } else {
+            return array();
+        }
     }
 
     /**
