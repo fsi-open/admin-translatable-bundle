@@ -7,7 +7,6 @@ use FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException;
 use FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\TextType;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use spec\FSi\Bundle\ResourceRepositoryBundle\Entity\Resource;
 
 class TranslatableMapBuilderSpec extends ObjectBehavior
 {
@@ -41,27 +40,27 @@ class TranslatableMapBuilderSpec extends ObjectBehavior
 
     function it_should_return_translatable_resource_when_translatable_option_is_enabled(
         TranslatableListener $translatableListener,
-        Resource $resource
+        TextType $resource
     ) {
         $translatableListener->getLocale()->willReturn('en');
 
         $this->getResource('resource_group.resource_block.resource_a')
             ->willReturn($resource);
 
-        $resource->getKey()
+        $resource->getName()
             ->shouldReturn('resource_group.resource_block.resource_a.en');
     }
 
     function it_should_return_original_resource_when_translatable_option_is_disabled(
         TranslatableListener $translatableListener,
-        Resource $resource
+        TextType $resource
     ) {
         $translatableListener->getLocale()->willReturn('en');
 
         $this->getResource('resource_group.resource_block.resource_b')
             ->willReturn($resource);
 
-        $resource->getKey()
+        $resource->getName()
             ->shouldReturn('resource_group.resource_block.resource_b');
     }
 
