@@ -39,29 +39,25 @@ class TranslatableMapBuilderSpec extends ObjectBehavior
     }
 
     function it_should_return_translatable_resource_when_translatable_option_is_enabled(
-        TranslatableListener $translatableListener,
-        TextType $resource
+        TranslatableListener $translatableListener
     ) {
         $translatableListener->getLocale()->willReturn('en');
 
-        $this->getResource('resource_group.resource_block.resource_a')
-            ->willReturn($resource);
+        $resource = new TextType('resource_group.resource_block.resource_a.en');
 
-        $resource->getName()
-            ->shouldReturn('resource_group.resource_block.resource_a.en');
+        $this->getResource('resource_group.resource_block.resource_a')
+            ->shouldBeLike($resource);
     }
 
     function it_should_return_original_resource_when_translatable_option_is_disabled(
-        TranslatableListener $translatableListener,
-        TextType $resource
+        TranslatableListener $translatableListener
     ) {
         $translatableListener->getLocale()->willReturn('en');
 
-        $this->getResource('resource_group.resource_block.resource_b')
-            ->willReturn($resource);
+        $resource = new TextType('resource_group.resource_block.resource_b');
 
-        $resource->getName()
-            ->shouldReturn('resource_group.resource_block.resource_b');
+        $this->getResource('resource_group.resource_block.resource_b')
+            ->shouldBeLike($resource);
     }
 
     function it_should_return_map_in_current_locale(
@@ -69,18 +65,18 @@ class TranslatableMapBuilderSpec extends ObjectBehavior
     ) {
         $translatableListener->getLocale()->willReturn('en');
 
-        $map = array(
-            'resource_group' =>
-                array(
-                    'resource_block' =>
-                        array(
-                            'resource_a' => new TextType('resource_group.resource_block.resource_a.en'),
-                            'resource_b' => new TextType('resource_group.resource_block.resource_b'),
-                        )
-                )
-        );
+        $map = $this->getMap();
 
-        $this->getMap()
-            ->shouldReturn($map);
+        $map['resource_group']['resource_block']['resource_a']
+            ->shouldHaveType('FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\TextType');
+
+        $map['resource_group']['resource_block']['resource_a']->getName()
+            ->shouldReturn('resource_group.resource_block.resource_a.en');
+
+        $map['resource_group']['resource_block']['resource_b']
+            ->shouldHaveType('FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\TextType');
+
+        $map['resource_group']['resource_block']['resource_b']->getName()
+            ->shouldReturn('resource_group.resource_block.resource_b');
     }
 }

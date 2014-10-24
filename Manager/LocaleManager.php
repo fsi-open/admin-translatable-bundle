@@ -51,6 +51,7 @@ class LocaleManager
      */
     public function setLocale($locale)
     {
+        echo spl_object_hash($this->getTranslatableListener()) . "<br>";
         $this->session->set('admin-locale', $locale);
         $this->setTranslatableLocale($locale);
     }
@@ -68,6 +69,7 @@ class LocaleManager
      */
     public function getDefaultLocale()
     {
+
         return $this->getTranslatableListener()->getDefaultLocale();
     }
 
