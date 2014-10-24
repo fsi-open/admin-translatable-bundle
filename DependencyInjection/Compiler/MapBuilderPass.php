@@ -4,6 +4,7 @@ namespace FSi\Bundle\AdminTranslatableBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Reference;
 
 class MapBuilderPass implements CompilerPassInterface
 {
@@ -15,7 +16,9 @@ class MapBuilderPass implements CompilerPassInterface
         if ($container->hasDefinition('fsi_resource_repository.resource.map_builder')) {
             $definition = $container->getDefinition('fsi_resource_repository.resource.map_builder');
             $definition->setClass('FSi\Bundle\AdminTranslatableBundle\Repository\TranslatableMapBuilder');
-            $definition->addArgument($container->getDefinition('admin_translatable.manager.locale'));
+            $definition->addArgument(
+                new Reference('fsi_doctrine_extensions.listener.translatable')
+            );
         }
     }
 }
