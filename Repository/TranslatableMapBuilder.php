@@ -35,8 +35,6 @@ class TranslatableMapBuilder extends BaseMapBuilder
         $this->translatableListener = $translatableListener;
         $this->translatedKeys = array();
 
-        echo spl_object_hash($translatableListener) . "<br>";
-
         $this->resourceTypes = array();
         $this->resources = array();
 

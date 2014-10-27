@@ -30,6 +30,7 @@ class LocaleManager
     /**
      * @param \Doctrine\Common\Persistence\ManagerRegistry $managerRegistry
      * @param \Symfony\Component\HttpFoundation\Session\Session
+     * @param array $locales
      */
     public function __construct(
         ManagerRegistry $managerRegistry,
@@ -51,7 +52,6 @@ class LocaleManager
      */
     public function setLocale($locale)
     {
-        echo spl_object_hash($this->getTranslatableListener()) . "<br>";
         $this->session->set('admin-locale', $locale);
         $this->setTranslatableLocale($locale);
     }
