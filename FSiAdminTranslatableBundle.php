@@ -22,7 +22,6 @@ class FSiAdminTranslatableBundle extends Bundle
 
         $container->addCompilerPass(new MapBuilderPass());
         $container->addCompilerPass(new MenuBuilderPass());
-        $container->addCompilerPass(new ResourceRepositoryPass());
         $container->addCompilerPass(new TranslatableElementPass(), PassConfig::TYPE_BEFORE_REMOVING);
     }
 
