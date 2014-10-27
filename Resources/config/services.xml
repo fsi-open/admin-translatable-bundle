@@ -9,7 +9,9 @@
         <parameter key="admin_translatable.controller.crud.class">FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableCRUDController</parameter>
         <parameter key="admin_translatable.manager.locale.class">FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager</parameter>
         <parameter key="admin_translatable.controller.resource.class">FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableResourceController</parameter>
+        <parameter key="fsi_resource_repository.form.type.resource.class">FSi\Bundle\AdminTranslatableBundle\Form\Type\TranslatableResourceType</parameter>
     </parameters>
+
 
     <services>
         <!--Controllers -->
@@ -41,6 +43,14 @@
             <argument type="service" id="session" />
             <argument>%fsi_admin_translatable.locales%</argument>
         </service>
+
+        <!-- Symfony Form Types -->
+        <service id="fsi_resource_repository.form.type.resource" class="%fsi_resource_repository.form.type.resource.class%">
+            <tag name="form.type" alias="resource" />
+            <argument type="service" id="fsi_resource_repository.resource.map_builder"/>
+            <argument>%fsi_resource_repository.resource.value.class%</argument>
+        </service>
+
     </services>
 
 </container>
