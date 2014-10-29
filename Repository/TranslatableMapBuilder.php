@@ -6,6 +6,7 @@ use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException;
 use FSi\Bundle\ResourceRepositoryBundle\Repository\MapBuilder as BaseMapBuilder;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class TranslatableMapBuilder extends BaseMapBuilder
 {
@@ -53,11 +54,28 @@ class TranslatableMapBuilder extends BaseMapBuilder
     {
         $locale = $this->getCurrentLocale();
 
-        if (!isset($this->map[$locale])) {
+        if (isset($this->map[$locale])) {
             return $this->map[$locale];
         } else {
             return $this->map[$locale] = $this->recursiveParseRawMap(Yaml::parse($this->mapPath));
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getResource($key)
+    {
+        return $this->getResourceFromMap($key);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasResource($key)
+    {
+        $resource = $this->getResourceFromMap($key);
+        return !empty($resource);
     }
 
     /**
@@ -138,5 +156,25 @@ class TranslatableMapBuilder extends BaseMapBuilder
     private function getCurrentLocale()
     {
         return $this->translatableListener->getLocale() ?: $this->translatableListener->getDefaultLocale();
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    private function getResourceFromMap($key)
+    {
+        $map = $this->getMap();
+
+        $parts = explode('.', $key);
+        $propertyPath = '';
+
+        foreach ($parts as $part) {
+            $propertyPath .= sprintf("[%s]", $part);
+        }
+
+        $accessor = PropertyAccess::createPropertyAccessor();
+
+        return $accessor->getValue($map, $propertyPath);
     }
 }
