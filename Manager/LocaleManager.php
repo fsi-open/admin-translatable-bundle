@@ -69,7 +69,6 @@ class LocaleManager
      */
     public function getDefaultLocale()
     {
-
         return $this->getTranslatableListener()->getDefaultLocale();
     }
 

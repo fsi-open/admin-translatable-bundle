@@ -53,7 +53,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     {
         $locale = $this->getCurrentLocale();
 
-        if (!empty($this->map[$locale])) {
+        if (!isset($this->map[$locale])) {
             return $this->map[$locale];
         } else {
             return $this->map[$locale] = $this->recursiveParseRawMap(Yaml::parse($this->mapPath));
