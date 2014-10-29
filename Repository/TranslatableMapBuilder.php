@@ -2,17 +2,18 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Repository;
 
-use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
+use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException;
 use FSi\Bundle\ResourceRepositoryBundle\Repository\MapBuilder as BaseMapBuilder;
-use FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\ResourceInterface;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class TranslatableMapBuilder extends BaseMapBuilder
 {
     /**
-     * @var \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager
+     * @var \FSi\DoctrineExtensions\Translatable\TranslatableListener
      */
-    protected $localeManager;
+    protected $translatableListener;
 
     /**
      * @var array
@@ -20,71 +21,75 @@ class TranslatableMapBuilder extends BaseMapBuilder
     protected $translatedKeys;
 
     /**
+     * @var string
+     */
+    protected $mapPath;
+
+    /**
      * @param string $mapPath
      * @param string[] $resourceTypes
-     * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
+     * @param \FSi\DoctrineExtensions\Translatable\TranslatableListener
      */
-    public function __construct($mapPath, $resourceTypes = array(), LocaleManager $localeManager)
+    public function __construct($mapPath, $resourceTypes = array(), TranslatableListener $translatableListener)
     {
-        $this->localeManager = $localeManager;
+        $this->mapPath = $mapPath;
+        $this->translatableListener = $translatableListener;
         $this->translatedKeys = array();
-        parent::__construct($mapPath, $resourceTypes);
+
+        $this->resourceTypes = array();
+        $this->resources = array();
+
+        foreach ($resourceTypes as $type => $class) {
+            $this->resourceTypes[$type] = $class;
+        }
+
+        $locale = $this->getCurrentLocale();
+        $this->map[$locale] = $this->recursiveParseRawMap(Yaml::parse($mapPath));
     }
 
     /**
-     * @param string $key
-     * @return string
+     * {@inheritdoc}
      */
-    public function getTranslatedKey($key)
+    public function getMap()
     {
-        $translatedKey = $this->translateKey($key);
-        if (isset($this->translatedKeys[$translatedKey])) {
-            return $translatedKey;
+        $locale = $this->getCurrentLocale();
+
+        if (isset($this->map[$locale])) {
+            return $this->map[$locale];
+        } else {
+            return $this->map[$locale] = $this->recursiveParseRawMap(Yaml::parse($this->mapPath));
         }
-        return $key;
     }
 
     /**
-     * @param array $rawMap
-     * @param null|string $parentPath
-     * @throws \FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException
-     * @return array
+     * {@inheritdoc}
      */
-    protected function recursiveParseRawMap($rawMap = array(), $parentPath = null)
+    public function getResource($key)
     {
-        $map = array();
+        return $this->getResourceFromMap($key);
+    }
 
-        if (!is_array($rawMap)) {
-            return $map;
+    /**
+     * {@inheritdoc}
+     */
+    public function hasResource($key)
+    {
+        $resource = $this->getResourceFromMap($key);
+        return !empty($resource);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createResource($configuration, $path)
+    {
+        $locale = $this->getCurrentLocale();
+
+        if ($this->isTranslatable($configuration)) {
+            $path = sprintf("%s.%s", $path, $locale);
         }
 
-        foreach ($rawMap as $key => $configuration) {
-            $path = (isset($parentPath))
-                ? $parentPath . '.' . $key
-                : $key;
-
-            $this->validateConfiguration($configuration, $path);
-
-            if ($configuration['type'] == 'group') {
-                unset($configuration['type']);
-                $map[$key] = $this->recursiveParseRawMap($configuration, $path);
-                continue;
-            }
-
-            $this->validateResourceConfiguration($configuration);
-
-            $this->addToTranslatedKeysIfTranslatable($configuration, $path);
-
-            if ($this->isTranslatable($configuration)) {
-                foreach ($this->localeManager->getLocales() as $locale) {
-                    $this->parseConfiguration($map, $configuration, $path, $locale);
-                }
-            } else {
-                $this->parseConfiguration($map, $configuration, $path);
-            }
-        }
-
-        return $map;
+        return parent::createResource($configuration, $path);
     }
 
     /**
@@ -137,64 +142,6 @@ class TranslatableMapBuilder extends BaseMapBuilder
     }
 
     /**
-     * @param array &$map
-     * @param array $configuration
-     * @param string $path
-     * @param string|null $locale
-     */
-    private function parseConfiguration(&$map, $configuration, $path, $locale = null)
-    {
-        $key = ($locale === null) ? $path : $this->translateKey($path, $locale);
-
-        $resource = $this->createAndConfigureResource($configuration, $key);
-        $this->addResourceToMap($map, $path, $resource, $locale);
-        $this->resources[$key] = $resource;
-    }
-
-    /**
-     * Add to resources map
-     *
-     * @param array &$map
-     * @param string $key
-     * @param mixed $resource
-     * @param string| null $locale
-     */
-    private function addResourceToMap(&$map, $key, $resource, $locale = null)
-    {
-        if ($locale === null || $locale === $this->localeManager->getLocale()) {
-            $map[$key] = $resource;
-        }
-    }
-
-    /**
-     * @param $configuration
-     * @param $path
-     * @return ResourceInterface
-     */
-    private function createAndConfigureResource($configuration, $path)
-    {
-        $resource = $this->createResource($configuration, $path);
-
-        $this->addConstraints($resource, $configuration);
-        $this->setFormOptions($resource, $configuration);
-
-        return $resource;
-    }
-
-    /**
-     * @param $key
-     * @param null|string $locale
-     * @return string
-     */
-    private function translateKey($key, $locale = null)
-    {
-        if ($locale === null) {
-            $locale = $this->localeManager->getLocale();
-        }
-        return sprintf('%s.%s', $key, $locale);
-    }
-
-    /**
      * @param array $configuration
      * @return boolean
      */
@@ -204,18 +151,30 @@ class TranslatableMapBuilder extends BaseMapBuilder
     }
 
     /**
-     * @param array $configuration
-     * @param string $key
+     * @return string
      */
-    private function addToTranslatedKeysIfTranslatable(array $configuration, $key)
+    private function getCurrentLocale()
     {
-        if (!$this->isTranslatable($configuration)) {
-            return;
+        return $this->translatableListener->getLocale() ?: $this->translatableListener->getDefaultLocale();
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    private function getResourceFromMap($key)
+    {
+        $map = $this->getMap();
+
+        $parts = explode('.', $key);
+        $propertyPath = '';
+
+        foreach ($parts as $part) {
+            $propertyPath .= sprintf("[%s]", $part);
         }
 
-        foreach ($this->localeManager->getLocales() as $locale) {
-            $translatedKey = $this->translateKey($key, $locale);
-            $this->translatedKeys[$translatedKey] = $translatedKey;
-        }
+        $accessor = PropertyAccess::createPropertyAccessor();
+
+        return $accessor->getValue($map, $propertyPath);
     }
 }

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Bundle\AdminTranslatableBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,7 +21,9 @@ class ResourceRepositoryPass implements CompilerPassInterface
     {
         if ($container->hasDefinition('fsi_resource_repository.resource.repository')) {
             $definition = $container->getDefinition('fsi_resource_repository.resource.repository');
-            $definition->setClass('FSi\Bundle\AdminTranslatableBundle\Repository\Repository');
+            $arguments = $definition->getArguments();
+            $arguments[0] = $container->getDefinition('admin_translatable.resource.map_builder');
+            $definition->setArguments($arguments);
         }
     }
 }

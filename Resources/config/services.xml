@@ -5,6 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="admin_translatable.resource.map_builder.class">FSi\Bundle\AdminTranslatableBundle\Repository\TranslatableMapBuilder</parameter>
         <parameter key="admin_translatable.controller.locale.class">FSi\Bundle\AdminTranslatableBundle\Controller\LocaleController</parameter>
         <parameter key="admin_translatable.controller.crud.class">FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableCRUDController</parameter>
         <parameter key="admin_translatable.manager.locale.class">FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager</parameter>
@@ -12,6 +13,13 @@
     </parameters>
 
     <services>
+        <!--Map Builder-->
+        <service id="admin_translatable.resource.map_builder" class="%admin_translatable.resource.map_builder.class%">
+            <argument>%fsi_resource_repository.resource.map_path%</argument>
+            <argument>%fsi_resource_repository.resource.types%</argument>
+            <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
+        </service>
+
         <!--Controllers -->
         <service id="admin_translatable.controller.crud" class="%admin_translatable.controller.crud.class%">
             <argument type="service" id="templating"/>
@@ -41,6 +49,7 @@
             <argument type="service" id="session" />
             <argument>%fsi_admin_translatable.locales%</argument>
         </service>
+
     </services>
 
 </container>

@@ -30,6 +30,7 @@ class LocaleManager
     /**
      * @param \Doctrine\Common\Persistence\ManagerRegistry $managerRegistry
      * @param \Symfony\Component\HttpFoundation\Session\Session
+     * @param array $locales
      */
     public function __construct(
         ManagerRegistry $managerRegistry,
