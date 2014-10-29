@@ -43,29 +43,26 @@ class TranslatableMapBuilder extends BaseMapBuilder
         }
 
         $locale = $this->getCurrentLocale();
-
         $this->map[$locale] = $this->recursiveParseRawMap(Yaml::parse($mapPath));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getMap()
     {
         $locale = $this->getCurrentLocale();
-        $map = $this->recursiveParseRawMap(Yaml::parse($this->mapPath));
-        $this->map[$locale] = $map;
 
-        return $map;
+        if (!empty($this->map[$locale])) {
+            return $this->map[$locale];
+        } else {
+            return $this->map[$locale] = $this->recursiveParseRawMap(Yaml::parse($this->mapPath));
+        }
     }
 
-    public function getResource($key)
-    {
-        return $this->resources[$key];
-    }
-
-    public function hasResource($key)
-    {
-        return array_key_exists($key, $this->resources);
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     protected function createResource($configuration, $path)
     {
         $locale = $this->getCurrentLocale();
