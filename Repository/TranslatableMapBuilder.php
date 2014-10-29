@@ -68,7 +68,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
         $locale = $this->getCurrentLocale();
 
         if ($this->isTranslatable($configuration)) {
-            $path .= "." . $locale;
+            $path = sprintf("%s.%s", $path, $locale);
         }
 
         return parent::createResource($configuration, $path);
