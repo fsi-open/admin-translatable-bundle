@@ -5,8 +5,8 @@ Feature: Creating new translatable item
 
   Background:
     Given the following admin translatable elements were registered
-      | Service Id                  | Class                          |
-      | fixtures_bundle.admin.event | FSi\FixturesBundle\Admin\Event |
+      | Element Id  | Class                          |
+      | admin_event | FSi\FixturesBundle\Admin\Event |
     And the following translatable locales were defined
       | Locale    |
       | en        |

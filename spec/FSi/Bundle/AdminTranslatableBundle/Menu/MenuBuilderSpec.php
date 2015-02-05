@@ -27,46 +27,6 @@ class MenuBuilderSpec extends ObjectBehavior
         $this->setRequest($request);
     }
 
-    function it_extends_admin_bundle_menu_builder()
-    {
-        $this->shouldHaveType('FSi\Bundle\AdminBundle\Menu\MenuBuilder');
-    }
-
-    function it_creates_menu_with_translatable_elements(
-        MenuFactory $menuFactory,
-        Manager $manager,
-        MenuItem $root,
-        MenuItem $menuItem,
-        TranslatableCRUDElement $element,
-        LocaleManager $localeManager
-    ) {
-        $menuFactory->createItem('root')->willReturn($root);
-        $root->setChildrenAttribute('class', 'nav navbar-nav')->shouldBeCalled();
-        $root->setChildrenAttribute('id', 'top-menu')->shouldBeCalled();
-        $root->setCurrentUri(Argument::any())->willReturn();
-
-        $manager->getElementsWithoutGroup()->willReturn(array($element));
-        $manager->getGroups()->willReturn(array());
-
-        $element->getId()->willReturn('translatable_element_id');
-        $element->getName()->willReturn('translatable_element_name');
-        $element->getRoute()->willReturn('fsi_translatable_admin_route');
-        $element->getRouteParameters()->willReturn(array('element' => 'translatable_element_id', 'locale' => 'en'));
-        $element->hasOption('menu')->willReturn(true);
-        $element->getOption('menu')->willReturn(true);
-
-        $localeManager->getLocale()->willReturn('en');
-
-        $root->addChild('translatable_element_name', array(
-            'route' => 'fsi_translatable_admin_route',
-            'routeParameters' => array('element' => 'translatable_element_id', 'locale' => 'en'),
-        ))->shouldBeCalled();
-        $root->offsetGet('translatable_element_name')->willReturn($menuItem);
-        $menuItem->setAttribute('class', 'admin-element')->shouldBeCalled();
-
-        $this->createMenu()->shouldReturn($root);
-    }
-
     function it_creates_locales_menu(
         Request $request,
         LocaleManager $localeManager,

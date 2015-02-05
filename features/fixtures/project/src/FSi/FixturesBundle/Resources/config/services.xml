@@ -3,28 +3,9 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
-    <parameters>
-        <parameter key="fixtures_bundle.admin.events.class">FSi\FixturesBundle\Admin\Event</parameter>
-        <parameter key="fixtures_bundle.admin.news.class">FSi\FixturesBundle\Admin\News</parameter>
-        <parameter key="fixtures_bundle.admin.non_translatable_resource.class">FSi\FixturesBundle\Admin\NonTranslatableResource</parameter>
-        <parameter key="fixtures_bundle.admin.translatable_resource.class">FSi\FixturesBundle\Admin\TranslatableResource</parameter>
-    </parameters>
     <services>
-        <service id="fixtures_bundle.admin.event" class="%fixtures_bundle.admin.events.class%">
-            <tag name="admin.element" />
-        </service>
-
-        <service id="fixtures_bundle.admin.news" class="%fixtures_bundle.admin.news.class%">
+        <service id="fixtures_bundle.admin.news" class="FSi\FixturesBundle\Admin\News">
             <tag name="admin.element"/>
-        </service>
-
-        <service id="fixtures_bundle.admin.non_translatable_resource" class="%fixtures_bundle.admin.non_translatable_resource.class%">
-            <tag name="admin.element" alias="structure" />
-        </service>
-
-        <service id="fixtures_bundle.admin.translatable_resource" class="%fixtures_bundle.admin.translatable_resource.class%">
-            <tag name="admin.element" alias="structure" />
         </service>
     </services>
 

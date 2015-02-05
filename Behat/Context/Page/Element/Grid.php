@@ -2,15 +2,17 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element;
 
+use Behat\Behat\Exception\BehaviorException;
+use Behat\Mink\Element\NodeElement;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Element;
 
 class Grid extends Element
 {
-    protected $selector = array('css' => 'table.table.table-hover.table-striped.table-bordered');
+    protected $selector = array('css' => '#datagrid-wrapper > table');
 
     public function hasColumn($columnName)
     {
-        return $this->has('css', sprintf('th span:contains("%s")', $columnName));
+        return $this->has('css', sprintf('thead > tr > th > span > :contains("%s")', $columnName));
     }
 
     public function hasEventNameCellWithValue($value)
@@ -18,13 +20,51 @@ class Grid extends Element
         return $this->has('css', sprintf('tr td div#admin_event_name:contains("%s")', $value));
     }
 
-    public function editOnlyEvent()
+    public function clickEdit()
     {
         $this->find('css', 'tr td:nth-child(3)')->clickLink('Edit');
+    }
+
+    public function clickDisplay()
+    {
+        $this->find('css', 'tr td:nth-child(3)')->clickLink('preview');
     }
 
     public function getRowsCount()
     {
         return count($this->findAll('css', 'tbody tr'));
+    }
+
+    public function getColumnPosition($columnTitle)
+    {
+        $items = $this->findAll('css', 'thead th');
+
+        foreach ($items as $i => $item) {
+            /** @var $item NodeElement */
+            if ($columnTitle === $item->getText()) {
+                return $i + 1;
+            }
+        }
+
+        $availableColumns = array_map(function (NodeElement $item) { return $item->getText(); }, $items);
+
+        throw new BehaviorException(
+            sprintf('Unable to find column "%s". Available columns: %s', $columnTitle, join(', ', $availableColumns))
+        );
+    }
+
+    public function getCell($rowPosition, $columnPosition)
+    {
+        $row = $this->find('xpath', sprintf('//tbody/tr[%d]', $rowPosition));
+        if (null === $row) {
+            throw new BehaviorException(sprintf('Unable to find row %d', $rowPosition));
+        }
+
+        $cell = $row->find('xpath', sprintf('//td[%d]', $columnPosition));
+        if (null === $cell) {
+            throw new BehaviorException(sprintf('Unable to find cell %d in row %d', $columnPosition, $rowPosition));
+        }
+
+        return $cell;
     }
 }

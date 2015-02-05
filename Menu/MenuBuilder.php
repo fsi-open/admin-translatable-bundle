@@ -1,63 +1,65 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Bundle\AdminTranslatableBundle\Menu;
 
-use FSi\Bundle\AdminBundle\Admin\ElementInterface;
 use FSi\Bundle\AdminBundle\Admin\Manager;
-use FSi\Bundle\AdminBundle\Menu\MenuBuilder as BaseMenuBuilder;
-use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableAwareInterface;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use Knp\Menu\FactoryInterface;
+use Knp\Menu\ItemInterface;
 use Knp\Menu\MenuItem;
 use Symfony\Component\HttpFoundation\Request;
 
-class MenuBuilder extends BaseMenuBuilder
+class MenuBuilder
 {
+    /**
+     * @var Request
+     */
+    private $request;
+
     /**
      * @var array
      */
     private $requestParameters;
 
     /**
-     * @var \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager
+     * @var LocaleManager
      */
     private $localeManager;
 
     /**
-     * @param \Knp\Menu\FactoryInterface $factory
-     * @param \FSi\Bundle\AdminBundle\Admin\Manager $manager
-     * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
+     * @var FactoryInterface
      */
-    public function __construct(
-        FactoryInterface $factory,
-        Manager $manager,
-        LocaleManager $localeManager
-    ) {
-        parent::__construct($factory, $manager);
+    private $factory;
 
+    /**
+     * @var Manager
+     */
+    private $manager;
+
+    /**
+     * @param FactoryInterface $factory
+     * @param Manager $manager
+     * @param LocaleManager $localeManager
+     */
+    public function __construct(FactoryInterface $factory, Manager $manager, LocaleManager $localeManager)
+    {
+        $this->factory = $factory;
+        $this->manager = $manager;
         $this->localeManager = $localeManager;
     }
 
     public function setRequest(Request $request = null)
     {
-        parent::setRequest($request);
+        $this->request = $request;
 
         unset($this->requestParameters);
-    }
-
-    /**
-     * @param MenuItem $menu
-     * @param ElementInterface $element
-     */
-    protected function addElementToMenu(MenuItem $menu, Elementinterface $element)
-    {
-        if ($element->hasOption('menu') && $element->getOption('menu') == true) {
-            $menu->addChild($element->getName(), array(
-                'route' => $element->getRoute(),
-                'routeParameters' => $element->getRouteParameters(),
-            ));
-            $menu[$element->getName()]->setAttribute('class', 'admin-element');
-        }
     }
 
     public function createLocaleMenu()
@@ -74,7 +76,7 @@ class MenuBuilder extends BaseMenuBuilder
     }
 
     /**
-     * @return \Knp\Menu\ItemInterface
+     * @return ItemInterface
      */
     private function createLocaleRoot()
     {
@@ -86,8 +88,8 @@ class MenuBuilder extends BaseMenuBuilder
     }
 
     /**
-     * @param \Knp\Menu\MenuItem $menu
-     * @return \Knp\Menu\MenuItem
+     * @param MenuItem $menu
+     * @return MenuItem
      */
     private function createLocaleDropdown(MenuItem $menu)
     {
@@ -118,9 +120,15 @@ class MenuBuilder extends BaseMenuBuilder
         }
 
         if (isset($this->request)) {
+            $query = $this->request->query->all();
+
+            if (isset($query['redirect_uri'])) {
+                unset($query['redirect_uri']);
+            }
+
             return $this->requestParameters = array_merge(
                 $this->request->get('_route_params'),
-                $this->request->query->all()
+                $query
             );
         } else {
             return array();
@@ -139,7 +147,7 @@ class MenuBuilder extends BaseMenuBuilder
     }
 
     /**
-     * @param \Knp\Menu\MenuItem $localesMenu
+     * @param MenuItem $localesMenu
      * @param string $locale
      */
     private function addLocaleToMenu(MenuItem $localesMenu, $locale)

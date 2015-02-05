@@ -18,6 +18,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     {
         $this->useContext('data', new DataContext());
         $this->useContext('TranslatableCRUD', new TranslatableCRUDContext());
+        $this->useContext('List', new ListContext());
     }
 
     public function setKernel(KernelInterface $kernel)
@@ -130,9 +131,12 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
      */
     public function theFollowingAdminTranslatableElementsWereRegistered(TableNode $elements)
     {
+        /** @var \FSi\Bundle\AdminBundle\Admin\Manager $manager */
+        $manager = $this->kernel->getContainer()->get('admin.manager');
+
         foreach ($elements->getHash() as $serviceRow) {
-            expect($this->kernel->getContainer()->has($serviceRow['Service Id']))->toBe(true);
-            expect($this->kernel->getContainer()->get($serviceRow['Service Id']))->toBeAnInstanceOf($serviceRow['Class']);
+            expect($manager->hasElement($serviceRow['Element Id']))->toBe(true);
+            expect($manager->getElement($serviceRow['Element Id']))->toBeAnInstanceOf($serviceRow['Class']);
         }
     }
 
@@ -194,5 +198,16 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     public function iShouldSeeOneCommentWithText($commentText)
     {
         expect($this->getElement('Form')->findField('form_comments_0_text')->getValue())->toBe($commentText);
+    }
+
+    /**
+     * @Then /^I should see row "([^"]*)" with value "([^"]*)"$/
+     */
+    public function iShouldSeeRowWithValue($name, $value)
+    {
+        /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Display $display */
+        $display = $this->getElement('Display');
+
+        expect($display->getRowValue($name)->getText())->toBe($value);
     }
 }

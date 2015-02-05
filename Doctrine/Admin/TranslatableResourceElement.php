@@ -1,19 +1,26 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 
-use FSi\Bundle\AdminBundle\Doctrine\Admin\ResourceElement as BaseElement;
+use FSi\Bundle\AdminBundle\Doctrine\Admin\ResourceElement;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 
-abstract class TranslatableResourceElement extends BaseElement implements TranslatableAwareInterface
+abstract class TranslatableResourceElement extends ResourceElement implements TranslatableAwareInterface
 {
     /**
-     * @var \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager
+     * @var LocaleManager
      */
     protected $localeManager;
 
     /**
-     * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
+     * @param LocaleManager $localeManager
      */
     public function setLocaleManager(LocaleManager $localeManager)
     {

@@ -22,17 +22,19 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        $loader->load('controller.xml');
         $loader->load('listeners.xml');
         $loader->load('datagrid.xml');
-        $loader->load('context/create.xml');
-        $loader->load('context/edit.xml');
-        $loader->load('context/delete.xml');
+
+        $loader->load('context/batch.xml');
+        $loader->load('context/display.xml');
+        $loader->load('context/form.xml');
         $loader->load('context/list.xml');
         $loader->load('context/resource.xml');
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      * @param array $config
      */
     protected function setTemplateParameters(ContainerBuilder $container, $config = array())

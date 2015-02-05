@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Bundle\AdminTranslatableBundle\EventListener;
 
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
@@ -10,12 +17,12 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class LocaleListener implements EventSubscriberInterface
 {
     /**
-     * @var \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager
+     * @var LocaleManager
      */
     private $localeManager;
 
     /**
-     * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
+     * @param LocaleManager $localeManager
      */
     public function __construct(LocaleManager $localeManager)
     {
@@ -33,7 +40,7 @@ class LocaleListener implements EventSubscriberInterface
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @param GetResponseEvent $event
      */
     public function onKernelRequest(GetResponseEvent $event)
     {

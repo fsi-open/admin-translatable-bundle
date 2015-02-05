@@ -3,11 +3,14 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
 use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Exception\BehaviorException;
+use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use FSi\FixturesBundle\Entity\Comment;
 use FSi\FixturesBundle\Entity\Event;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class DataContext extends BehatContext implements KernelAwareInterface
 {
@@ -31,13 +34,10 @@ class DataContext extends BehatContext implements KernelAwareInterface
     {
         $this->deleteDatabaseIfExist();
         $metadata = $this->getDoctrine()->getManager()->getMetadataFactory()->getAllMetadata();
-        $tool = new SchemaTool($this->getDoctrine()->getManager());
+        $tool = new SchemaTool($this->getDoctrineManager());
         $tool->createSchema($metadata);
     }
 
-    /**
-     * @AfterScenario
-     */
     public function deleteDatabaseIfExist()
     {
         $dbFilePath = $this->kernel->getRootDir() . '/data.sqlite';
@@ -55,6 +55,10 @@ class DataContext extends BehatContext implements KernelAwareInterface
         return $this->kernel->getContainer()->get('doctrine');
     }
 
+    protected function getDoctrineManager()
+    {
+        return $this->getDoctrine()->getManager();
+    }
 
     /**
      * @Given /^there are (\d+) events in each locale/
@@ -63,20 +67,47 @@ class DataContext extends BehatContext implements KernelAwareInterface
     {
         $locales = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.locales');
 
-        for ($eventNumber = 1; $eventNumber <= $amount; $eventNumber++) {
-            $this->addEvent($eventNumber, $locales);
+        for ($i = 1; $i <= $amount; $i++) {
+            $this->addEvent($i, $locales);
+        }
+    }
+
+    /**
+     * @Given /^there are (\d+) comments in each locale/
+     */
+    public function thereAreCommentsInEachLocale($amount)
+    {
+        $locales = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.locales');
+
+        for ($i = 1; $i <= $amount; $i++) {
+            $this->addComment($i, $locales);
         }
     }
 
     private function addEvent($id, $locales)
     {
         $event = new Event();
+        $manager = $this->getDoctrineManager();
 
         foreach ($locales as $locale) {
             $event->setLocale($locale);
             $event->setName(sprintf('Name %s %d', $locale, $id));
-            $this->getDoctrine()->getManager()->persist($event);
-            $this->getDoctrine()->getManager()->flush();
+            $manager->persist($event);
+            $manager->flush();
+        }
+    }
+
+    private function addComment($id, $locales)
+    {
+        $manager = $this->getDoctrineManager();
+
+        $comment = new Comment();
+
+        foreach ($locales as $locale) {
+            $comment->setLocale($locale);
+            $comment->setText(sprintf('Comment text %s %d', $locale, $id));
+            $manager->persist($comment);
+            $manager->flush();
         }
     }
 
@@ -99,8 +130,10 @@ class DataContext extends BehatContext implements KernelAwareInterface
         $event = new Event();
         $event->setLocale($locale);
         $event->setName($eventName);
-        $this->getDoctrine()->getManager()->persist($event);
-        $this->getDoctrine()->getManager()->flush();
+
+        $manager = $this->getDoctrineManager();
+        $manager->persist($event);
+        $manager->flush();
     }
 
     /**
@@ -108,15 +141,48 @@ class DataContext extends BehatContext implements KernelAwareInterface
      */
     public function iAddNewCommentWithTextToTheNewsWithNameInLocale($commentText, $eventName, $locale)
     {
+        $manager = $this->getDoctrineManager();
+        $event = $manager->getRepository('FSi\FixturesBundle\Entity\EventTranslation')
+            ->findOneBy(array('name' => $eventName))
+            ->getEvent();
+
         $comment = new Comment();
         $comment->setText($commentText);
         $comment->setLocale($locale);
-        $event = $this->getDoctrine()->getManager()
-            ->getRepository('FSi\FixturesBundle\Entity\EventTranslation')
-            ->findOneBy(array('name' => $eventName))
-            ->getEvent();
         $comment->setEvent($event);
-        $this->getDoctrine()->getManager()->persist($comment);
-        $this->getDoctrine()->getManager()->flush();
+
+        $manager->persist($comment);
+        $manager->flush();
+    }
+
+    /**
+     * @Given /^I add new event with following values:$/
+     */
+    public function iAddNewEventWithFollowingValues(TableNode $values)
+    {
+        $manager = $this->getDoctrineManager();
+        $event = new Event();
+        $propertyAccess = PropertyAccess::createPropertyAccessor();
+
+        foreach ($values->getHash() as $value) {
+            $event->setLocale($value['locale']);
+            $propertyAccess->setValue($event, $value['field'], $value['value']);
+
+            $manager->persist($event);
+            $manager->flush();
+        }
+    }
+
+    /**
+     * @Then /^It should be saved comment entity with text "([^"]*)"$/
+     */
+    public function itShouldBeSavedCommentEntityWithText($text)
+    {
+        $manager = $this->getDoctrineManager();
+        $comment = $manager->getRepository('FSi\FixturesBundle\Entity\CommentTranslation')->findOneBy(array('text' => $text));
+
+        if (null === $comment) {
+            throw new BehaviorException(sprintf('Unable to find comment entity with text %s', $text));
+        }
     }
 }

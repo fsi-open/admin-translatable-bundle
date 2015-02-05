@@ -1,17 +1,21 @@
-{% extends '@FSiAdmin/CRUD/list.html.twig' %}
+{% extends '@FSiAdminTranslatable/List/list.html.twig' %}
 
-{% block themes %}
-    {% datasource_route datasource_view 'fsi_admin_translatable_crud_list' with {'element' : element.id, 'locale' : translatable_locale} %}
-    {% datasource_theme datasource_view admin_templates_datasource_theme %}
-    {% datagrid_theme datagrid_view admin_templates_datagrid_theme with {'datasource' : datasource_view, 'element' : element.id, 'translatable_locale' : translatable_locale} %}
-{% endblock themes %}
+{% block top_buttons %}
+    {% if element.option('allow_add') == true %}
+        <a href="{{ path('fsi_admin_translatable_form', {element : element.id, redirect_uri: app.request.uri}) }}" class="btn btn-xs btn-success">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'crud.list.button.create'|trans({}, 'FSiAdminBundle') }}
+        </a>
+    {% endif %}
+{% endblock top_buttons %}
 
-{% block filter %}
-    {% include '@FSiAdminTranslatable/CRUD/List/filter_content.html.twig' %}
-{% endblock filter %}
-{% block buttons %}
-    {% include '@FSiAdminTranslatable/CRUD/List/buttons_content.html.twig' %}
-{% endblock buttons %}
-{% block batch_action %}
-    {% include '@FSiAdminTranslatable/CRUD/List/batch_action_content.html.twig' %}
-{% endblock batch_action %}
+{% block bottom_buttons %}
+    {% block buttons %}
+        {% if element.option('allow_add') == true %}
+            <a href="{{ path('fsi_admin_translatable_form', {element : element.id, redirect_uri: app.request.uri}) }}" class="btn btn-success" id="create-element">
+                <span class="glyphicon glyphicon-plus"></span>
+                {{ 'crud.list.button.create'|trans({}, 'FSiAdminBundle') }}
+            </a>
+        {% endif %}
+    {% endblock buttons %}
+{% endblock bottom_buttons %}

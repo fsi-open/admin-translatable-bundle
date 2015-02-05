@@ -2,7 +2,6 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
@@ -87,7 +86,15 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareIn
      */
     public function iEditFirstEventOnTheList()
     {
-        $this->getElement('Grid')->editOnlyEvent();
+        $this->getElement('Grid')->clickEdit();
+    }
+
+    /**
+     * @Given /^I display first event on the list$/
+     */
+    public function iDisplayFirstEventOnTheList()
+    {
+        $this->getElement('Grid')->clickDisplay();
     }
 
     /**
@@ -120,15 +127,7 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareIn
     public function iChooseFromBatchActionListAndConfirmItWith($action, $button)
     {
         $this->getPage('Events list')->selectBatchAction($action);
-    }
-
-    /**
-     * @Then /^I should be redirected to confirmation page with message$/
-     */
-    public function iShouldBeRedirectedToConfirmationPageWithMessage(PyStringNode $message)
-    {
-        $this->getPage('Events delete confirmation')->isOpen();
-        expect($this->getPage('Events delete confirmation')->getConfirmationMessage())->toBe((string) $message);
+        $this->getPage('Events list')->pressButton($button);
     }
 
     /**
@@ -144,7 +143,7 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareIn
      */
     public function iShouldBeRedirectedToPage($pageName)
     {
-        $this->getPage($pageName)->isOpen();
+        expect($this->getPage($pageName)->isOpen())->toBe(true);
     }
 
     /**
@@ -152,7 +151,6 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareIn
      */
     public function iShouldSeeEventsOnTheList($count)
     {
-        sleep(3);
         expect($this->getElement('Grid')->getRowsCount())->toBe((int) $count);
     }
 }

@@ -24,3 +24,6 @@ admin:
         label: Header
     context:
         label: Context
+  comment:
+    grid:
+      text: Text

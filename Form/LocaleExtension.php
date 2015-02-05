@@ -1,7 +1,16 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -14,17 +23,17 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 class LocaleExtension extends AbstractTypeExtension implements EventSubscriberInterface
 {
     /**
-     * @var \Symfony\Bridge\Doctrine\ManagerRegistry
+     * @var ManagerRegistry
      */
     private $managerRegistry;
 
     /**
-     * @var \FSi\DoctrineExtensions\Translatable\TranslatableListener
+     * @var TranslatableListener
      */
     private $translatableListener;
 
     /**
-     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
+     * @var PropertyAccessorInterface
      */
     private $propertyAccessor;
 
@@ -39,9 +48,9 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     }
 
     /**
-     * @param \Symfony\Bridge\Doctrine\ManagerRegistry $managerRegistry
-     * @param \FSi\DoctrineExtensions\Translatable\TranslatableListener $translatableListener
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor
+     * @param ManagerRegistry $managerRegistry
+     * @param TranslatableListener $translatableListener
+     * @param PropertyAccessorInterface $propertyAccessor
      */
     public function __construct(
         ManagerRegistry $managerRegistry,
@@ -62,7 +71,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     }
 
     /**
-     * @param \Symfony\Component\Form\FormBuilderInterface $formBuilder
+     * @param FormBuilderInterface $formBuilder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $formBuilder, array $options)
@@ -71,7 +80,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     }
 
     /**
-     * @param \Symfony\Component\Form\FormEvent $event
+     * @param FormEvent $event
      */
     public function setTranslatableLocale(FormEvent $event)
     {
@@ -107,7 +116,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     }
 
     /**
-     * @param \Symfony\Component\Form\FormEvent $event
+     * @param FormEvent $event
      * @return bool
      */
     private function formHasDataClass(FormEvent $event)
@@ -116,7 +125,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     }
 
     /**
-     * @param \Symfony\Component\Form\FormEvent $event
+     * @param FormEvent $event
      * @return null|string
      */
     private function getFormDataClass(FormEvent $event)
@@ -125,7 +134,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     }
 
     /**
-     * @param \Symfony\Component\Form\FormEvent $event
+     * @param FormEvent $event
      * @return bool
      */
     private function isFormDataClassTranslatable(FormEvent $event)
@@ -143,8 +152,8 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     }
 
     /**
-     * @param \Symfony\Component\Form\FormEvent $event
-     * @return \FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata
+     * @param FormEvent $event
+     * @return ClassMetadata
      */
     private function getFormDataTranslatableMetadata(FormEvent $event)
     {
@@ -155,7 +164,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     }
 
     /**
-     * @param \Symfony\Component\Form\FormEvent $event
+     * @param FormEvent $event
      */
     private function setFormDataLocale(FormEvent $event)
     {
@@ -171,8 +180,8 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     }
 
     /**
-     * @param \Symfony\Component\Form\FormEvent $event
-     * @return \Doctrine\Common\Persistence\ObjectManager|null
+     * @param FormEvent $event
+     * @return ObjectManager|null
      */
     private function getManagerForDataClass(FormEvent $event)
     {
