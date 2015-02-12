@@ -9,35 +9,34 @@ env:
   - SYMFONY_VERSION=2.3.*
   - SYMFONY_VERSION=2.4.*
   - SYMFONY_VERSION=2.5.*
+  - SYMFONY_VERSION=2.6.*
   - SYMFONY_VERSION=dev-master
+
+sudo: false
 
 matrix:
   allow_failures:
     - env: SYMFONY_VERSION=dev-master
 
-before_install:
-    - sudo apt-get update > /dev/null
-
 install:
-    - echo "127.0.0.1 fsi-admin-translatable-bundle.dev" | sudo tee -a /etc/hosts
     - echo '' > ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
-    - wget http://selenium-release.storage.googleapis.com/2.43/selenium-server-standalone-2.43.0.jar
+    - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
 
 before_script:
-    - nohup php -S fsi-admin-translatable-bundle.dev:8080 -t features/fixtures/project/web > server.log 2>&1 &
+    - nohup php -S localhost:8080 -t features/fixtures/project/web > server.log 2>&1 &
     - sh -e /etc/init.d/xvfb start
     - export DISPLAY=:99.0
-    - java -jar selenium-server-standalone-2.43.0.jar > /dev/null 2>&1 &
+    - java -jar selenium-server-standalone-2.44.0.jar > /dev/null 2>&1 &
     - sleep 5
 
 script:
     - composer self-update
     - composer require symfony/symfony:${SYMFONY_VERSION} -n --prefer-source
-    - ./bin/phpspec run -f progress -vvv
-    - ./bin/behat --no-snippets --no-paths --verbose --profile=travis -vvv
+    - bin/phpspec run -f progress -vvv
+    - bin/behat --no-snippets --no-paths --verbose --profile=travis -vvv
 
 after_failure:
     - cat server.log
 
 notifications:
-  irc: "irc.freenode.org#fsi-open"     
+    irc: "irc.freenode.org#fsi-open"
