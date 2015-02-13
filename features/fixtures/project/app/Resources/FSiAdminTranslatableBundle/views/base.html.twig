@@ -4,8 +4,3 @@
     {{ parent() }}
     {{ knp_menu_render('locales', {'template': '@FSiAdminTranslatable/Admin/knp_menu.html.twig', 'currentClass' : 'active'}) }}
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="/js/collection.js" type="text/javascript"></script>
-{% endblock %}

@@ -159,7 +159,9 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
      */
     private function setFormDataLocale(FormEvent $event)
     {
-        $data = $event->getData();
+        if (!$data = $event->getData()) {
+            return;
+        };
 
         $this->propertyAccessor->setValue(
             $data,

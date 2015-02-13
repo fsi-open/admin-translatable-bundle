@@ -37,5 +37,12 @@
             <argument type="service" id="router" />
         </service>
 
+        <!--Map Builder-->
+        <service id="admin_translatable.resource.map_builder" class="%admin_translatable.resource.map_builder.class%">
+            <argument />
+            <argument />
+            <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
+        </service>
+
     </services>
 </container>

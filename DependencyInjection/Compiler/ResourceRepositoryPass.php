@@ -19,10 +19,16 @@ class ResourceRepositoryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if ($container->hasDefinition('fsi_resource_repository.resource.repository')) {
+        if ($container->hasExtension('fsi_resource_repository') && $container->hasDefinition('fsi_resource_repository.resource.repository')) {
             $definition = $container->getDefinition('fsi_resource_repository.resource.repository');
+            $translatableMapBuilderDefinition = $container->getDefinition('admin_translatable.resource.map_builder');
+            $translatableMapBuilderDefinition->setArguments(array(
+                '%fsi_resource_repository.resource.map_path%',
+                '%fsi_resource_repository.resource.types%',
+                $container->getDefinition('fsi_doctrine_extensions.listener.translatable')
+            ));
             $arguments = $definition->getArguments();
-            $arguments[0] = $container->getDefinition('admin_translatable.resource.map_builder');
+            $arguments[0] = $translatableMapBuilderDefinition;
             $definition->setArguments($arguments);
         }
     }
