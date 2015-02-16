@@ -6,6 +6,9 @@
     {% datagrid_theme datagrid_view admin_templates_datagrid_theme with {'datasource' : datasource_view, 'element' : element.id, 'translatable_locale' : translatable_locale} %}
 {% endblock themes %}
 
+{% block filter %}
+    {% include '@FSiAdminTranslatable/CRUD/List/filter_content.html.twig' %}
+{% endblock filter %}
 {% block buttons %}
     {% include '@FSiAdminTranslatable/CRUD/List/buttons_content.html.twig' %}
 {% endblock buttons %}
