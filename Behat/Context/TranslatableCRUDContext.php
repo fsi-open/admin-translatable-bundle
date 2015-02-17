@@ -31,6 +31,30 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareIn
     }
 
     /**
+     * @Then /^I should see simple text filter "([^"]*)"$/
+     */
+    public function iShouldSeeSimpleTextFilter($filterName)
+    {
+        expect($this->getElement('Filters')->hasField($filterName))->toBe(true);
+    }
+
+    /**
+     * @Given /^I fill simple text filter "([^"]*)" with value "([^"]*)"$/
+     */
+    public function iFillSimpleTextFilterWithValue($filterName, $filterValue)
+    {
+        $this->getElement('Filters')->fillField($filterName, $filterValue);
+    }
+
+    /**
+     * @Given /^simple text filter "([^"]*)" should be filled with value "([^"]*)"$/
+     */
+    public function simpleTextFilterShouldBeFilledWithValue($filterName, $filterValue)
+    {
+        expect($this->getElement('Filters')->findField($filterName)->getValue())->toBe($filterValue);
+    }
+
+    /**
      * @Given /^I should see events with following names$/
      */
     public function iShouldSeeEventsWithFollowingNames(TableNode $elements)

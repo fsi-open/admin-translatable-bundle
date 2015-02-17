@@ -65,7 +65,15 @@ class Event extends TranslatableCRUDElement
      */
     protected function initDataSource(DataSourceFactoryInterface $factory)
     {
-        return $factory->createDataSource('doctrine', array('entity' => $this->getClassName()), $this->getId());
+        $qb = $this->getRepository()->createTranslatableQueryBuilder('e', 't', 'dt');
+
+        $datasource = $factory->createDataSource('doctrine', array('qb' => $qb), $this->getId());
+
+        $datasource->addField('name', 'text', 'like', array(
+            'field' => 't.name'
+        ));
+
+        return $datasource;
     }
 
     /**

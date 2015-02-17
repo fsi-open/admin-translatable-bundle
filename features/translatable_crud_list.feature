@@ -32,3 +32,14 @@ Feature: List of translatable items
       | Name en 3 |
       | Name en 4 |
       | Name en 5 |
+
+  Scenario: Filtering events list
+    Given I am on the "Events list" page
+    And I choose "pl" from translatable locale list
+    And I should see simple text filter "Name"
+    When I fill simple text filter "Name" with value "pl 3"
+    And I press "Search" button
+    Then I should see events with following names
+      | Name      |
+      | Name pl 3 |
+    And simple text filter "Name" should be filled with value "pl 3"
