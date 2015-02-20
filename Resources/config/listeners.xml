@@ -21,5 +21,13 @@
             <argument type="service" id="property_accessor" />
             <tag name="form.type_extension" alias="form" />
         </service>
+
+        <!-- Menu -->
+        <service id="admin_translatable.menu.listener.tools" class="%admin_translatable.menu.listener.tools.class%">
+            <argument type="service" id="translator"/>
+            <argument type="service" id="admin_translatable.manager.locale"/>
+            <argument type="service" id="request_stack"/>
+            <tag name="kernel.event_listener" event="fsi_admin.menu.tools" method="createTranslationLocaleMenu" />
+        </service>
     </services>
 </container>

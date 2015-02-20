@@ -26,8 +26,8 @@ Feature: Editing translatable resources
     And I fill form "Header" field with "Header value en"
     And I fill form "Context" field with "Context value en"
     And I press "Save" button
-    When I choose "Pl" from translatable locale list
+    When I choose "Polish" from translatable locale list
     And I fill form "Context" field with "Context value pl"
     And I press "Save" button
-    Then I choose "En" from translatable locale list
+    Then I choose "English" from translatable locale list
     And I should see form "Context" field with value "Context value en"

@@ -12,7 +12,7 @@ Feature: Add new entity
 
   Scenario: Adding comment
     Given I am on the "New comment" page
-    And I choose "Pl" from translatable locale list
+    And I choose "Polish" from translatable locale list
     And I change "Text" field value to "Comment text pl"
     When I press "Save" button
     Then It should be saved comment entity with text "Comment text pl"

@@ -21,9 +21,9 @@ class ToolsMenuListenerSpec extends ObjectBehavior
         Request $request,
         ParameterBag $query
     ) {
-        $localeManager->getLocale()->willReturn('pl');
-
-        $request->get('_route_params')->willReturn(array('element' => 'event', 'locale' => 'pl'));
+        $localeManager->getLocale()->willReturn('en');
+        $request->getLocale()->willReturn('en');
+        $request->get('_route_params')->willReturn(array('element' => 'event', 'locale' => 'en'));
         $request->get('_route')->willReturn('admin_translatable_list');
         $requestStack->getCurrentRequest()->willReturn($request);
 
@@ -34,7 +34,7 @@ class ToolsMenuListenerSpec extends ObjectBehavior
 
         $translator->trans(
             'admin.locale.dropdown.title',
-            array('%locale%' => 'pl'),
+            array('%locale%' => 'en'),
             'FSiAdminTranslatableBundle'
         )->willReturn('Menu label');
 
@@ -61,17 +61,17 @@ class ToolsMenuListenerSpec extends ObjectBehavior
         $localeEn = $subItems['translation-locale.en'];
         $localeDe = $subItems['translation-locale.de'];
 
-        expect($localePl->getLabel())->toBe('pl');
+        expect($localePl->getLabel())->toBe('Polish');
         expect($localePl->getRoute())->toBe('admin_translatable_list');
         expect($localePl->getRouteParameters())->toBe(array('element' => 'event', 'locale' => 'pl', 'param1' => 'val1'));
-        expect($localePl->getOptions())->toBe(array('id' => null, 'class' => 'active'));
+        expect($localePl->getOptions())->toBe(array('id' => null, 'class' => null));
 
-        expect($localeEn->getLabel())->toBe('en');
+        expect($localeEn->getLabel())->toBe('English');
         expect($localeEn->getRoute())->toBe('admin_translatable_list');
         expect($localeEn->getRouteParameters())->toBe(array('element' => 'event', 'locale' => 'en', 'param1' => 'val1'));
-        expect($localeEn->getOptions())->toBe(array('id' => null, 'class' => null));
+        expect($localeEn->getOptions())->toBe(array('id' => null, 'class' => 'active'));
 
-        expect($localeDe->getLabel())->toBe('de');
+        expect($localeDe->getLabel())->toBe('German');
         expect($localeDe->getRoute())->toBe('admin_translatable_list');
         expect($localeDe->getRouteParameters())->toBe(array('element' => 'event', 'locale' => 'de', 'param1' => 'val1'));
         expect($localeDe->getOptions())->toBe(array('id' => null, 'class' => null));

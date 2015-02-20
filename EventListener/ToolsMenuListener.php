@@ -8,6 +8,7 @@ use FSi\Bundle\AdminBundle\Menu\Item\RoutableItem;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class ToolsMenuListener
@@ -94,11 +95,15 @@ class ToolsMenuListener
         $requestParameters = $this->getRequestParameters();
         $route = $this->request->get('_route');
 
+        $languageBundle = Intl::getLanguageBundle();
+
         foreach ($this->localeManager->getLocales() as $locale) {
             $requestParameters['locale'] = $locale;
 
             $localeItem = new RoutableItem(sprintf('translation-locale.%s', $locale), $route, $requestParameters);
-            $localeItem->setLabel($locale);
+            $localeItem->setLabel(
+                $languageBundle->getLanguageName($locale, null, $this->request->getLocale())
+            );
 
             if ($locale == $this->localeManager->getLocale()) {
                 $localeItem->setOptions(array('attr' => array('class' => 'active')));

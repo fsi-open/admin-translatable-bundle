@@ -38,3 +38,6 @@ fsi_admin_translatable:
       - pl
       - en
       - de
+
+fsi_admin:
+    display_language_switch: true

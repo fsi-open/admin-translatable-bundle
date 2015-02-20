@@ -16,7 +16,7 @@ Feature: List of translatable items
 
   Scenario: Changing the translatable locale for events list
     Given I am on the "Events list" page
-    And I choose "Pl" from translatable locale list
+    And I choose "Polish" from translatable locale list
     And I should see events with following names
       | Name      |
       | Name pl 1 |
@@ -24,7 +24,7 @@ Feature: List of translatable items
       | Name pl 3 |
       | Name pl 4 |
       | Name pl 5 |
-    When I choose "En" from translatable locale list
+    When I choose "English" from translatable locale list
     Then I should see events with following names
       | Name      |
       | Name en 1 |
@@ -35,7 +35,7 @@ Feature: List of translatable items
 
   Scenario: Filtering events list
     Given I am on the "Events list" page
-    And I choose "Pl" from translatable locale list
+    And I choose "Polish" from translatable locale list
     And I should see simple text filter "Name"
     When I fill simple text filter "Name" with value "pl 3"
     And I press "Search" button

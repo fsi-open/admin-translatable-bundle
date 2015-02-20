@@ -17,11 +17,11 @@ Feature: Creating new translatable item
   Scenario: Create event element with default translatable locale
     Given I add new event with name "Event en" in "en" locale
     And I am on the "Events list" page
-    When I choose "Pl" from translatable locale list
+    When I choose "Polish" from translatable locale list
     Then I should see event with default name "Event en"
 
   Scenario: Create event element with translatable locale different than default
     Given I add new event with name "Event en" in "de" locale
     And I am on the "Events list" page
-    When I choose "En" from translatable locale list
+    When I choose "English" from translatable locale list
     Then I should see event with empty name
