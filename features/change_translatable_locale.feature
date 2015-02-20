@@ -15,5 +15,5 @@ Feature: Change translatable locale
 
     Scenario: Change translatable locale
       Given I am on the "Events list" page
-      When I choose "de" from translatable locale list
-      Then I should see translatable list with "de" option selected
+      When I choose "De" from translatable locale list
+      Then I should see translatable list with "De" option selected

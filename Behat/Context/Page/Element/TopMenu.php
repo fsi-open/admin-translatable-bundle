@@ -31,12 +31,12 @@ class TopMenu extends Element
 
     public function hasActiveTranslatableLanguage($locale)
     {
-        return $this->has('css', sprintf('li#translatable-language ul li.active:contains(%s)', $locale));
+        return $this->has('css', sprintf('#translatable-switcher ul li.active:contains(%s)', $locale));
     }
 
     public function findTranslatableLanguageElement($translatableLocale)
     {
-        $selector = sprintf('li#translatable-language ul li a:contains("%s")', $translatableLocale);
+        $selector = sprintf('#translatable-switcher ul li a:contains("%s")', $translatableLocale);
         $element = $this->find('css', $selector);
 
         if (null === $element) {
@@ -48,6 +48,6 @@ class TopMenu extends Element
 
     public function clickTranslatableDropdown()
     {
-        $this->find('css', 'li#translatable-language a.dropdown-toggle')->click();
+        $this->find('css', '#translatable-switcher a.dropdown-toggle')->click();
     }
 }

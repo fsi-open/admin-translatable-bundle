@@ -21,9 +21,9 @@ Feature: Translatable locale list appearance
     Then I should see translatable locale list
     And translatable locale list should have following locales
       | Locale    |
-      | en        |
-      | pl        |
-      | de        |
+      | En        |
+      | Pl        |
+      | De        |
 
   Scenario: Translatable locale list is inactive for non-translatable elements
     Given I am on the "News list" page

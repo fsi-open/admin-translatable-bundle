@@ -21,9 +21,9 @@ Feature: Translatable locale list appearance for resources
     Then I should see translatable locale list
     And translatable locale list should have following locales
       | Locale    |
-      | en        |
-      | pl        |
-      | de        |
+      | En        |
+      | Pl        |
+      | De        |
 
   Scenario: Translatable locale list is inactive for non-translatable resources
     Given I am on the "Non Translatable Resource Edit" page

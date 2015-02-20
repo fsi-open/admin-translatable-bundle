@@ -17,5 +17,5 @@ Feature: Deleting existing translatable item
     And I choose "Delete" from batch action list and confirm it with "Ok"
     Then I should be redirected to "Events List" page
     And I should see 2 events on the list
-    And I choose "en" from translatable locale list
+    And I choose "En" from translatable locale list
     And I should see 2 events on the list

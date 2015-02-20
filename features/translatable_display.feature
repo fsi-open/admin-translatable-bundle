@@ -22,10 +22,10 @@ Feature: Display translatable item
 
   Scenario: Display event item in different translatable locale
     Given I am on the "Events list" page
-    And I choose "pl" from translatable locale list
+    And I choose "Pl" from translatable locale list
     And I display first event on the list
     Then I should see row "Name" with value "Event pl"
-    And I choose "en" from translatable locale list
+    And I choose "En" from translatable locale list
     Then I should see row "Name" with value "Event en"
-    And I choose "de" from translatable locale list
+    And I choose "De" from translatable locale list
     Then I should see row "Name" with value "Event de"

@@ -9,6 +9,7 @@
         <parameter key="admin_translatable.controller.locale.class">FSi\Bundle\AdminTranslatableBundle\Controller\LocaleController</parameter>
         <parameter key="admin_translatable.manager.locale.class">FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager</parameter>
         <parameter key="admin_translatable.factory.worker.translatable.class">FSi\Bundle\AdminTranslatableBundle\Factory\Worker\TranslatableWorker</parameter>
+        <parameter key="admin_translatable.menu.listener.tools.class">FSi\Bundle\AdminTranslatableBundle\EventListener\ToolsMenuListener</parameter>
     </parameters>
 
     <services>
@@ -17,22 +18,6 @@
             <argument>%fsi_resource_repository.resource.map_path%</argument>
             <argument>%fsi_resource_repository.resource.types%</argument>
             <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
-        </service>
-
-        <!--Menu FIXME: move to menu listener-->
-        <service id="admin_translatable.menu_builder" class="FSi\Bundle\AdminTranslatableBundle\Menu\MenuBuilder">
-            <argument type="service" id="knp_menu.factory"/>
-            <argument type="service" id="admin.manager"/>
-            <argument type="service" id="admin_translatable.manager.locale"/>
-            <call method="setRequest">
-                <argument type="service" id="request" on-invalid="null" strict="false" />
-            </call>
-        </service>
-
-        <service id="admin_translatable.menu.locale" class="Knp\Menu\MenuItem"
-                 factory-service="admin_translatable.menu_builder"
-                 factory-method="createLocaleMenu">
-            <tag name="knp_menu.menu" alias="locales"/>
         </service>
 
         <!--Managers-->
@@ -45,6 +30,14 @@
         <!-- ProductionLine Workers -->
         <service id="admin_translatable.factory.worker.translatable" class="%admin_translatable.factory.worker.translatable.class%">
             <argument type="service" id="admin_translatable.manager.locale" />
+        </service>
+
+        <!-- Menu -->
+        <service id="admin_translatable.menu.listener.tools" class="%admin_translatable.menu.listener.tools.class%">
+            <argument type="service" id="translator"/>
+            <argument type="service" id="admin_translatable.manager.locale"/>
+            <argument type="service" id="request_stack"/>
+            <tag name="kernel.event_listener" event="fsi_admin.menu.tools" method="createTranslationLocaleMenu" />
         </service>
     </services>
 
