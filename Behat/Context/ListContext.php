@@ -8,21 +8,35 @@ use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
 class ListContext extends PageObjectContext
 {
     /**
-     * @Given /^I should see list$/
+     * @Given /^I click "([^"]*)" in "([^"]*)" column in third row$/
      */
-    public function iShouldSeeList(TableNode $table)
+    public function iClickInColumnInThirdRow($linkName, $columnName)
+    {
+        /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Grid $grid */
+        $grid = $this->getElement('Grid');
+        $cell = $grid->getCell(3, $grid->getColumnPosition($columnName));
+        $cell->findLink($linkName)->click();
+    }
+
+    /**
+     * @Then /^I should see following list$/
+     */
+    public function iShouldSeeFollowingList(TableNode $table)
     {
         /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Grid $grid */
         $grid = $this->getElement('Grid');
 
-        foreach ($table->getHash() as $i => $row) {
-            $columnName = key($row);
-            $expectedCellValue = $row[$columnName];
+        expect(count($table->getHash()))->toBe($grid->getRowsCount());
 
-            $columnPosition = $grid->getColumnPosition($columnName);
-            $actualCell = $grid->getCell($i + 1, $columnPosition);
+        $rowNumber = 1;
+        foreach ($table->getHash() as $row) {
+            foreach ($row as $columnName => $cellValue) {
+                $cell = $grid->getCell($rowNumber, $grid->getColumnPosition($columnName));
 
-            expect($actualCell->getText())->toBe($expectedCellValue);
+                expect($cell->getText())->toBe($cellValue);
+            }
+
+            $rowNumber++;
         }
     }
 }

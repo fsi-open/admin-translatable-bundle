@@ -15,11 +15,6 @@ class Grid extends Element
         return $this->has('css', sprintf('thead > tr > th > span > :contains("%s")', $columnName));
     }
 
-    public function hasEventNameCellWithValue($value)
-    {
-        return $this->has('css', sprintf('tr td div#admin_event_name:contains("%s")', $value));
-    }
-
     public function clickEdit()
     {
         $this->find('css', 'tr td:nth-child(3)')->clickLink('Edit');
@@ -41,7 +36,8 @@ class Grid extends Element
 
         foreach ($items as $i => $item) {
             /** @var $item NodeElement */
-            if ($columnTitle === $item->getText()) {
+            $spanElement = $item->find('css', 'span');
+            if ($spanElement && $columnTitle === $spanElement->getText()) {
                 return $i + 1;
             }
         }
@@ -53,6 +49,12 @@ class Grid extends Element
         );
     }
 
+    /**
+     * @param $rowPosition
+     * @param $columnPosition
+     * @return NodeElement
+     * @throws BehaviorException
+     */
     public function getCell($rowPosition, $columnPosition)
     {
         $row = $this->find('xpath', sprintf('//tbody/tr[%d]', $rowPosition));

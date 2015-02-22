@@ -19,6 +19,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
         $this->useContext('data', new DataContext());
         $this->useContext('TranslatableCRUD', new TranslatableCRUDContext());
         $this->useContext('List', new ListContext());
+        $this->useContext('Popover', new PopoverContext());
     }
 
     public function setKernel(KernelInterface $kernel)

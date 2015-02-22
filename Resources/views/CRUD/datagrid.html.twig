@@ -1,27 +1,31 @@
-{% extends '@FSiAdmin/List/datagrid.html.twig' %}
+{% extends '@FSiAdmin/CRUD/datagrid.html.twig' %}
 
-{#&#123;&#35; pattern: datagrid_column_cell_form &#35;&#125;#}
-{#{% block datagrid_column_cell_form %}#}
-{#{% spaceless %}#}
-    {#{% form_theme form _self %}#}
-    {#<div class="editable-title">#}
-        {#<span>{{ 'crud.list.datagrid.editable.title'|trans({}, 'FSiAdminBundle') }}</span>#}
-        {#<a href="#" class="close editable-close">&times;</a>#}
-    {#</div>#}
-    {#<form method="POST" action="{{ path('fsi_admin_translatable_list', vars.datasource.getAllParameters()|merge({'element' : vars.element})) }}">#}
-        {#{% for child in form.children %}#}
-            {#{% for subchild in child.children %}#}
-                {#<div class="form-group{% if subchild.vars.errors|length %} has-error{% endif %}">#}
-                    {#{{ form_label(subchild, subchild.vars.label|default(null), { 'label_attr': { 'class': 'sr-only' } }) }}#}
-                    {#{{ form_widget(subchild, {'attr' : {'class' : 'form-control'} }) }}#}
-                    {#{{ form_errors(subchild) }}#}
-                {#</div>#}
-            {#{% endfor %}#}
-        {#{% endfor %}#}
-        {#<div class="form-group editable-buttons">#}
-            {#<input type="submit" name="submit" value="{{ 'crud.list.datagrid.editable.save'|trans({}, 'FSiAdminBundle') }}" class="btn btn-sm">#}
-            {#<input type="reset" name="reset" value="{{ 'crud.list.datagrid.editable.reset'|trans({}, 'FSiAdminBundle') }}" class="btn btn-primary btn-sm">#}
-        {#</div>#}
-    {#</form>#}
-{#{% endspaceless %}#}
-{#{% endblock %}#}
+{# pattern: datagrid_column_cell_form #}
+{% block datagrid_column_cell_form %}
+    {% spaceless %}
+        {% form_theme form _self %}
+        <div class="editable-title">
+            <span>{{ 'crud.list.datagrid.editable.title'|trans({}, 'FSiAdminBundle') }}</span>
+            <a href="#" class="close editable-close">&times;</a>
+        </div>
+        {% set formUrl = path(
+            'fsi_admin_translatable_list',
+            vars.datasource.getAllParameters()|merge({element: vars.element, locale: vars.locale})
+        ) %}
+        <form method="POST" action="{{ formUrl }}">
+            {% for child in form.children %}
+                {% for subchild in child.children %}
+                    <div class="form-group{% if subchild.vars.errors|length %} has-error{% endif %}">
+                        {{ form_label(subchild, subchild.vars.label|default(null), { 'label_attr': { 'class': 'sr-only' } }) }}
+                        {{ form_widget(subchild, {'attr' : {'class' : 'form-control'} }) }}
+                        {{ form_errors(subchild) }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <div class="form-group editable-buttons">
+                <input type="submit" name="submit" value="{{ 'crud.list.datagrid.editable.save'|trans({}, 'FSiAdminBundle') }}" class="btn btn-sm">
+                <input type="reset" name="reset" value="{{ 'crud.list.datagrid.editable.reset'|trans({}, 'FSiAdminBundle') }}" class="btn btn-primary btn-sm">
+            </div>
+        </form>
+    {% endspaceless %}
+{% endblock %}

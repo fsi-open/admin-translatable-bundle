@@ -1,5 +1,7 @@
 {% extends '@FSiAdmin/List/list.html.twig' %}
 
-{% datasource_route datasource_view 'fsi_admin_translatable_list' with { element: element.id } %}
-{% datasource_theme datasource_view admin_translatable_templates_datasource_theme %}
-{% datagrid_theme datagrid_view admin_translatable_templates_datagrid_theme with { datasource: datasource_view, element: element.id } %}
+{% block themes %}
+    {% datasource_route datasource_view 'fsi_admin_translatable_list' with { element: element.id, locale: translatable_locale } %}
+    {% datasource_theme datasource_view admin_translatable_templates_datasource_theme %}
+    {% datagrid_theme datagrid_view admin_translatable_templates_datagrid_theme with { datasource: datasource_view, element: element.id, locale: translatable_locale } %}
+{% endblock %}

@@ -18,7 +18,7 @@ Feature: List of comment items
   Scenario: Changing the translatable locale for comment list
     Given I am on the "Comments list" page
     And I choose "Polish" from translatable locale list
-    And I should see list
+    And I should see following list
       | Text              |
       | Comment text pl 1 |
       | Comment text pl 2 |
@@ -26,7 +26,7 @@ Feature: List of comment items
       | Comment text pl 4 |
       | Comment text pl 5 |
     When I choose "English" from translatable locale list
-    Then I should see list
+    Then I should see following list
       | Text              |
       | Comment text en 1 |
       | Comment text en 2 |

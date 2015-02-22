@@ -54,34 +54,6 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareIn
     }
 
     /**
-     * @Given /^I should see events with following names$/
-     */
-    public function iShouldSeeEventsWithFollowingNames(TableNode $elements)
-    {
-        foreach ($elements->getHash() as $element) {
-            expect($this->getElement('Grid')->hasEventNameCellWithValue($element['Name']))->toBe(true);
-        }
-    }
-
-    /**
-     * @Then /^I should see event with default name "([^"]*)"$/
-     * @And /^I should see event with name "([^"]*)"$/
-     * @Then /^I should see event with name "([^"]*)"$/
-     */
-    public function iShouldSeeEventWithDefaultName($eventName)
-    {
-        expect($this->getElement('Grid')->hasEventNameCellWithValue($eventName))->toBe(true);
-    }
-
-    /**
-     * @Then /^I should see event with empty name$/
-     */
-    public function iShouldSeeEventWithEmptyName()
-    {
-        expect($this->getElement('Grid')->hasEventNameCellWithValue(''))->toBe(true);
-    }
-
-    /**
      * @Given /^I edit first event on the list$/
      */
     public function iEditFirstEventOnTheList()

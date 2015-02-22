@@ -1,8 +1,10 @@
 {% extends '@FSiAdminTranslatable/List/list.html.twig' %}
 
+{% set routeParameters = {element : element.id, redirect_uri: app.request.uri, locale: translatable_locale} %}
+
 {% block top_buttons %}
     {% if element.option('allow_add') == true %}
-        <a href="{{ path('fsi_admin_translatable_form', {element : element.id, redirect_uri: app.request.uri}) }}" class="btn btn-xs btn-success">
+        <a href="{{ path('fsi_admin_translatable_form', routeParameters) }}" class="btn btn-xs btn-success">
             <span class="glyphicon glyphicon-plus"></span>
             {{ 'crud.list.button.create'|trans({}, 'FSiAdminBundle') }}
         </a>
@@ -10,12 +12,10 @@
 {% endblock top_buttons %}
 
 {% block bottom_buttons %}
-    {% block buttons %}
-        {% if element.option('allow_add') == true %}
-            <a href="{{ path('fsi_admin_translatable_form', {element : element.id, redirect_uri: app.request.uri}) }}" class="btn btn-success" id="create-element">
-                <span class="glyphicon glyphicon-plus"></span>
-                {{ 'crud.list.button.create'|trans({}, 'FSiAdminBundle') }}
-            </a>
-        {% endif %}
-    {% endblock buttons %}
+    {% if element.option('allow_add') == true %}
+        <a href="{{ path('fsi_admin_translatable_form', routeParameters) }}" class="btn btn-success" id="create-element">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'crud.list.button.create'|trans({}, 'FSiAdminBundle') }}
+        </a>
+    {% endif %}
 {% endblock bottom_buttons %}

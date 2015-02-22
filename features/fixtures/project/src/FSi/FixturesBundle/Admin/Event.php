@@ -14,6 +14,13 @@ use FSi\Bundle\AdminBundle\Annotation as Admin;
  */
 class Event extends TranslatableCRUDElement
 {
+    public function __construct($options = array())
+    {
+        $options['template_list'] = '@FSiAdminTranslatable/CRUD/list.html.twig';
+
+        parent::__construct($options);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -46,7 +53,8 @@ class Event extends TranslatableCRUDElement
         $datagrid = $factory->createDataGrid($this->getId());
 
         $datagrid->addColumn('name', 'text', array(
-            'label' => 'admin.events.grid.name'
+            'label' => 'admin.events.grid.name',
+            'editable' => true,
         ));
 
         $datagrid->addColumn('actions', 'action', array(

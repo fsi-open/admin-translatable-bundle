@@ -28,8 +28,8 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('resource')->defaultValue('@FSiAdmin/Resource/resource.html.twig')->end()
                         ->scalarNode('display')->defaultValue('@FSiAdmin/Display/display.html.twig')->end()
 
-                        ->scalarNode('datagrid_theme')->defaultValue('@FSiAdmin/CRUD/datagrid.html.twig')->end()
-                        ->scalarNode('datasource_theme:')->defaultValue('@FSiAdmin/CRUD/datasource.html.twig')->end()
+                        ->scalarNode('datagrid_theme')->defaultValue('@FSiAdminTranslatable/CRUD/datagrid.html.twig')->end()
+                        ->scalarNode('datasource_theme')->defaultValue('@FSiAdmin/CRUD/datasource.html.twig')->end()
 
                         ->scalarNode('crud_list')->defaultValue('@FSiAdminTranslatable/CRUD/list.html.twig')->end()
                         ->scalarNode('crud_create')->defaultValue('@FSiAdmin/CRUD/create.html.twig')->end()

@@ -22,9 +22,13 @@ Feature: Edit translatable item
     And I edit first event on the list
     And I change "Name" field value to "Event pl"
     When I press "Save" button
-    Then I should see event with name "Event pl"
+    Then I should see following list
+      | Name     |
+      | Event pl |
     And I choose "English" from translatable locale list
-    And I should see event with name "Event en"
+    Then I should see following list
+      | Name     |
+      | Event en |
 
   Scenario: Edit event's comment in non-default translatable locale
     Given I am on the "Events list" page
