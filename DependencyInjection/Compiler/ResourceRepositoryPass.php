@@ -11,6 +11,7 @@ namespace FSi\Bundle\AdminTranslatableBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Reference;
 
 class ResourceRepositoryPass implements CompilerPassInterface
 {
@@ -25,7 +26,7 @@ class ResourceRepositoryPass implements CompilerPassInterface
             $translatableMapBuilderDefinition->setArguments(array(
                 '%fsi_resource_repository.resource.map_path%',
                 '%fsi_resource_repository.resource.types%',
-                $container->getDefinition('fsi_doctrine_extensions.listener.translatable')
+                new Reference('fsi_doctrine_extensions.listener.translatable')
             ));
             $arguments = $definition->getArguments();
             $arguments[0] = $translatableMapBuilderDefinition;
