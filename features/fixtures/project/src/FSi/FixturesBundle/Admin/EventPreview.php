@@ -3,13 +3,13 @@
 namespace FSi\FixturesBundle\Admin;
 
 use FSi\Bundle\AdminBundle\Display\ObjectDisplay;
-use FSi\Bundle\AdminBundle\Doctrine\Admin\DisplayElement;
 use FSi\Bundle\AdminBundle\Annotation as Admin;
+use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableDisplayElement;
 
 /**
  * @Admin\Element
  */
-class EventPreview extends DisplayElement
+class EventPreview extends TranslatableDisplayElement
 {
     public function getId()
     {
