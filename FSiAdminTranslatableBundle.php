@@ -29,7 +29,6 @@ class FSiAdminTranslatableBundle extends Bundle
         $container->addCompilerPass(new MapBuilderPass());
         $container->addCompilerPass(new ResourceRepositoryPass());
         $container->addCompilerPass(new TranslatableWorkerPass());
-        $container->addCompilerPass(new TwigGlobals());
     }
 
     /**
