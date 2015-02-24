@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class ToolsMenuListenerSpec extends ObjectBehavior
+class TranslationLocaleMenuListenerSpec extends ObjectBehavior
 {
     function let(
         TranslatorInterface $translator,
@@ -52,7 +52,7 @@ class ToolsMenuListenerSpec extends ObjectBehavior
         $translationLocale = $rootItem['translation-locale'];
 
         expect($translationLocale->getLabel())->toBe('Menu label');
-        expect($translationLocale->getOption('id'))->toBe('translatable-switcher');
+        expect($translationLocale->getOption('attr'))->toHaveOption('id', 'translatable-switcher');
 
         /** @var \FSi\Bundle\AdminBundle\Menu\Item\RoutableItem[] $subItems */
         $subItems = $translationLocale->getChildren();
@@ -64,17 +64,17 @@ class ToolsMenuListenerSpec extends ObjectBehavior
         expect($localePl->getLabel())->toBe('Polish');
         expect($localePl->getRoute())->toBe('admin_translatable_list');
         expect($localePl->getRouteParameters())->toBe(array('element' => 'event', 'locale' => 'pl', 'param1' => 'val1'));
-        expect($localePl->getOptions())->toBe(array('id' => null, 'class' => null));
+        expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
 
         expect($localeEn->getLabel())->toBe('English');
         expect($localeEn->getRoute())->toBe('admin_translatable_list');
         expect($localeEn->getRouteParameters())->toBe(array('element' => 'event', 'locale' => 'en', 'param1' => 'val1'));
-        expect($localeEn->getOptions())->toBe(array('id' => null, 'class' => 'active'));
+        expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
 
         expect($localeDe->getLabel())->toBe('German');
         expect($localeDe->getRoute())->toBe('admin_translatable_list');
         expect($localeDe->getRouteParameters())->toBe(array('element' => 'event', 'locale' => 'de', 'param1' => 'val1'));
-        expect($localeDe->getOptions())->toBe(array('id' => null, 'class' => null));
+        expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
     }
 
     function it_creates_empty_locales_menu_for_non_translatable_elements(MenuEvent $menuEvent, Request $request)
@@ -90,8 +90,22 @@ class ToolsMenuListenerSpec extends ObjectBehavior
         $translationLocale = $rootItem['translation-locale'];
 
         expect($translationLocale->getLabel())->toBe('Menu label');
-        expect($translationLocale->getOption('id'))->toBe('translatable-switcher');
+        expect($translationLocale->getOption('attr'))
+            ->toHaveOption('id', 'translatable-switcher');
 
         expect($translationLocale->getChildren())->toBe(array());
+    }
+
+    public function getMatchers()
+    {
+        return [
+            'haveOption' => function($subject, $key, $value) {
+                if (!isset($subject[$key])) {
+                    return false;
+                }
+
+                return $subject[$key] === $value;
+            },
+        ];
     }
 }

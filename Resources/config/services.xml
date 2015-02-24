@@ -9,7 +9,6 @@
         <parameter key="admin_translatable.controller.locale.class">FSi\Bundle\AdminTranslatableBundle\Controller\LocaleController</parameter>
         <parameter key="admin_translatable.manager.locale.class">FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager</parameter>
         <parameter key="admin_translatable.factory.worker.translatable.class">FSi\Bundle\AdminTranslatableBundle\Factory\Worker\TranslatableWorker</parameter>
-        <parameter key="admin_translatable.menu.listener.tools.class">FSi\Bundle\AdminTranslatableBundle\EventListener\ToolsMenuListener</parameter>
     </parameters>
 
     <services>

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class ToolsMenuListener
+class TranslationLocaleMenuListener
 {
     /**
      * @var TranslatorInterface
@@ -104,10 +104,6 @@ class ToolsMenuListener
             $localeItem->setLabel(
                 $languageBundle->getLanguageName($locale, null, $this->request->getLocale())
             );
-
-            if ($locale == $this->localeManager->getLocale()) {
-                $localeItem->setOptions(array('attr' => array('class' => 'active')));
-            }
 
             $menu->addChild($localeItem);
         }

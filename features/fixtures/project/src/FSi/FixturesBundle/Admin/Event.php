@@ -14,13 +14,6 @@ use FSi\Bundle\AdminBundle\Annotation as Admin;
  */
 class Event extends TranslatableCRUDElement
 {
-    public function __construct($options = array())
-    {
-        $options['template_list'] = '@FSiAdminTranslatable/CRUD/list.html.twig';
-
-        parent::__construct($options);
-    }
-
     /**
      * {@inheritDoc}
      */

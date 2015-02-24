@@ -35,9 +35,12 @@ fsi_resource_repository:
 
 fsi_admin_translatable:
     locales:
-      - pl
-      - en
-      - de
+        - pl
+        - en
+        - de
 
 fsi_admin:
-    display_language_switch: true
+    default_locale: en
+    locales:
+        - pl
+        - en
