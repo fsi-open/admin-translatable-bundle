@@ -20,13 +20,6 @@ class Configuration implements ConfigurationInterface
                     ->isRequired()
                     ->prototype('scalar')->end()
                 ->end()
-                ->arrayNode('templates')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('list')->defaultValue('@FSiAdminTranslatable/List/list.html.twig')->end()
-                        ->scalarNode('crud_list')->defaultValue('@FSiAdminTranslatable/CRUD/list.html.twig')->end()
-                    ->end()
-                ->end()
             ->end();
 
         return $treeBuilder;

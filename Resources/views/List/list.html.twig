@@ -1,7 +1,0 @@
-{% extends '@FSiAdmin/List/list.html.twig' %}
-
-{% block themes %}
-    {% datasource_route datasource_view 'fsi_admin_translatable_list' with { element: element.id, locale: translatable_locale } %}
-    {% datasource_theme datasource_view admin_templates_datasource_theme %}
-    {% datagrid_theme datagrid_view admin_templates_datagrid_theme with { datasource: datasource_view, element: element.id, locale: translatable_locale } %}
-{% endblock %}

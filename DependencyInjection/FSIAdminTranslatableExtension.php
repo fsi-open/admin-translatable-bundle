@@ -17,7 +17,6 @@ class FSIAdminTranslatableExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         $container->setParameter('fsi_admin_translatable.locales', $config['locales']);
-        $this->setTemplateParameters($container, $config['templates']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
@@ -30,16 +29,5 @@ class FSIAdminTranslatableExtension extends Extension
         $loader->load('context/form.xml');
         $loader->load('context/list.xml');
         $loader->load('context/resource.xml');
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     * @param array $config
-     */
-    protected function setTemplateParameters(ContainerBuilder $container, $config = array())
-    {
-        foreach ($config as $key => $value) {
-            $container->setParameter(sprintf('admin_translatable.templates.%s', $key), $value);
-        }
     }
 }
