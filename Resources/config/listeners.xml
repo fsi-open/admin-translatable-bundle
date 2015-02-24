@@ -30,5 +30,14 @@
             <argument type="service" id="request_stack"/>
             <tag name="kernel.event_listener" event="fsi_admin.menu.tools" method="createTranslationLocaleMenu" />
         </service>
+
+        <service id="admin_translatable.menu.voter.translatable_element"
+                class="FSi\Bundle\AdminTranslatableBundle\Menu\KnpMenuTranslatableElementVoter"
+                decorates="admin.menu.voter.element">
+            <argument type="service" id="admin_translatable.menu.voter.translatable_element.inner" />
+            <argument type="service" id="admin_translatable.manager.locale"/>
+            <tag name="knp_menu.voter" request="true" />
+        </service>
+
     </services>
 </container>
