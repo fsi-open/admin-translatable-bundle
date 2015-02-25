@@ -1,0 +1,7 @@
+menu:
+  - { id: admin_event, name: "Events" }
+  - { id: admin_news, name: "News" }
+  - { id: non_translatable_resource, name: "Non Translatable Resource" }
+  - { id: translatable_resource, name: "Translatable Resource" }
+  - { id: admin_comment, name: "Comments" }
+  - { id: admin_form, name: "New comment" }

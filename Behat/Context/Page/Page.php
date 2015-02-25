@@ -8,7 +8,7 @@ class Page extends BasePage
 {
     public function getTitle()
     {
-        return $this->find('css', 'h3#page-header')->getText();
+        return $this->find('css', '#page-header')->getText();
     }
 
     public function getMenu()

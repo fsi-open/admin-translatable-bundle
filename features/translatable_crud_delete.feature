@@ -5,8 +5,8 @@ Feature: Deleting existing translatable item
 
   Background:
     Given the following admin translatable elements were registered
-      | Service Id                  | Class                          |
-      | fixtures_bundle.admin.event | FSi\FixturesBundle\Admin\Event |
+      | Element Id  | Class                          |
+      | admin_event | FSi\FixturesBundle\Admin\Event |
     And there are 3 events in each locale
     And default translatable locale is "en"
 
@@ -15,12 +15,7 @@ Feature: Deleting existing translatable item
     Given I am on the "Events list" page with translatable locale "pl"
     When I check first item on the list
     And I choose "Delete" from batch action list and confirm it with "Ok"
-    Then I should be redirected to confirmation page with message
-    """
-    Are you sure you want to delete 1 from selected elements?
-    """
-    When I press "Yes"
     Then I should be redirected to "Events List" page
     And I should see 2 events on the list
-    And I choose "en" from translatable locale list
+    And I choose "English" from translatable locale list
     And I should see 2 events on the list

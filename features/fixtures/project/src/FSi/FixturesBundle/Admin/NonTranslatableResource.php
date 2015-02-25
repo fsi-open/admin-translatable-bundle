@@ -3,7 +3,11 @@
 namespace FSi\FixturesBundle\Admin;
 
 use FSi\Bundle\AdminBundle\Doctrine\Admin\ResourceElement;
+use FSi\Bundle\AdminBundle\Annotation as Admin;
 
+/**
+ * @Admin\Element
+ */
 class NonTranslatableResource extends ResourceElement
 {
     public function getId()

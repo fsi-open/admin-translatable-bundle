@@ -5,11 +5,11 @@ Feature: Editing translatable resources
 
   Background:
     Given the following translatable resources were registered
-      | Service Id                                  | Class                                                 | Tag           |
-      | fixtures_bundle.admin.translatable_resource | FSi\FixturesBundle\Admin\TranslatableResource         | admin.element |
+      | Element Id            | Class                                                 |
+      | translatable_resource | FSi\FixturesBundle\Admin\TranslatableResource         |
     And the following non-translatable resources were registered
-      | Service Id                                      | Class                                             | Tag           |
-      | fixtures_bundle.admin.non_translatable_resource | FSi\FixturesBundle\Admin\NonTranslatableResource  | admin.element |
+      | Element Id                | Class                                             |
+      | non_translatable_resource | FSi\FixturesBundle\Admin\NonTranslatableResource  |
     And the following translatable locales were defined
       | Locale    |
       | en        |
@@ -18,7 +18,7 @@ Feature: Editing translatable resources
 
   Scenario: Accessing translatable resource edit page
     Given I am on the "Admin panel" page
-    When I follow "Translatable Resource" menu element
+    When I follow "Translatable resource" menu element
     Then I should see "Translatable Resource Edit" page header "Edit resources"
 
   Scenario: Edit translatable resource in default translatable locale
@@ -26,8 +26,8 @@ Feature: Editing translatable resources
     And I fill form "Header" field with "Header value en"
     And I fill form "Context" field with "Context value en"
     And I press "Save" button
-    When I choose "pl" from translatable locale list
+    When I choose "Polish" from translatable locale list
     And I fill form "Context" field with "Context value pl"
     And I press "Save" button
-    Then I choose "en" from translatable locale list
+    Then I choose "English" from translatable locale list
     And I should see form "Context" field with value "Context value en"

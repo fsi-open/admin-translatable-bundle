@@ -2,31 +2,35 @@
 
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Controller;
 
+use FSi\Bundle\AdminBundle\Admin\Context\ContextInterface;
 use FSi\Bundle\AdminBundle\Admin\Context\ContextManager;
-use FSi\Bundle\AdminBundle\Doctrine\Admin\Context\Read\Context;
-use FSi\Bundle\AdminBundle\Admin\ResourceRepository\AbstractResource;
+use FSi\Bundle\AdminBundle\Doctrine\Admin\ResourceElement;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use Symfony\Bundle\FrameworkBundle\Templating\DelegatingEngine;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TranslatableResourceControllerSpec extends ObjectBehavior
 {
-    function let(ContextManager $manager, DelegatingEngine $templating)
+    function let(EngineInterface $templating, ContextManager $contextManager)
     {
-        $this->beConstructedWith($templating, $manager, 'default_resource');
+        $this->beConstructedWith($templating, $contextManager, '@FSiAdmin/Resource/resource.html.twig');
     }
 
-    function it_return_response_from_context_in_resource_action(
-        ContextManager $manager,
-        AbstractResource $element,
-        Context $context,
+    function it_should_handle_resource_action(
+        ResourceElement $element,
         Request $request,
-        Response $response
+        Response $response,
+        ContextManager $contextManager,
+        ContextInterface $context,
+        EngineInterface $templating
     ) {
-        $manager->createContext('fsi_admin_translatable_resource', $element)->willReturn($context);
-        $context->handleRequest($request)->willReturn($response);
+        $contextManager->createContext('fsi_admin_translatable_resource', $element)->willReturn($context);
+        $context->handleRequest($request)->shouldBeCalled();
+        $context->hasTemplateName()->willReturn(false);
+        $context->getData()->willReturn(array(1, 2, 3));
+
+        $templating->renderResponse('@FSiAdmin/Resource/resource.html.twig', array(1, 2, 3))->willReturn($response);
 
         $this->resourceAction($element, $request)->shouldReturn($response);
     }

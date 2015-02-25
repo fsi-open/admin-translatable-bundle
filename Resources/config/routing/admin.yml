@@ -1,30 +1,30 @@
 admin_translatable_locale:
-  path: /translatable-locale/{locale}
-  defaults:
-    _controller: admin_translatable.controller.locale:changeLocaleAction
-
-fsi_admin_translatable_crud_list:
-    path: /{locale}/{element}/list
+    path: /translatable-locale/{locale}
     defaults:
-        _controller: admin_translatable.controller.crud:listAction
+        _controller: admin_translatable.controller.locale:changeLocaleAction
 
-fsi_admin_translatable_crud_create:
-    path: /{locale}/{element}/create
+fsi_admin_translatable_list:
+    path: /{locale}/list/{element}
     defaults:
-        _controller: admin_translatable.controller.crud:createAction
+        _controller: admin_translatable.controller.list:listAction
 
-fsi_admin_translatable_crud_edit:
-    path: /{locale}/{element}/edit/{id}
+fsi_admin_translatable_form:
+    path: /{locale}/form/{element}/{id}
     defaults:
-        _controller: admin_translatable.controller.crud:editAction
+        _controller: admin_translatable.controller.form:formAction
+        id: null
 
-fsi_admin_translatable_crud_delete:
-    path: /{locale}/{element}/delete
+fsi_admin_translatable_batch:
+    path: /{locale}/batch/{element}
     defaults:
-        _controller: admin_translatable.controller.crud:deleteAction
-    methods: [DELETE]
+        _controller: admin.controller.batch:batchAction
 
 fsi_admin_translatable_resource:
     path: /{locale}/resource/{element}
     defaults:
         _controller: admin_translatable.controller.resource:resourceAction
+
+fsi_admin_translatable_display:
+    path: /{locale}/display/{element}/{id}
+    defaults:
+        _controller: admin_translatable.controller.display:displayAction

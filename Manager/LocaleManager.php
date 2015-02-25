@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Bundle\AdminTranslatableBundle\Manager;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -13,12 +20,12 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class LocaleManager
 {
     /**
-     * @var \Doctrine\Common\Persistence\ManagerRegistry
+     * @var ManagerRegistry
      */
     private $managerRegistry;
 
     /**
-     * @var \Symfony\Component\HttpFoundation\Session\Session
+     * @var Session
      */
     private $session;
 
@@ -28,8 +35,8 @@ class LocaleManager
     private $locales;
 
     /**
-     * @param \Doctrine\Common\Persistence\ManagerRegistry $managerRegistry
-     * @param \Symfony\Component\HttpFoundation\Session\Session
+     * @param ManagerRegistry $managerRegistry
+     * @param Session $session
      * @param array $locales
      */
     public function __construct(
@@ -93,8 +100,8 @@ class LocaleManager
     }
 
     /**
-     * @return \FSi\DoctrineExtensions\Translatable\TranslatableListener|null
-     * @throws \FSi\Bundle\AdminBundle\Exception\RuntimeException
+     * @return TranslatableListener|null
+     * @throws RuntimeException
      */
     private function getTranslatableListener()
     {

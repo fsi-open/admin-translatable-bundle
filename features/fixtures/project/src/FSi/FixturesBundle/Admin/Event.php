@@ -7,7 +7,11 @@ use FSi\Component\DataGrid\DataGridFactoryInterface;
 use FSi\Component\DataSource\DataSourceFactoryInterface;
 use FSi\FixturesBundle\Form\CommentType;
 use Symfony\Component\Form\FormFactoryInterface;
+use FSi\Bundle\AdminBundle\Annotation as Admin;
 
+/**
+ * @Admin\Element
+ */
 class Event extends TranslatableCRUDElement
 {
     /**
@@ -42,7 +46,8 @@ class Event extends TranslatableCRUDElement
         $datagrid = $factory->createDataGrid($this->getId());
 
         $datagrid->addColumn('name', 'text', array(
-            'label' => 'admin.events.grid.name'
+            'label' => 'admin.events.grid.name',
+            'editable' => true,
         ));
 
         $datagrid->addColumn('actions', 'action', array(
@@ -50,8 +55,13 @@ class Event extends TranslatableCRUDElement
             'field_mapping' => array('id'),
             'actions' => array(
                 'edit' => array(
-                    'route_name' => 'fsi_admin_translatable_crud_edit',
+                    'route_name' => 'fsi_admin_translatable_form',
                     'additional_parameters' => array('element' => $this->getId()),
+                    'parameters_field_mapping' => array('id' => 'id')
+                ),
+                'preview' => array(
+                    'route_name' => 'fsi_admin_translatable_display',
+                    'additional_parameters' => array('element' => 'admin_event_preview'),
                     'parameters_field_mapping' => array('id' => 'id')
                 ),
             )

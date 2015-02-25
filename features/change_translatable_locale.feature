@@ -5,8 +5,8 @@ Feature: Change translatable locale
 
   Background:
     Given the following admin translatable elements were registered
-      | Service Id                  | Class                          |
-      | fixtures_bundle.admin.event | FSi\FixturesBundle\Admin\Event |
+      | Element Id  | Class                          |
+      | admin_event | FSi\FixturesBundle\Admin\Event |
     And the following translatable locales were defined
       | Locale    |
       | en        |
@@ -15,5 +15,5 @@ Feature: Change translatable locale
 
     Scenario: Change translatable locale
       Given I am on the "Events list" page
-      When I choose "de" from translatable locale list
-      Then I should see translatable list with "de" option selected
+      When I choose "German" from translatable locale list
+      Then I should see translatable list with "German" option selected

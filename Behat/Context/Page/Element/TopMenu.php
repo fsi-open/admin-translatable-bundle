@@ -2,6 +2,7 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element;
 
+use Behat\Behat\Exception\BehaviorException;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Element;
 
 class TopMenu extends Element
@@ -30,16 +31,23 @@ class TopMenu extends Element
 
     public function hasActiveTranslatableLanguage($locale)
     {
-        return $this->has('css', sprintf('li#translatable-language ul li.active:contains(%s)', $locale));
+        return $this->has('css', sprintf('#translatable-switcher ul li.active:contains(%s)', $locale));
     }
 
     public function findTranslatableLanguageElement($translatableLocale)
     {
-        return $this->find('css', sprintf('li#translatable-language ul li a:contains("%s")', $translatableLocale));
+        $selector = sprintf('#translatable-switcher ul li a:contains("%s")', $translatableLocale);
+        $element = $this->find('css', $selector);
+
+        if (null === $element) {
+            throw new BehaviorException(sprintf('Unable to find %s', $selector));
+        }
+
+        return $element;
     }
 
     public function clickTranslatableDropdown()
     {
-        return $this->find('css', 'li#translatable-language a.dropdown-toggle')->click();
+        $this->find('css', '#translatable-switcher a.dropdown-toggle')->click();
     }
 }

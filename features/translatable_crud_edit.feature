@@ -5,8 +5,8 @@ Feature: Edit translatable item
 
   Background:
     Given the following admin translatable elements were registered
-      | Service Id                  | Class                          |
-      | fixtures_bundle.admin.event | FSi\FixturesBundle\Admin\Event |
+      | Element Id  | Class                          |
+      | admin_event | FSi\FixturesBundle\Admin\Event |
     And the following translatable locales were defined
       | Locale    |
       | en        |
@@ -18,21 +18,25 @@ Feature: Edit translatable item
 
   Scenario: Edit event item in different translatable locale
     Given I am on the "Events list" page
-    And I choose "pl" from translatable locale list
+    And I choose "Polish" from translatable locale list
     And I edit first event on the list
     And I change "Name" field value to "Event pl"
     When I press "Save" button
-    Then I should see event with name "Event pl"
-    And I choose "en" from translatable locale list
-    And I should see event with name "Event en"
+    Then I should see following list
+      | Name     |
+      | Event pl |
+    And I choose "English" from translatable locale list
+    Then I should see following list
+      | Name     |
+      | Event en |
 
   Scenario: Edit event's comment in non-default translatable locale
     Given I am on the "Events list" page
-    And I choose "pl" from translatable locale list
+    And I choose "Polish" from translatable locale list
     And I edit first event on the list
     And I change first comment's text to "świetna wiadomość"
     When I press "Save" button
     And I edit first event on the list
     Then I should see one comment with text "świetna wiadomość"
-    When I choose "en" from translatable locale list
+    When I choose "English" from translatable locale list
     Then I should see one comment with text "great news"

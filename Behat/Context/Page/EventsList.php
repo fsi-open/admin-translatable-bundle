@@ -4,7 +4,7 @@ namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page;
 
 class EventsList extends Page
 {
-    protected $path = '/admin/{locale}/admin_event/list';
+    protected $path = '/admin/{locale}/list/admin_event';
 
     public function pressBatchCheckboxInRow()
     {
@@ -13,7 +13,6 @@ class EventsList extends Page
 
     public function selectBatchAction($action)
     {
-        $this->find('css', 'select#batch_action')->selectOption($action);
-        $this->find('css', '#batch_action_confirmation')->click();
+        $this->find('css', 'select#batch_action_action')->selectOption($action);
     }
 }

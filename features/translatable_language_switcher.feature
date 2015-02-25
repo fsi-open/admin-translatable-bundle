@@ -5,11 +5,11 @@ Feature: Translatable locale list appearance
 
   Background:
     Given the following admin translatable elements were registered
-      | Service Id                  | Class                          |
-      | fixtures_bundle.admin.event | FSi\FixturesBundle\Admin\Event |
+      | Element Id  | Class                          |
+      | admin_event | FSi\FixturesBundle\Admin\Event |
     And the following admin non-translatable elements were registered
-      | Service Id                    | Class                           |
-      | fixtures_bundle.admin.news    | FSi\FixturesBundle\Admin\News   |
+      | Element Id    | Class                           |
+      | admin_news    | FSi\FixturesBundle\Admin\News   |
     And the following translatable locales were defined
       | Locale    |
       | en        |
@@ -21,9 +21,9 @@ Feature: Translatable locale list appearance
     Then I should see translatable locale list
     And translatable locale list should have following locales
       | Locale    |
-      | en        |
-      | pl        |
-      | de        |
+      | English   |
+      | Polish    |
+      | German    |
 
   Scenario: Translatable locale list is inactive for non-translatable elements
     Given I am on the "News list" page

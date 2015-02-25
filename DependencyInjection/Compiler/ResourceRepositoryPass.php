@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class ResourceRepositoryPass implements CompilerPassInterface
 {
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {

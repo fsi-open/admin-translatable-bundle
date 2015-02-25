@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Bundle\AdminTranslatableBundle\Repository;
 
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
@@ -11,7 +18,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class TranslatableMapBuilder extends BaseMapBuilder
 {
     /**
-     * @var \FSi\DoctrineExtensions\Translatable\TranslatableListener
+     * @var TranslatableListener
      */
     protected $translatableListener;
 
@@ -28,7 +35,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     /**
      * @param string $mapPath
      * @param string[] $resourceTypes
-     * @param \FSi\DoctrineExtensions\Translatable\TranslatableListener
+     * @param TranslatableListener $translatableListener
      */
     public function __construct($mapPath, $resourceTypes = array(), TranslatableListener $translatableListener)
     {
@@ -95,7 +102,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     /**
      * @param $configuration
      * @param $path
-     * @throws \FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException
+     * @throws ConfigurationException
      */
     protected function validateConfiguration($configuration, $path)
     {
@@ -114,7 +121,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
 
     /**
      * @param $configuration
-     * @throws \FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException
+     * @throws ConfigurationException
      */
     protected function validateResourceConfiguration($configuration)
     {
