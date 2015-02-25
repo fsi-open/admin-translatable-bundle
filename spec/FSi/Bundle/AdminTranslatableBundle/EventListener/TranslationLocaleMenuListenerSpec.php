@@ -10,16 +10,20 @@ use Prophecy\Argument;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Router;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class TranslationLocaleMenuListenerSpec extends ObjectBehavior
 {
     function let(
         TranslatorInterface $translator,
+        Router $router,
         LocaleManager $localeManager,
         RequestStack $requestStack,
         Request $request,
-        ParameterBag $query
+        ParameterBag $query,
+        ParameterBag $server
     ) {
         $localeManager->getLocale()->willReturn('en');
         $request->getLocale()->willReturn('en');
@@ -27,8 +31,17 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         $request->get('_route')->willReturn('admin_translatable_list');
         $requestStack->getCurrentRequest()->willReturn($request);
 
-        $query->all()->willReturn(array('param1' => 'val1'));
+        $query->all()->willReturn(array('param1' => 'val1', 'redirect_uri' => 'http://domain.local/admin/en/list/element?param=value'));
         $request->query = $query;
+
+        $router->matchRequest(Argument::that(function ($argument) {
+            return $argument->server->get('REQUEST_URI') === '/admin/en/list/element';
+        }))->willReturn(array(
+            '_route' => 'some_admin_route',
+            'locale' => 'en',
+            'element' => 'element'
+        ));
+        $request->server = $server;
 
         $localeManager->getLocales()->willReturn(array('pl', 'en', 'de'));
 
@@ -38,13 +51,29 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
             'FSiAdminTranslatableBundle'
         )->willReturn('Menu label');
 
-        $this->beConstructedWith($translator, $localeManager, $requestStack);
+        $this->beConstructedWith($translator, $router, $localeManager, $requestStack);
     }
 
-    function it_should_create_trainslations_tools_menu(MenuEvent $menuEvent)
+    function it_should_create_translations_tools_menu(MenuEvent $menuEvent, Router $router)
     {
         $menuItem = new Item();
         $menuEvent->getMenu()->willReturn($menuItem);
+
+        $router->generate(
+            'some_admin_route',
+            array('locale' => 'en', 'element' => 'element'),
+            UrlGeneratorInterface::ABSOLUTE_PATH)->willReturn('/admin/en/list/element');
+
+        $router->generate(
+            'some_admin_route',
+            array('locale' => 'pl', 'element' => 'element'),
+            UrlGeneratorInterface::ABSOLUTE_PATH)->willReturn('/admin/pl/list/element');
+
+        $router->generate(
+            'some_admin_route',
+            array('locale' => 'de', 'element' => 'element'),
+            UrlGeneratorInterface::ABSOLUTE_PATH)->willReturn('/admin/de/list/element');
+
 
         $this->createTranslationLocaleMenu($menuEvent);
 
@@ -63,17 +92,32 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
 
         expect($localePl->getLabel())->toBe('Polish');
         expect($localePl->getRoute())->toBe('admin_translatable_list');
-        expect($localePl->getRouteParameters())->toBe(array('element' => 'event', 'locale' => 'pl', 'param1' => 'val1'));
+        expect($localePl->getRouteParameters())->toBe(array(
+            'element' => 'event',
+            'locale' => 'pl',
+            'param1' => 'val1',
+            'redirect_uri' => 'http://domain.local/admin/pl/list/element?param=value'
+        ));
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
 
         expect($localeEn->getLabel())->toBe('English');
         expect($localeEn->getRoute())->toBe('admin_translatable_list');
-        expect($localeEn->getRouteParameters())->toBe(array('element' => 'event', 'locale' => 'en', 'param1' => 'val1'));
+        expect($localeEn->getRouteParameters())->toBe(array(
+            'element' => 'event',
+            'locale' => 'en',
+            'param1' => 'val1',
+            'redirect_uri' => 'http://domain.local/admin/en/list/element?param=value'
+        ));
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
 
         expect($localeDe->getLabel())->toBe('German');
         expect($localeDe->getRoute())->toBe('admin_translatable_list');
-        expect($localeDe->getRouteParameters())->toBe(array('element' => 'event', 'locale' => 'de', 'param1' => 'val1'));
+        expect($localeDe->getRouteParameters())->toBe(array(
+            'element' => 'event',
+            'locale' => 'de',
+            'param1' => 'val1',
+            'redirect_uri' => 'http://domain.local/admin/de/list/element?param=value'
+        ));
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
     }
 
