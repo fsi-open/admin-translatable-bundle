@@ -7,7 +7,6 @@
     <parameters>
         <parameter key="admin_translatable.locale_listener.class">FSi\Bundle\AdminTranslatableBundle\EventListener\LocaleListener</parameter>
         <parameter key="admin_translatable.form_extension.locale.class">FSi\Bundle\AdminTranslatableBundle\Form\LocaleExtension</parameter>
-        <parameter key="admin_translatable.menu.listener.translation_locale.class">FSi\Bundle\AdminTranslatableBundle\EventListener\TranslationLocaleMenuListener</parameter>
     </parameters>
 
     <services>
@@ -21,22 +20,6 @@
             <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
             <argument type="service" id="property_accessor" />
             <tag name="form.type_extension" alias="form" />
-        </service>
-
-        <!-- Menu -->
-        <service id="admin_translatable.menu.listener.translation_locale" class="%admin_translatable.menu.listener.translation_locale.class%">
-            <argument type="service" id="translator"/>
-            <argument type="service" id="admin_translatable.manager.locale"/>
-            <argument type="service" id="request_stack"/>
-            <tag name="kernel.event_listener" event="fsi_admin.menu.tools" method="createTranslationLocaleMenu" />
-        </service>
-
-        <service id="admin_translatable.menu.voter.translatable_element"
-                class="FSi\Bundle\AdminTranslatableBundle\Menu\KnpMenuTranslatableElementVoter"
-                decorates="admin.menu.voter.element">
-            <argument type="service" id="admin_translatable.menu.voter.translatable_element.inner" />
-            <argument type="service" id="admin_translatable.manager.locale"/>
-            <tag name="knp_menu.voter" request="true" />
         </service>
 
     </services>
