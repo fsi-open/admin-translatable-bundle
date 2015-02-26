@@ -31,11 +31,12 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         $request->get('_route')->willReturn('admin_translatable_list');
         $requestStack->getCurrentRequest()->willReturn($request);
 
-        $query->all()->willReturn(array('param1' => 'val1', 'redirect_uri' => 'http://domain.local/admin/en/list/element?param=value'));
+        $query->all()->willReturn(array('param1' => 'val1', 'redirect_uri' => '/admin/en/list/element?param=value'));
         $request->query = $query;
 
         $router->matchRequest(Argument::that(function ($argument) {
-            return $argument->server->get('REQUEST_URI') === '/admin/en/list/element';
+            return $argument->server->get('REQUEST_URI') === '/admin/en/list/element' &&
+                $argument->server->get('QUERY_STRING') === 'param=value';
         }))->willReturn(array(
             '_route' => 'some_admin_route',
             'locale' => 'en',
@@ -96,7 +97,7 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
             'element' => 'event',
             'locale' => 'pl',
             'param1' => 'val1',
-            'redirect_uri' => 'http://domain.local/admin/pl/list/element?param=value'
+            'redirect_uri' => '/admin/pl/list/element?param=value'
         ));
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
 
@@ -106,7 +107,7 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
             'element' => 'event',
             'locale' => 'en',
             'param1' => 'val1',
-            'redirect_uri' => 'http://domain.local/admin/en/list/element?param=value'
+            'redirect_uri' => '/admin/en/list/element?param=value'
         ));
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
 
@@ -116,7 +117,7 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
             'element' => 'event',
             'locale' => 'de',
             'param1' => 'val1',
-            'redirect_uri' => 'http://domain.local/admin/de/list/element?param=value'
+            'redirect_uri' => '/admin/de/list/element?param=value'
         ));
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
     }
