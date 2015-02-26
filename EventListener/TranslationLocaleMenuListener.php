@@ -131,20 +131,6 @@ class TranslationLocaleMenuListener
 
     /**
      * @param string $redirectUri
-     * @param $locale
-     * @return array
-     */
-    private function rebuildRedirectUri($redirectUri, $locale)
-    {
-        $redirectRequest = $this->createRedirectRequest($redirectUri);
-
-        $newRedirectPath = $this->generatePathForLocale($redirectRequest, $locale);
-
-        return $this->replaceUriPath($redirectUri, $newRedirectPath);
-    }
-
-    /**
-     * @param string $redirectUri
      * @return Request
      */
     private function createRedirectRequest($redirectUri)
