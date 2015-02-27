@@ -13,6 +13,6 @@ class EventsList extends Page
 
     public function selectBatchAction($action)
     {
-        $this->find('css', 'select#batch_action_action')->selectOption($action);
+        $this->find('css', '.datagrid-actions select')->selectOption($action);
     }
 }
