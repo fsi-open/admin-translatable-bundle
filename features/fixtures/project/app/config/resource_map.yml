@@ -12,6 +12,7 @@ resources:
           translatable: true
           type: text
           form_options:
+                required: true
                 label: admin.translatable_resource.header.label
         context:
           translatable: true

@@ -8,6 +8,7 @@
         <parameter key="admin_translatable.locale_listener.class">FSi\Bundle\AdminTranslatableBundle\EventListener\LocaleListener</parameter>
         <parameter key="admin_translatable.form_extension.locale.class">FSi\Bundle\AdminTranslatableBundle\Form\LocaleExtension</parameter>
         <parameter key="admin_translatable.form_extension.translatable.class">FSi\Bundle\AdminTranslatableBundle\Form\TranslatableExtension</parameter>
+        <parameter key="admin_translatable.form_extension.translatable_resource.class">FSi\Bundle\AdminTranslatableBundle\Repository\Form\ResourceTypeExtension</parameter>
     </parameters>
 
     <services>
@@ -27,6 +28,11 @@
             <argument type="service" id="doctrine" />
             <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
             <tag name="form.type_extension" alias="form" />
+        </service>
+
+        <service id="admin_translatable.form_extension.translatable_resource" class="%admin_translatable.form_extension.translatable_resource.class%">
+            <argument type="service" id="admin_translatable.resource.map_builder" />
+            <tag name="form.type_extension" alias="resource" />
         </service>
     </services>
 </container>
