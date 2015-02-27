@@ -4,7 +4,7 @@ namespace FSi\Bundle\AdminTranslatableBundle\Factory\Worker;
 
 use FSi\Bundle\AdminBundle\Admin\Element;
 use FSi\Bundle\AdminBundle\Factory\Worker;
-use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableAwareInterface;
+use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableAwareElement;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 
 class TranslatableWorker implements Worker
@@ -21,7 +21,7 @@ class TranslatableWorker implements Worker
 
     public function mount(Element $element)
     {
-        if ($element instanceof TranslatableAwareInterface) {
+        if ($element instanceof TranslatableAwareElement) {
             $element->setLocaleManager($this->localeManager);
         }
     }

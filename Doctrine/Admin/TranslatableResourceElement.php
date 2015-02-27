@@ -12,20 +12,9 @@ namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 use FSi\Bundle\AdminBundle\Doctrine\Admin\ResourceElement;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 
-abstract class TranslatableResourceElement extends ResourceElement implements TranslatableAwareInterface
+abstract class TranslatableResourceElement extends ResourceElement implements TranslatableAwareElement
 {
-    /**
-     * @var LocaleManager
-     */
-    protected $localeManager;
-
-    /**
-     * @param LocaleManager $localeManager
-     */
-    public function setLocaleManager(LocaleManager $localeManager)
-    {
-        $this->localeManager = $localeManager;
-    }
+    use TranslatableAwareElementImpl;
 
     /**
      * {@inheritdoc}
@@ -40,17 +29,14 @@ abstract class TranslatableResourceElement extends ResourceElement implements Tr
      */
     public function getRouteParameters()
     {
-        $routeParameters = parent::getRouteParameters();
-        $routeParameters['locale'] = $this->localeManager->getLocale();
-
-        return $routeParameters;
+        return $this->appendLocaleParameter(parent::getRouteParameters());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSuccessRouteParameters()
     {
-        $parameters = parent::getSuccessRouteParameters();
-        $parameters['locale'] = $this->localeManager->getLocale();;
-
-        return $parameters;
+        return $this->appendLocaleParameter(parent::getSuccessRouteParameters());
     }
 }

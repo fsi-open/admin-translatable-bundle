@@ -9,23 +9,11 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 
-use FSi\Bundle\AdminBundle\Doctrine\Admin\FormElement as BaseFormElement;
-use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
+use FSi\Bundle\AdminBundle\Doctrine\Admin\FormElement as FormElement;
 
-abstract class TranslatableFormElement extends BaseFormElement implements TranslatableAwareInterface
+abstract class TranslatableFormElement extends FormElement implements TranslatableAwareElement
 {
-    /**
-     * @var LocaleManager
-     */
-    protected $localeManager;
-
-    /**
-     * @param LocaleManager $localeManager
-     */
-    public function setLocaleManager(LocaleManager $localeManager)
-    {
-        $this->localeManager = $localeManager;
-    }
+    use TranslatableAwareElementImpl;
 
     /**
      * {@inheritdoc}
@@ -40,18 +28,7 @@ abstract class TranslatableFormElement extends BaseFormElement implements Transl
      */
     public function getRouteParameters()
     {
-        $parameters = parent::getRouteParameters();
-        $parameters['locale'] = $this->localeManager->getLocale();;
-
-        return $parameters;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSuccessRoute()
-    {
-        return 'fsi_admin_translatable_form';
+        return $this->appendLocaleParameter(parent::getRouteParameters());
     }
 
     /**
@@ -59,9 +36,6 @@ abstract class TranslatableFormElement extends BaseFormElement implements Transl
      */
     public function getSuccessRouteParameters()
     {
-        $parameters = parent::getSuccessRouteParameters();
-        $parameters['locale'] = $this->localeManager->getLocale();;
-
-        return $parameters;
+        return $this->appendLocaleParameter(parent::getSuccessRouteParameters());
     }
 }
