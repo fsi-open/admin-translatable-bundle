@@ -29,7 +29,7 @@ abstract class TranslatableBatchElement extends BatchElement implements Translat
 
     public function getRoute()
     {
-        return 'fsi_admin_batch';
+        return 'getSuccessRouteParameters';
     }
 
     public function getRouteParameters()
@@ -47,7 +47,7 @@ abstract class TranslatableBatchElement extends BatchElement implements Translat
 
     public function getSuccessRouteParameters()
     {
-        $parameters = parent::getRouteParameters();
+        $parameters = parent::getSuccessRouteParameters();
         $parameters['locale'] = $this->localeManager->getLocale();;
 
         return $parameters;

@@ -7,7 +7,6 @@
     <parameters>
         <parameter key="admin_translatable.context.form.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\FormElementContext</parameter>
         <parameter key="admin_translatable.context_builder.form.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\FormElementContextBuilder</parameter>
-        <parameter key="admin_translatable.context.form.request_handler.form_valid_request.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\Request\FormValidRequestHandler</parameter>
     </parameters>
 
     <services>
@@ -23,15 +22,9 @@
         <service id="admin_translatable.context.form" class="%admin_translatable.context.form.class%">
             <argument type="collection">
                 <argument type="service" id="admin.context.form.request_handler.form_submit"/>
-                <argument type="service" id="admin_translatable.context.form.request_handler.form_valid_request"/>
+                <argument type="service" id="admin.context.form.request_handler.form_valid_request"/>
             </argument>
             <argument type="service" id="admin_translatable.manager.locale" />
-        </service>
-
-        <service id="admin_translatable.context.form.request_handler.form_valid_request"
-                 class="%admin_translatable.context.form.request_handler.form_valid_request.class%">
-            <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="router" />
         </service>
     </services>
 </container>

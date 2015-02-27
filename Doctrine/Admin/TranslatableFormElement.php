@@ -59,7 +59,7 @@ abstract class TranslatableFormElement extends BaseFormElement implements Transl
      */
     public function getSuccessRouteParameters()
     {
-        $parameters = parent::getRouteParameters();
+        $parameters = parent::getSuccessRouteParameters();
         $parameters['locale'] = $this->localeManager->getLocale();;
 
         return $parameters;
