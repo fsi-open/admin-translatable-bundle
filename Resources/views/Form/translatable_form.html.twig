@@ -1,0 +1,18 @@
+{% extends '@FSiAdmin/Form/bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block form_label %}
+    {{ parent() }}
+    <script type="text/javascript">
+        requirejs.config({
+            paths: {
+                "translatable": "{{ asset('bundles/fsiadmintranslatable/translatable') }}"
+            }
+        });
+        require(['translatable']);
+    </script>
+{% endblock form_label %}
+
+{%- block form_label_class -%}
+    {{ parent() }}
+    {%- if translatable %} translatable{% endif -%}
+{%- endblock form_label_class -%}
