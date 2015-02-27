@@ -56,6 +56,9 @@ abstract class TranslatableCRUDElement extends CRUDElement implements Translatab
      */
     public function getSuccessRouteParameters()
     {
-        return $this->getRouteParameters();
+        $parameters = parent::getSuccessRouteParameters();
+        $parameters['locale'] = $this->localeManager->getLocale();;
+
+        return $parameters;
     }
 }

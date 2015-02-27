@@ -45,4 +45,12 @@ abstract class TranslatableResourceElement extends ResourceElement implements Tr
 
         return $routeParameters;
     }
+
+    public function getSuccessRouteParameters()
+    {
+        $parameters = parent::getSuccessRouteParameters();
+        $parameters['locale'] = $this->localeManager->getLocale();;
+
+        return $parameters;
+    }
 }
