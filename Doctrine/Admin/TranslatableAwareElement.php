@@ -11,7 +11,7 @@ namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 
-interface TranslatableAwareInterface
+interface TranslatableAwareElement
 {
     public function setLocaleManager(LocaleManager $localeManager);
 }

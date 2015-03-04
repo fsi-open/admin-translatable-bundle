@@ -12,45 +12,31 @@ namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 use FSi\Bundle\AdminBundle\Doctrine\Admin\BatchElement;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 
-abstract class TranslatableBatchElement extends BatchElement implements TranslatableAwareInterface
+abstract class TranslatableBatchElement extends BatchElement implements TranslatableAwareElement
 {
-    /**
-     * @var LocaleManager
-     */
-    protected $localeManager;
+    use TranslatableAwareElementImpl;
 
     /**
-     * @param LocaleManager $localeManager
+     * {@inheritdoc}
      */
-    public function setLocaleManager(LocaleManager $localeManager)
-    {
-        $this->localeManager = $localeManager;
-    }
-
     public function getRoute()
     {
-        return 'getSuccessRouteParameters';
+        return 'fsi_admin_translatable_batch';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRouteParameters()
     {
-        $parameters = parent::getRouteParameters();
-        $parameters['locale'] = $this->localeManager->getLocale();;
-
-        return $parameters;
+        return $this->appendLocaleParameter(parent::getRouteParameters());
     }
 
-    public function getSuccessRoute()
-    {
-        return parent::getSuccessRoute();
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function getSuccessRouteParameters()
     {
-        $parameters = parent::getSuccessRouteParameters();
-        $parameters['locale'] = $this->localeManager->getLocale();;
-
-        return $parameters;
+        return $this->appendLocaleParameter(parent::getSuccessRouteParameters());
     }
-
 }

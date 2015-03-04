@@ -9,23 +9,11 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 
-use FSi\Bundle\AdminBundle\Doctrine\Admin\ListElement as BaseListElement;
-use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
+use FSi\Bundle\AdminBundle\Doctrine\Admin\ListElement;
 
-abstract class TranslatableListElement extends BaseListElement implements TranslatableAwareInterface
+abstract class TranslatableListElement extends ListElement implements TranslatableAwareElement
 {
-    /**
-     * @var LocaleManager
-     */
-    protected $localeManager;
-
-    /**
-     * @param LocaleManager $localeManager
-     */
-    public function setLocaleManager(LocaleManager $localeManager)
-    {
-        $this->localeManager = $localeManager;
-    }
+    use TranslatableAwareElementImpl;
 
     /**
      * {@inheritdoc}
@@ -40,9 +28,6 @@ abstract class TranslatableListElement extends BaseListElement implements Transl
      */
     public function getRouteParameters()
     {
-        $parameters = parent::getRouteParameters();
-        $parameters['locale'] = $this->localeManager->getLocale();;
-
-        return $parameters;
+        return $this->appendLocaleParameter(parent::getRouteParameters());
     }
 }

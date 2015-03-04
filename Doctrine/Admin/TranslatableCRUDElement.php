@@ -12,20 +12,9 @@ namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 use FSi\Bundle\AdminBundle\Doctrine\Admin\CRUDElement;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 
-abstract class TranslatableCRUDElement extends CRUDElement implements TranslatableAwareInterface
+abstract class TranslatableCRUDElement extends CRUDElement implements TranslatableAwareElement
 {
-    /**
-     * @var LocaleManager
-     */
-    protected $localeManager;
-
-    /**
-     * @param LocaleManager $localeManager
-     */
-    public function setLocaleManager(LocaleManager $localeManager)
-    {
-        $this->localeManager = $localeManager;
-    }
+    use TranslatableAwareElementImpl;
 
     /**
      * {@inheritdoc}
@@ -35,20 +24,12 @@ abstract class TranslatableCRUDElement extends CRUDElement implements Translatab
         return 'fsi_admin_translatable_list';
     }
 
-    public function getRouteParameters()
-    {
-        $parameters = parent::getRouteParameters();
-        $parameters['locale'] = $this->localeManager->getLocale();
-
-        return $parameters;
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function getSuccessRoute()
+    public function getRouteParameters()
     {
-        return $this->getRoute();
+        return $this->appendLocaleParameter(parent::getRouteParameters());
     }
 
     /**
@@ -56,9 +37,6 @@ abstract class TranslatableCRUDElement extends CRUDElement implements Translatab
      */
     public function getSuccessRouteParameters()
     {
-        $parameters = parent::getSuccessRouteParameters();
-        $parameters['locale'] = $this->localeManager->getLocale();;
-
-        return $parameters;
+        return $this->appendLocaleParameter(parent::getSuccessRouteParameters());
     }
 }
