@@ -29,8 +29,15 @@
         state: link
     - name: copy admin-translatable-bundle's public resources
       file:
-        src: Resources/public
+        src: /var/www/admin-translatable-bundle/Resources/public
         dest: /var/www/admin-translatable-bundle/features/fixtures/project/web/bundles/fsiadmintranslatable
+        owner: vagrant
+        group: vagrant
+        state: link
+    - name: copy ckeditor-bundle's public resources
+      file:
+        src: /var/www/admin-translatable-bundle/vendor/egeloen/ckeditor-bundle/Resources/public
+        dest: /var/www/admin-translatable-bundle/features/fixtures/project/web/bundles/ivoryckeditor
         owner: vagrant
         group: vagrant
         state: link

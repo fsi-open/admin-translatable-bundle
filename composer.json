@@ -14,7 +14,7 @@
         "php": ">=5.3.3",
         "symfony/framework-bundle" : "~2.5",
         "fsi/admin-bundle": "1.1.*@dev",
-        "fsi/doctrine-extensions-bundle": "~1.1"
+        "fsi/doctrine-extensions-bundle": "~1.1,>=1.1.3"
     },
     "require-dev": {
         "symfony/class-loader": "~2.3",
@@ -29,7 +29,8 @@
         "behat/mink-selenium2-driver": "~1.2",
         "sensiolabs/behat-page-object-extension": "1.0.*",
         "bossa/phpspec2-expect": "dev-master",
-        "fsi/resource-repository-bundle": "~1.1,>=1.1.2"
+        "fsi/resource-repository-bundle": "~1.1,>=1.1.2",
+        "egeloen/ckeditor-bundle": "~2.0"
     },
     "config": {
         "bin-dir": "bin"

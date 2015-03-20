@@ -97,6 +97,14 @@ class Event extends TranslatableCRUDElement
 
         $form->add('name', 'text', array('label' => 'admin.events.form.name'));
 
+        $form->add('agreement', 'fsi_removable_file', array(
+            'required' => false
+        ));
+
+        $form->add('description', 'ckeditor', array(
+            'required' => false
+        ));
+
         $form->add('comments', 'collection', array(
             'type' => new CommentType(),
             'allow_add' => true,

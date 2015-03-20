@@ -4,6 +4,7 @@ namespace FSi\FixturesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
+use FSi\DoctrineExtensions\Uploadable\Mapping\Annotation as Uploadable;
 
 /**
  * @ORM\Entity
@@ -30,6 +31,23 @@ class EventTranslation
      * @var string
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(length=255, nullable=true)
+     * @Uploadable\Uploadable(targetField="agreement")
+     */
+    protected $agreementKey;
+
+    /**
+     * @var \FSi\DoctrineExtensions\Uploadable\File|\SplFileInfo
+     */
+    protected $agreement;
 
     /**
      * @ORM\ManyToOne(
@@ -83,6 +101,54 @@ class EventTranslation
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAgreementKey()
+    {
+        return $this->agreementKey;
+    }
+
+    /**
+     * @param mixed $agreementKey
+     */
+    public function setAgreementKey($agreementKey)
+    {
+        $this->agreementKey = $agreementKey;
+    }
+
+    /**
+     * @return \FSi\DoctrineExtensions\Uploadable\File|\SplFileInfo
+     */
+    public function getAgreement()
+    {
+        return $this->agreement;
+    }
+
+    /**
+     * @param \FSi\DoctrineExtensions\Uploadable\File|\SplFileInfo $agreement
+     */
+    public function setAgreement($agreement)
+    {
+        $this->agreement = $agreement;
     }
 
     /**

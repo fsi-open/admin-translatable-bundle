@@ -5,6 +5,7 @@ namespace FSi\FixturesBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
+use FSi\Bundle\DoctrineExtensionsBundle\Validator\Constraints as UploadableAssert;
 
 /**
  * @ORM\Entity(repositoryClass="\FSi\DoctrineExtensions\Translatable\Entity\Repository\TranslatableRepository")
@@ -30,6 +31,19 @@ class Event
      * @var string
      */
     private $name;
+
+    /**
+     * @Translatable\Translatable(mappedBy="translations")
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @Translatable\Translatable(mappedBy="translations")
+     * @UploadableAssert\File()
+     * @var \FSi\DoctrineExtensions\Uploadable\File|\SplFileInfo
+     */
+    protected $agreement;
 
     /**
      * @ORM\OneToMany(targetEntity="\FSi\FixturesBundle\Entity\Comment", mappedBy="events", cascade="all", orphanRemoval=true)
@@ -76,6 +90,32 @@ class Event
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getAgreement()
+    {
+        return $this->agreement;
+    }
+
+    public function setAgreement($agreement)
+    {
+        $this->agreement = $agreement;
     }
 
     /**
