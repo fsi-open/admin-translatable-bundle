@@ -186,6 +186,64 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     }
 
     /**
+     * @Given /^I should see form "([^"]*)" field with empty value$/
+     */
+    public function iShouldSeeFormFieldWithEmptyValue($field)
+    {
+        expect($this->getElement('Form')->findField($field)->getValue())->toBe('');
+    }
+
+    /**
+     * @Given /^I should see form "([^"]*)" file field with empty value$/
+     */
+    public function iShouldSeeFormFileFieldWithEmptyValue($field)
+    {
+        expect($this->getElement('Form')->findField($field)->getParent()->find('css', 'a'))->toBe(null);
+    }
+
+    /**
+     * @Given /^form "([^"]*)" field should have translatable flag$/
+     */
+    public function FormFieldShouldHaveTranslatableFlag($field)
+    {
+        $field = $this->getElement('Form')->findField($field);
+        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        expect($fieldLabel->has('css', 'i.glyphicon-flag'))->toBe(true);
+    }
+
+    /**
+     * @Given /^form "([^"]*)" field should have badge with "([^"]*)" default locale$/
+     */
+    public function formFieldShouldHaveBadgeWithDefaultLocale($field, $defaultLocale)
+    {
+        $field = $this->getElement('Form')->findField($field);
+        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        expect($fieldLabel->has('css', sprintf('.badge:contains("%s")', $defaultLocale)))->toBe(true);
+    }
+
+    /**
+     * @Given /^form "([^"]*)" field should not have badge with default locale$/
+     */
+    public function formFieldShouldNotHaveBadgeWithDefaultLocale($field)
+    {
+        $field = $this->getElement('Form')->findField($field);
+        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        expect($fieldLabel->has('css', '.badge'))->toBe(false);
+    }
+
+    /**
+     * @When /^I click default locale badge for "([^"]*)" field$/
+     */
+    public function iClickDefaultLocaleBadgeForField($field)
+    {
+        usleep(500);
+        $field = $this->getElement('Form')->findField($field);
+        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        $fieldLabel->find('css', '.badge')->click();
+        usleep(500);
+    }
+
+    /**
      * @Given /^I change first comment\'s text to "([^"]*)"$/
      */
     public function iChangeFirstCommentsTextTo($commentText)

@@ -38,4 +38,20 @@ class PopoverContext extends PageObjectContext
 
         $popover->getForm()->submit();
     }
+
+    /**
+     * @Then /^I should see popover with content "([^"]*)"$/
+     */
+    public function iShouldSeePopoverWithContent($content)
+    {
+        expect($this->getElement('Popover')->getContents()->getText())->toBe($content);
+    }
+
+    /**
+     * @Then /^I should see popover with anchor to file$/
+     */
+    public function iShouldSeePopoverWithAnchorToFile()
+    {
+        expect($this->getElement('Popover')->getContents()->has('css', 'a'))->toBe(true);
+    }
 }

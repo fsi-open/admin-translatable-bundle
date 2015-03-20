@@ -130,6 +130,7 @@ class DataContext extends BehatContext implements KernelAwareInterface
         $event = new Event();
         $event->setLocale($locale);
         $event->setName($eventName);
+        $event->setAgreement(new \SplFileInfo(__DIR__ . '/../../features/fixtures/test_file.txt'));
 
         $manager = $this->getDoctrineManager();
         $manager->persist($event);
