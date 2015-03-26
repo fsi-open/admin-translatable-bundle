@@ -40,6 +40,7 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
     {
         $container->prependExtensionConfig('fsi_admin', array(
             'templates' => array(
+                'datagrid_theme' => '@FSiAdminTranslatable/DataGrid/translatable_datagrid.html.twig',
                 'form_theme' => '@FSiAdminTranslatable/Form/translatable_form.html.twig'
             )
         ));

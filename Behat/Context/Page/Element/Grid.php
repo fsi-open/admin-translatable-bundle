@@ -17,12 +17,12 @@ class Grid extends Element
 
     public function clickEdit()
     {
-        $this->find('css', 'tbody tr td:nth-of-type(3)')->clickLink('Edit');
+        $this->find('css', 'tbody tr td:nth-of-type(4)')->clickLink('Edit');
     }
 
     public function clickDisplay()
     {
-        $this->find('css', 'tbody tr td:nth-of-type(3)')->clickLink('preview');
+        $this->find('css', 'tbody tr td:nth-of-type(4)')->clickLink('preview');
     }
 
     public function getRowsCount()

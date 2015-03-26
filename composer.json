@@ -19,7 +19,7 @@
     "require-dev": {
         "symfony/class-loader": "~2.3",
         "ext-pdo_sqlite": "*",
-        "doctrine/doctrine-bundle": "dev-master",
+        "doctrine/doctrine-bundle": "~1.4",
         "phpspec/phpspec": "~2.0",
         "behat/behat": "~2.5.4",
         "behat/symfony2-extension": "~1.1.2",

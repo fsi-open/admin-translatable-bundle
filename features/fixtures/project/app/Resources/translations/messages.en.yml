@@ -6,6 +6,7 @@ admin:
     type_name: Events
     grid:
       name: Name
+      agreement: Agreement
     form:
       name: Name
   news:
