@@ -9,6 +9,9 @@ use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Intl\Intl;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Router;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class TranslationLocaleMenuListener
@@ -17,6 +20,11 @@ class TranslationLocaleMenuListener
      * @var TranslatorInterface
      */
     private $translator;
+
+    /**
+     * @var Router
+     */
+    private $router;
 
     /**
      * @var LocaleManager
@@ -28,9 +36,14 @@ class TranslationLocaleMenuListener
      */
     private $request;
 
-    public function __construct(TranslatorInterface $translator, LocaleManager $localeManager, RequestStack $requestStack)
-    {
+    public function __construct(
+        TranslatorInterface $translator,
+        Router $router,
+        LocaleManager $localeManager,
+        RequestStack $requestStack
+    ) {
         $this->translator = $translator;
+        $this->router = $router;
         $this->localeManager = $localeManager;
         $this->request = $requestStack->getCurrentRequest();
     }
@@ -55,10 +68,6 @@ class TranslationLocaleMenuListener
     private function getRequestParameters()
     {
         $query = $this->request->query->all();
-
-        if (isset($query['redirect_uri'])) {
-            unset($query['redirect_uri']);
-        }
 
         return array_merge(
             $this->request->get('_route_params'),
@@ -97,8 +106,18 @@ class TranslationLocaleMenuListener
 
         $languageBundle = Intl::getLanguageBundle();
 
+        if (isset($requestParameters['redirect_uri'])) {
+            $redirectRequest = $this->createRedirectRequest($requestParameters['redirect_uri']);
+        }
+
         foreach ($this->localeManager->getLocales() as $locale) {
             $requestParameters['locale'] = $locale;
+
+            if (isset($redirectRequest)) {
+                try {
+                    $requestParameters['redirect_uri'] = $this->generateRequestUriForLocale($redirectRequest, $locale);
+                } catch (ResourceNotFoundException $e) { }
+            }
 
             $localeItem = new RoutableItem(sprintf('translation-locale.%s', $locale), $route, $requestParameters);
             $localeItem->setLabel(
@@ -107,5 +126,51 @@ class TranslationLocaleMenuListener
 
             $menu->addChild($localeItem);
         }
+    }
+
+    /**
+     * @param string $redirectUri
+     * @return Request
+     */
+    private function createRedirectRequest($redirectUri)
+    {
+        $redirectUrlParts = parse_url($redirectUri);
+        if (($redirectUrlParts === false) || (isset($redirectUrlParts['host']))) {
+            return null;
+        }
+
+        $redirectServer = array(
+            'SCRIPT_FILENAME' => $this->request->server->get('SCRIPT_FILENAME'),
+            'PHP_SELF' => $this->request->server->get('PHP_SELF'),
+            'REQUEST_URI' => $redirectUrlParts['path'],
+        );
+        if (isset($redirectUrlParts['query'])) {
+            $redirectServer['QUERY_STRING'] = $redirectUrlParts['query'];
+        }
+
+        return new Request(array(), array(), array(), array(), array(), $redirectServer);
+    }
+
+    /**
+     * @param Request $redirectRequest
+     * @param string $locale
+     * @return string
+     */
+    private function generateRequestUriForLocale(Request $redirectRequest, $locale)
+    {
+        $parameters = $this->router->matchRequest($redirectRequest);
+        if (isset($parameters['locale'])) {
+            $parameters['locale'] = $locale;
+        }
+        $route = $parameters['_route'];
+        unset($parameters['_route']);
+        unset($parameters['_controller']);
+
+        $requestUri = $this->router->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
+        if ($redirectRequest->getQueryString()) {
+            $requestUri .= '?' . $redirectRequest->getQueryString();
+        }
+
+        return $requestUri;
     }
 }
