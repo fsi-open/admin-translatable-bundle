@@ -11,7 +11,6 @@ use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class TranslatableSpec extends ObjectBehavior
 {
@@ -19,7 +18,6 @@ class TranslatableSpec extends ObjectBehavior
         ManagerRegistry $managerRegistry,
         TranslatableListener $translatableListener,
         ObjectManager $manager,
-        TranslatableListener $translatableListener,
         ClassMetadata $translatableMetadata
     ) {
         $managerRegistry->getManagerForClass(Argument::type('string'))->willReturn($manager);
