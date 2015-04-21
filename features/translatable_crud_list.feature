@@ -48,7 +48,7 @@ Feature: List of translatable items
   Scenario: Inline edit name on events list
     Given I am on the "Events list" page
     And I choose "Polish" from translatable locale list
-    And I click "Name pl 3" in "Name" column in third row
+    And I click edit in "Name" column in third row
     And I should see popover with value "Name pl 3" in field "Name"
     And I fill in field "Name" with value "Name pl 3 changed" at popover
     And I submit popover form

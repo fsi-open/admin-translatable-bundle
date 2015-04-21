@@ -8,14 +8,15 @@ use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
 class ListContext extends PageObjectContext
 {
     /**
-     * @Given /^I click "([^"]*)" in "([^"]*)" column in third row$/
+     * @Given /^I click edit in "([^"]*)" column in third row$/
      */
-    public function iClickInColumnInThirdRow($linkName, $columnName)
+    public function iClickEditInColumnInThirdRow($columnName)
     {
         /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Grid $grid */
         $grid = $this->getElement('Grid');
         $cell = $grid->getCell(3, $grid->getColumnPosition($columnName));
-        $cell->findLink($linkName)->click();
+        $grid->getSession()->getDriver()->click($cell->getXpath());
+        $cell->find('css', 'a')->click();
     }
 
     /**

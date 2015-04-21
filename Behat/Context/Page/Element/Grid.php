@@ -22,7 +22,7 @@ class Grid extends Element
 
     public function clickDisplay()
     {
-        $this->find('css', 'tbody tr td:nth-of-type(4)')->clickLink('preview');
+        $this->find('css', 'tbody tr td:nth-of-type(4)')->clickLink('Display');
     }
 
     public function getRowsCount()

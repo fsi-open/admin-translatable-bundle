@@ -135,6 +135,7 @@ class DataContext extends BehatContext implements KernelAwareInterface
         $manager = $this->getDoctrineManager();
         $manager->persist($event);
         $manager->flush();
+        $manager->clear();
     }
 
     /**
