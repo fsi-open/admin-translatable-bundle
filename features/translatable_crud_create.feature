@@ -28,4 +28,4 @@ Feature: Creating new translatable item
     When I choose "English" from translatable locale list
     Then I should see following list
       | Name     |
-      | Edit     |
+      |          |

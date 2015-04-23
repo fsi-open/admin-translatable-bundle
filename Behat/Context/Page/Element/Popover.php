@@ -12,4 +12,9 @@ class Popover extends Element
     {
         return $this->find('css', 'form');
     }
+
+    public function getContents()
+    {
+        return $this->find('css', '.popover-content');
+    }
 }

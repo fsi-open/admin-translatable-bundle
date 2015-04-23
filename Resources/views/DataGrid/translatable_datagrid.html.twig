@@ -1,0 +1,6 @@
+{% extends '@FSiAdmin/CRUD/datagrid_fsi_doctrine_extensions.html.twig' %}
+
+{%- block datagrid_value_class -%}
+    {{ parent() }}
+    {% if cell.getAttribute('not_translated') %} text-muted{% endif %}
+{%- endblock datagrid_value_class -%}

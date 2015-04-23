@@ -66,6 +66,10 @@ class KnpMenuTranslatableElementVoter implements VoterInterface
         foreach ($routes as $testedRoute) {
             $routeParameters = $testedRoute['parameters'];
 
+            if (!isset($routeParameters['locale'])) {
+                continue;
+            }
+
             return $routeParameters['locale'] === $currentLocale;
         }
 

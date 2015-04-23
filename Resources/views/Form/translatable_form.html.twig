@@ -11,4 +11,5 @@
 {%- block form_label_class -%}
     {{ parent() }}
     {%- if translatable %} translatable{% endif -%}
+    {%- if not_translated %} not_translated{% endif -%}
 {%- endblock form_label_class -%}

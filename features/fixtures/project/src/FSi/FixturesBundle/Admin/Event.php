@@ -50,6 +50,10 @@ class Event extends TranslatableCRUDElement
             'editable' => true,
         ));
 
+        $datagrid->addColumn('agreement', 'fsi_file', array(
+            'label' => 'admin.events.grid.agreement'
+        ));
+
         $datagrid->addColumn('actions', 'action', array(
             'label' => 'admin.grid.actions',
             'field_mapping' => array('id'),
@@ -59,7 +63,7 @@ class Event extends TranslatableCRUDElement
                     'additional_parameters' => array('element' => $this->getId()),
                     'parameters_field_mapping' => array('id' => 'id')
                 ),
-                'preview' => array(
+                'display' => array(
                     'route_name' => 'fsi_admin_translatable_display',
                     'additional_parameters' => array('element' => 'admin_event_preview'),
                     'parameters_field_mapping' => array('id' => 'id')
@@ -96,6 +100,14 @@ class Event extends TranslatableCRUDElement
         ));
 
         $form->add('name', 'text', array('label' => 'admin.events.form.name'));
+
+        $form->add('agreement', 'fsi_removable_file', array(
+            'required' => false
+        ));
+
+        $form->add('description', 'ckeditor', array(
+            'required' => false
+        ));
 
         $form->add('comments', 'collection', array(
             'type' => new CommentType(),
