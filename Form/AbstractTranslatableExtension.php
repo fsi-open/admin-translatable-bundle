@@ -77,12 +77,12 @@ abstract class AbstractTranslatableExtension extends AbstractTypeExtension
 
         $view->vars['translatable'] = true;
         if (!$this->hasCurrentValue($view, $form, $options) ||
-            ($this->getFormDataLocale($parent) === $this->translatableListener->getLocale())) {
+            ($this->getFormNormDataLocale($parent) === $this->translatableListener->getLocale())) {
             return;
         }
 
         $view->vars['not_translated'] = true;
-        $view->vars['label_attr']['data-default-locale'] = $this->getFormDataLocale($parent);
+        $view->vars['label_attr']['data-default-locale'] = $this->getFormNormDataLocale($parent);
         $this->moveCurrentValueToDefaultLocaleValue($view, $form, $options);
     }
 
@@ -198,10 +198,10 @@ abstract class AbstractTranslatableExtension extends AbstractTypeExtension
      * @param FormInterface $form
      * @return mixed
      */
-    private function getFormDataLocale(FormInterface $form)
+    private function getFormNormDataLocale(FormInterface $form)
     {
         return $this->propertyAccessor->getValue(
-            $form->getData(),
+            $form->getNormData(),
             $this->getFormTranslatableMetadata($form)->localeProperty
         );
     }

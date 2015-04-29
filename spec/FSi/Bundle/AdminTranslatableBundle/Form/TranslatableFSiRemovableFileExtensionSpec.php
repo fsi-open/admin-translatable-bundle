@@ -195,7 +195,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
         $view->vars['value'] = $data;
         $fileView->vars['value'] = $uploadableFile->getWrappedObject();
         $fileView->vars['data'] = $uploadableFile->getWrappedObject();
-        $grandParentForm->getData()->willReturn($data);
+        $grandParentForm->getNormData()->willReturn($data);
         $propertyAccessor->getValue($data, 'locale')->willReturn('en');
         $translatableListener->getLocale()->willReturn('de');
 

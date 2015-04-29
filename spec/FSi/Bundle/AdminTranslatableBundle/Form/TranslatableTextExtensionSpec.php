@@ -178,7 +178,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
 
         $data = new \stdClass();
         $view->vars['value'] = 'default-locale-value';
-        $grandParentForm->getData()->willReturn($data);
+        $grandParentForm->getNormData()->willReturn($data);
         $propertyAccessor->getValue($data, 'locale')->willReturn('en');
         $translatableListener->getLocale()->willReturn('de');
 
