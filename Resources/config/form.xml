@@ -8,6 +8,9 @@
         <parameter key="admin_translatable.locale_listener.class">FSi\Bundle\AdminTranslatableBundle\EventListener\LocaleListener</parameter>
         <parameter key="admin_translatable.form_extension.locale.class">FSi\Bundle\AdminTranslatableBundle\Form\LocaleExtension</parameter>
         <parameter key="admin_translatable.form_extension.translatable_text.class">FSi\Bundle\AdminTranslatableBundle\Form\TranslatableTextExtension</parameter>
+        <parameter key="admin_translatable.form_extension.translatable_collection.class">FSi\Bundle\AdminTranslatableBundle\Form\TranslatableCollectionExtension</parameter>
+        <parameter key="admin_translatable.form_listener.translatable_collection.class">FSi\Bundle\AdminTranslatableBundle\Form\TranslatableCollectionListener</parameter>
+        <parameter key="admin_translatable.form_helper.class">FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper</parameter>
         <parameter key="admin_translatable.form_extension.translatable_file.class">FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFSiRemovableFileExtension</parameter>
         <parameter key="admin_translatable.form_extension.translatable_resource.class">FSi\Bundle\AdminTranslatableBundle\Repository\Form\ResourceTypeExtension</parameter>
     </parameters>
@@ -26,16 +29,28 @@
         </service>
 
         <service id="admin_translatable.form_extension.translatable_text" class="%admin_translatable.form_extension.translatable_text.class%">
-            <argument type="service" id="doctrine" />
-            <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
-            <argument type="service" id="property_accessor" />
+            <argument type="service" id="admin_translatable.form_helper" />
             <tag name="form.type_extension" alias="text" />
         </service>
 
+        <service id="admin_translatable.form_extension.translatable_collection" class="%admin_translatable.form_extension.translatable_collection.class%">
+            <argument type="service" id="admin_translatable.form_helper" />
+            <argument type="service" id="admin_translatable.form_listener.translatable_collection" />
+            <tag name="form.type_extension" alias="collection"/>
+        </service>
+
+        <service id="admin_translatable.form_listener.translatable_collection" class="%admin_translatable.form_listener.translatable_collection.class%">
+            <argument type="service" id="admin_translatable.form_helper"/>
+        </service>
+
+        <service id="admin_translatable.form_helper" class="%admin_translatable.form_helper.class%">
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="fsi_doctrine_extensions.listener.translatable"/>
+            <argument type="service" id="property_accessor"/>
+        </service>
+
         <service id="admin_translatable.form_extension.translatable_file" class="%admin_translatable.form_extension.translatable_file.class%">
-            <argument type="service" id="doctrine" />
-            <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
-            <argument type="service" id="property_accessor" />
+            <argument type="service" id="admin_translatable.form_helper" />
             <argument type="service" id="fsi_doctrine_extensions.resolver.fsi.file_path" />
             <tag name="form.type_extension" alias="fsi_removable_file" />
         </service>

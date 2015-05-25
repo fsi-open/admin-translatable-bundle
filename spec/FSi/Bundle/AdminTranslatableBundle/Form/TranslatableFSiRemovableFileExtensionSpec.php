@@ -4,6 +4,7 @@ namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
+use FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper;
 use FSi\Bundle\DoctrineExtensionsBundle\Resolver\FSiFilePathResolver;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
@@ -18,13 +19,9 @@ use Symfony\Component\PropertyAccess\PropertyPath;
 
 class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
 {
-    function let(
-        ManagerRegistry $managerRegistry,
-        TranslatableListener $translatableListener,
-        PropertyAccessor $propertyAccessor,
-        FSiFilePathResolver $filePathResolver
-    ) {
-        $this->beConstructedWith($managerRegistry, $translatableListener, $propertyAccessor, $filePathResolver);
+    function let(TranslatableFormHelper $translatableFormHelper, FSiFilePathResolver $filePathResolver)
+    {
+        $this->beConstructedWith($translatableFormHelper, $filePathResolver);
     }
 
     function it_is_form_type_extension()
@@ -66,36 +63,13 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
     }
 
     function it_does_nothing_if_forms_property_is_not_translatable_in_first_translatable_parent(
-        ManagerRegistry $managerRegistry,
-        ObjectManager $manager,
-        TranslatableListener $translatableListener,
-        ClassMetadata $translatableMetadata,
-        PropertyPath $propertyPath,
         FormView $view,
         FormInterface $form,
-        FormConfigInterface $formConfig,
         FormInterface $parentForm,
-        FormConfigInterface $parentFormConfig,
-        FormInterface $grandParentForm,
-        FormConfigInterface $grandParentFormConfig
+        TranslatableFormHelper $translatableFormHelper
     ) {
-        $propertyPath->__toString()->willReturn('translatable_property');
-        $form->getPropertyPath()->willReturn($propertyPath);
-        $form->getConfig()->willReturn($formConfig);
-
-        $form->getParent()->willReturn($parentForm);
-        $parentForm->getConfig()->willReturn($parentFormConfig);
-        $parentFormConfig->getInheritData()->willReturn(true);
-
-        $parentForm->getParent()->willReturn($grandParentForm);
-        $grandParentForm->getConfig()->willReturn($grandParentFormConfig);
-        $grandParentFormConfig->getInheritData()->willReturn(false);
-        $grandParentFormConfig->getDataClass()->willReturn('translatable_class');
-
-        $managerRegistry->getManagerForClass('translatable_class')->willReturn($manager);
-        $translatableListener->getExtendedMetadata($manager, 'translatable_class')->willReturn($translatableMetadata);
-        $translatableMetadata->hasTranslatableProperties()->willReturn(true);
-        $translatableMetadata->getTranslatableProperties()->willReturn(array());
+        $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
+        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(false);
 
         $this->finishView($view, $form, array());
 
@@ -104,42 +78,19 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
     }
 
     function it_sets_translatable_attribute_when_property_is_translatable(
-        ManagerRegistry $managerRegistry,
-        ObjectManager $manager,
-        TranslatableListener $translatableListener,
-        ClassMetadata $translatableMetadata,
-        PropertyPath $propertyPath,
         FormInterface $form,
-        FormConfigInterface $formConfig,
         FormInterface $parentForm,
-        FormConfigInterface $parentFormConfig,
-        FormInterface $grandParentForm,
-        FormConfigInterface $grandParentFormConfig
+        TranslatableFormHelper $translatableFormHelper
     ) {
         $view = new FormView();
         $fileView = new FormView($view);
         $view->children['translatable_property'] = $fileView;
 
-        $propertyPath->__toString()->willReturn('translatable_property');
-        $form->getPropertyPath()->willReturn($propertyPath);
-        $form->getConfig()->willReturn($formConfig);
+        $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
+        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(true);
+        $translatableFormHelper->isFormDataInCurrentLocale($parentForm)->willReturn(false);
+
         $form->getName()->willReturn('translatable_property');
-
-        $form->getParent()->willReturn($parentForm);
-        $parentForm->getConfig()->willReturn($parentFormConfig);
-        $parentFormConfig->getInheritData()->willReturn(true);
-
-        $parentForm->getParent()->willReturn($grandParentForm);
-        $grandParentForm->getConfig()->willReturn($grandParentFormConfig);
-        $grandParentFormConfig->getInheritData()->willReturn(false);
-        $grandParentFormConfig->getDataClass()->willReturn('translatable_class');
-
-        $managerRegistry->getManagerForClass('translatable_class')->willReturn($manager);
-        $translatableListener->getExtendedMetadata($manager, 'translatable_class')->willReturn($translatableMetadata);
-        $translatableMetadata->hasTranslatableProperties()->willReturn(true);
-        $translatableMetadata->getTranslatableProperties()->willReturn(
-            array('translations' => array('translatable_property' => 'translation_property'))
-        );
 
         $this->finishView($view, $form, array());
 
@@ -149,19 +100,10 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
 
     function it_sets_not_translated_attribute_when_property_no_translation(
         FSiFilePathResolver $filePathResolver,
-        ManagerRegistry $managerRegistry,
-        ObjectManager $manager,
-        TranslatableListener $translatableListener,
-        ClassMetadata $translatableMetadata,
         File $uploadableFile,
-        PropertyPath $propertyPath,
-        PropertyAccessor $propertyAccessor,
         FormInterface $form,
-        FormConfigInterface $formConfig,
         FormInterface $parentForm,
-        FormConfigInterface $parentFormConfig,
-        FormInterface $grandParentForm,
-        FormConfigInterface $grandParentFormConfig
+        TranslatableFormHelper $translatableFormHelper
     ) {
         $view = new FormView();
         $fileView = new FormView($view);
@@ -169,35 +111,17 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
         $view->children['translatable_property'] = $fileView;
         $view->children['remove'] = $removeView;
 
-        $propertyPath->__toString()->willReturn('translatable_property');
-        $form->getPropertyPath()->willReturn($propertyPath);
-        $form->getConfig()->willReturn($formConfig);
+        $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
+        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(true);
+        $translatableFormHelper->isFormDataInCurrentLocale($parentForm)->willReturn(false);
+        $translatableFormHelper->getFormNormDataLocale($parentForm)->willReturn('en');
+
         $form->getName()->willReturn('translatable_property');
-
-        $form->getParent()->willReturn($parentForm);
-        $parentForm->getConfig()->willReturn($parentFormConfig);
-        $parentFormConfig->getInheritData()->willReturn(true);
-
-        $parentForm->getParent()->willReturn($grandParentForm);
-        $grandParentForm->getConfig()->willReturn($grandParentFormConfig);
-        $grandParentFormConfig->getInheritData()->willReturn(false);
-        $grandParentFormConfig->getDataClass()->willReturn('translatable_class');
-
-        $managerRegistry->getManagerForClass('translatable_class')->willReturn($manager);
-        $translatableListener->getExtendedMetadata($manager, 'translatable_class')->willReturn($translatableMetadata);
-        $translatableMetadata->hasTranslatableProperties()->willReturn(true);
-        $translatableMetadata->localeProperty = 'locale';
-        $translatableMetadata->getTranslatableProperties()->willReturn(
-            array('translations' => array('translatable_property' => 'translation_property'))
-        );
 
         $data = new \stdClass();
         $view->vars['value'] = $data;
         $fileView->vars['value'] = $uploadableFile->getWrappedObject();
         $fileView->vars['data'] = $uploadableFile->getWrappedObject();
-        $grandParentForm->getNormData()->willReturn($data);
-        $propertyAccessor->getValue($data, 'locale')->willReturn('en');
-        $translatableListener->getLocale()->willReturn('de');
 
         $filePathResolver->fileBasename($uploadableFile->getWrappedObject())->willReturn('default-locale-filename');
         $filePathResolver->fileUrl($uploadableFile->getWrappedObject())->willReturn('default-locale-url');

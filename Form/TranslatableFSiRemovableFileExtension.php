@@ -21,18 +21,14 @@ class TranslatableFSiRemovableFileExtension extends AbstractTranslatableExtensio
     private $filePathResolver;
 
     /**
-     * @param ManagerRegistry $managerRegistry
-     * @param TranslatableListener $translatableListener
-     * @param PropertyAccessorInterface $propertyAccessor
+     * @param TranslatableFormHelper $translatableFormHelper
      * @param FSiFilePathResolver $filePathResolver
      */
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        TranslatableListener $translatableListener,
-        PropertyAccessorInterface $propertyAccessor,
+        TranslatableFormHelper $translatableFormHelper,
         FSiFilePathResolver $filePathResolver
     ) {
-        parent::__construct($managerRegistry, $translatableListener, $propertyAccessor);
+        parent::__construct($translatableFormHelper);
         $this->filePathResolver = $filePathResolver;
     }
 

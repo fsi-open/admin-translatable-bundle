@@ -4,6 +4,7 @@ namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
+use FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
@@ -16,12 +17,9 @@ use Symfony\Component\PropertyAccess\PropertyPath;
 
 class TranslatableTextExtensionSpec extends ObjectBehavior
 {
-    function let(
-        ManagerRegistry $managerRegistry,
-        TranslatableListener $translatableListener,
-        PropertyAccessor $propertyAccessor
-    ) {
-        $this->beConstructedWith($managerRegistry, $translatableListener, $propertyAccessor);
+    function let(TranslatableFormHelper $translatableFormHelper)
+    {
+        $this->beConstructedWith($translatableFormHelper);
     }
 
     function it_is_form_type_extension()
@@ -101,38 +99,13 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
     }
 
     function it_sets_translatable_attribute_when_property_is_translatable(
-        ManagerRegistry $managerRegistry,
-        ObjectManager $manager,
-        TranslatableListener $translatableListener,
-        ClassMetadata $translatableMetadata,
-        PropertyPath $propertyPath,
         FormView $view,
         FormInterface $form,
-        FormConfigInterface $formConfig,
         FormInterface $parentForm,
-        FormConfigInterface $parentFormConfig,
-        FormInterface $grandParentForm,
-        FormConfigInterface $grandParentFormConfig
+        TranslatableFormHelper $translatableFormHelper
     ) {
-        $propertyPath->__toString()->willReturn('translatable_property');
-        $form->getPropertyPath()->willReturn($propertyPath);
-        $form->getConfig()->willReturn($formConfig);
-
-        $form->getParent()->willReturn($parentForm);
-        $parentForm->getConfig()->willReturn($parentFormConfig);
-        $parentFormConfig->getInheritData()->willReturn(true);
-
-        $parentForm->getParent()->willReturn($grandParentForm);
-        $grandParentForm->getConfig()->willReturn($grandParentFormConfig);
-        $grandParentFormConfig->getInheritData()->willReturn(false);
-        $grandParentFormConfig->getDataClass()->willReturn('translatable_class');
-
-        $managerRegistry->getManagerForClass('translatable_class')->willReturn($manager);
-        $translatableListener->getExtendedMetadata($manager, 'translatable_class')->willReturn($translatableMetadata);
-        $translatableMetadata->hasTranslatableProperties()->willReturn(true);
-        $translatableMetadata->getTranslatableProperties()->willReturn(
-            array('translations' => array('translatable_property' => 'translation_property'))
-        );
+        $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
+        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(true);
 
         $this->finishView($view, $form, array());
 
@@ -141,46 +114,17 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
     }
 
     function it_sets_not_translated_attribute_when_property_no_translation(
-        ManagerRegistry $managerRegistry,
-        ObjectManager $manager,
-        TranslatableListener $translatableListener,
-        ClassMetadata $translatableMetadata,
-        PropertyPath $propertyPath,
-        PropertyAccessor $propertyAccessor,
         FormInterface $form,
-        FormConfigInterface $formConfig,
         FormInterface $parentForm,
-        FormConfigInterface $parentFormConfig,
-        FormInterface $grandParentForm,
-        FormConfigInterface $grandParentFormConfig
+        TranslatableFormHelper $translatableFormHelper
     ) {
+        $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
+        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(true);
+        $translatableFormHelper->isFormDataInCurrentLocale($parentForm)->willReturn(false);
+        $translatableFormHelper->getFormNormDataLocale($parentForm)->willReturn('en');
+
         $view = new FormView();
-        $propertyPath->__toString()->willReturn('translatable_property');
-        $form->getPropertyPath()->willReturn($propertyPath);
-        $form->getConfig()->willReturn($formConfig);
-
-        $form->getParent()->willReturn($parentForm);
-        $parentForm->getConfig()->willReturn($parentFormConfig);
-        $parentFormConfig->getInheritData()->willReturn(true);
-
-        $parentForm->getParent()->willReturn($grandParentForm);
-        $grandParentForm->getConfig()->willReturn($grandParentFormConfig);
-        $grandParentFormConfig->getInheritData()->willReturn(false);
-        $grandParentFormConfig->getDataClass()->willReturn('translatable_class');
-
-        $managerRegistry->getManagerForClass('translatable_class')->willReturn($manager);
-        $translatableListener->getExtendedMetadata($manager, 'translatable_class')->willReturn($translatableMetadata);
-        $translatableMetadata->hasTranslatableProperties()->willReturn(true);
-        $translatableMetadata->localeProperty = 'locale';
-        $translatableMetadata->getTranslatableProperties()->willReturn(
-            array('translations' => array('translatable_property' => 'translation_property'))
-        );
-
-        $data = new \stdClass();
         $view->vars['value'] = 'default-locale-value';
-        $grandParentForm->getNormData()->willReturn($data);
-        $propertyAccessor->getValue($data, 'locale')->willReturn('en');
-        $translatableListener->getLocale()->willReturn('de');
 
         $this->finishView($view, $form, array());
 
