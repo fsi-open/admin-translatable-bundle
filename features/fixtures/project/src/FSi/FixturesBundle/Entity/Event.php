@@ -52,6 +52,12 @@ class Event
     private $comments;
 
     /**
+     * @Translatable\Translatable(mappedBy="translations")
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $files;
+
+    /**
      * @ORM\OneToMany(
      *          targetEntity="\FSi\FixturesBundle\Entity\EventTranslation",
      *          mappedBy="event",
@@ -188,5 +194,27 @@ class Event
         } else {
             return null;
         }
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    public function addFile(File $file)
+    {
+        if ($this->files->contains($file)) {
+            $this->files->add($file);
+            $file->setEventTranslation($this);
+        }
+    }
+
+    public function removeFile(File $file)
+    {
+        $this->files->removeElement($file);
+        $file->setEventTranslation(null);
     }
 }
