@@ -25,8 +25,8 @@ Feature: Edit translatable item
     Then I should see form "Name" field with empty value
     And I should see form "Agreement" file field with empty value
     And I should see form "Description" field with empty value
-    And I should see form "Comments" field with 1 value
-    And I should see form "Files" field with empty value
+    And I should see form "Comments" collection with 1 value
+    And I should see form "Files" collection with empty value
     And form "Name" field should have translatable flag
     And form "Agreement" field should have translatable flag
     And form "Description" field should have translatable flag

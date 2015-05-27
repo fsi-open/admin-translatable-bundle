@@ -202,6 +202,28 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
     }
 
     /**
+     * @Given /^I should see form "([^"]*)" collection with (\d+) value$/
+     */
+    public function iShouldSeeFormCollectionWithValue($field, $count)
+    {
+        $label = $this->getElement('Form')->findLabel($field);
+        expect($label)->toNotBe(null);
+
+        expect(count($label->getParent()->findAll('css', 'div[data-prototype] > div.form-group')))->toBe((int)$count);
+    }
+
+    /**
+     * @Given /^I should see form "([^"]*)" collection with empty value$/
+     */
+    public function iShouldSeeFormCollectionWithEmptyValue($field)
+    {
+        $label = $this->getElement('Form')->findLabel($field);
+        expect($label)->toNotBe(null);
+
+        expect(count($label->getParent()->findAll('css', 'div[data-prototype] > div.form-group')))->toBe(0);
+    }
+
+    /**
      * @Given /^form "([^"]*)" field should have translatable flag$/
      */
     public function FormFieldShouldHaveTranslatableFlag($field)

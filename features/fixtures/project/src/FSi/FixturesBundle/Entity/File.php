@@ -3,6 +3,7 @@
 namespace FSi\FixturesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FSi\Bundle\DoctrineExtensionsBundle\Validator\Constraints as UploadableAssert;
 use FSi\DoctrineExtensions\Uploadable\Mapping\Annotation as Uploadable;
 
 /**
@@ -19,10 +20,17 @@ class File
     private $id;
 
     /**
-     * @ORM\Column(length=255, nullable=true)
-     * @Uploadable\Uploadable(targetField="agreement")
+     * @UploadableAssert\File()
+     * @var \FSi\DoctrineExtensions\Uploadable\File|\SplFileInfo
      */
     private $file;
+
+    /**
+     * @ORM\Column(length=255, nullable=true)
+     * @Uploadable\Uploadable(targetField="file")
+     * @var string
+     */
+    private $fileKey;
 
     /**
      * @var EventTranslation
@@ -40,7 +48,7 @@ class File
     }
 
     /**
-     * @return mixed
+     * @return \FSi\DoctrineExtensions\Uploadable\File|\SplFileInfo
      */
     public function getFile()
     {
@@ -48,11 +56,27 @@ class File
     }
 
     /**
-     * @param mixed $file
+     * @param \FSi\DoctrineExtensions\Uploadable\File|\SplFileInfo $file
      */
     public function setFile($file)
     {
         $this->file = $file;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileKey()
+    {
+        return $this->fileKey;
+    }
+
+    /**
+     * @param string $fileKey
+     */
+    public function setFileKey($fileKey)
+    {
+        $this->fileKey = $fileKey;
     }
 
     /**

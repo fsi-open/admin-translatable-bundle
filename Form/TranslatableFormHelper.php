@@ -80,8 +80,8 @@ class TranslatableFormHelper
     {
         $classMetadata = $this->getFormTranslatableMetadata($form);
 
-        if (empty($classMetadata)) {
-            return;
+        if (empty($classMetadata) || !$form->getNormData()) {
+            return null;
         }
 
         return $this->propertyAccessor->getValue(

@@ -9,6 +9,7 @@ use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use FSi\FixturesBundle\Entity\Comment;
 use FSi\FixturesBundle\Entity\Event;
+use FSi\FixturesBundle\Entity\File;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -173,6 +174,23 @@ class DataContext extends BehatContext implements KernelAwareInterface
             $manager->persist($event);
             $manager->flush();
         }
+    }
+
+    /**
+     * @Given /^I add new file to the news with name "([^"]*)" in "([^"]*)" locale$/
+     */
+    public function iAddNewFileToTheNewsWithNameInLocale($eventName, $locale)
+    {
+        $manager = $this->getDoctrineManager();
+        $eventTranslation = $manager->getRepository('FSi\FixturesBundle\Entity\EventTranslation')
+            ->findOneBy(array('name' => $eventName, 'locale' => $locale));
+
+        $file = new File();
+        $file->setFile(new \SplFileInfo(__DIR__ . '/../../features/fixtures/test_file.txt'));
+        $file->setEventTranslation($eventTranslation);
+
+        $manager->persist($file);
+        $manager->flush();
     }
 
     /**

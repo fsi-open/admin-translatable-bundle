@@ -85,6 +85,4 @@ class TranslatableFormHelperSpec extends ObjectBehavior
     {
         $this->isFormDataInCurrentLocale($grandParentForm)->shouldReturn(false);
     }
-
-
 }
