@@ -3,11 +3,13 @@
 namespace FSi\FixturesBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 use FSi\Bundle\DoctrineExtensionsBundle\Validator\Constraints as UploadableAssert;
 
 /**
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="\FSi\DoctrineExtensions\Translatable\Entity\Repository\TranslatableRepository")
  */
 class Event
@@ -71,8 +73,19 @@ class Event
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->files = new ArrayCollection();
         $this->translations = new ArrayCollection();
     }
+
+    /**
+     * @ORM\PostLoad()
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $eventArgs
+     */
+    public function postLoad(LifecycleEventArgs $eventArgs)
+    {
+        $this->files = new ArrayCollection();
+    }
+
 
     /**
      * @return int
@@ -206,15 +219,11 @@ class Event
 
     public function addFile(File $file)
     {
-        if ($this->files->contains($file)) {
-            $this->files->add($file);
-            $file->setEventTranslation($this);
-        }
+        $this->files->add($file);
     }
 
     public function removeFile(File $file)
     {
         $this->files->removeElement($file);
-        $file->setEventTranslation(null);
     }
 }

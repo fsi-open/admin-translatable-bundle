@@ -210,10 +210,8 @@ class EventTranslation
 
     public function addFile(File $file)
     {
-        if ($this->files->contains($file)) {
-            $this->files->add($file);
-            $file->setEventTranslation($this);
-        }
+        $this->files->add($file);
+        $file->setEventTranslation($this);
     }
 
     public function removeFile(File $file)
