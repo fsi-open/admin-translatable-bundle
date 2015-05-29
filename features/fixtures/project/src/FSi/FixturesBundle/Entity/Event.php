@@ -219,7 +219,9 @@ class Event
 
     public function addFile(File $file)
     {
-        $this->files->add($file);
+        if (!$this->files->contains($file)) {
+            $this->files->add($file);
+        }
     }
 
     public function removeFile(File $file)
