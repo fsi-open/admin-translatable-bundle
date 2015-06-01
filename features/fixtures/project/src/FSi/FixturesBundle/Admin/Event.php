@@ -6,6 +6,7 @@ use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableCRUDElement;
 use FSi\Component\DataGrid\DataGridFactoryInterface;
 use FSi\Component\DataSource\DataSourceFactoryInterface;
 use FSi\FixturesBundle\Form\CommentType;
+use FSi\FixturesBundle\Form\FilesType;
 use Symfony\Component\Form\FormFactoryInterface;
 use FSi\Bundle\AdminBundle\Annotation as Admin;
 
@@ -111,6 +112,13 @@ class Event extends TranslatableCRUDElement
 
         $form->add('comments', 'collection', array(
             'type' => new CommentType(),
+            'allow_add' => true,
+            'allow_delete' => true,
+            'by_reference' => false
+        ));
+
+        $form->add('files', 'collection', array(
+            'type' => new FilesType(),
             'allow_add' => true,
             'allow_delete' => true,
             'by_reference' => false

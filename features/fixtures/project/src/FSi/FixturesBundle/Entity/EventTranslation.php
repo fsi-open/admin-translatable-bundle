@@ -2,6 +2,7 @@
 
 namespace FSi\FixturesBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 use FSi\DoctrineExtensions\Uploadable\Mapping\Annotation as Uploadable;
@@ -50,6 +51,17 @@ class EventTranslation
     protected $agreement;
 
     /**
+     * @ORM\OneToMany(
+     *     targetEntity="\FSi\FixturesBundle\Entity\File",
+     *     mappedBy="eventTranslation",
+     *     cascade="all",
+     *     orphanRemoval=true
+     * )
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $files;
+
+    /**
      * @ORM\ManyToOne(
      *          targetEntity="\FSi\FixturesBundle\Entity\Event",
      *          inversedBy="translations"
@@ -62,6 +74,11 @@ class EventTranslation
      * @var \FSi\FixturesBundle\Entity\Event
      */
     private $event;
+
+    public function __construct()
+    {
+        $this->files = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -181,5 +198,27 @@ class EventTranslation
     public function setEvent($event)
     {
         $this->event = $event;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    public function addFile(File $file)
+    {
+        if (!$this->files->contains($file)) {
+            $this->files->add($file);
+            $file->setEventTranslation($this);
+        }
+    }
+
+    public function removeFile(File $file)
+    {
+        $this->files->removeElement($file);
+        $file->setEventTranslation(null);
     }
 }
