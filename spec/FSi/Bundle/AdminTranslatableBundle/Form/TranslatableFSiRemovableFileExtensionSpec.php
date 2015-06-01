@@ -69,7 +69,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
         TranslatableFormHelper $translatableFormHelper
     ) {
         $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
-        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(false);
+        $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(false);
 
         $this->finishView($view, $form, array());
 
@@ -87,7 +87,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
         $view->children['translatable_property'] = $fileView;
 
         $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
-        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(true);
+        $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(true);
         $translatableFormHelper->isFormDataInCurrentLocale($parentForm)->willReturn(false);
 
         $form->getName()->willReturn('translatable_property');
@@ -112,7 +112,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
         $view->children['remove'] = $removeView;
 
         $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
-        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(true);
+        $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(true);
         $translatableFormHelper->isFormDataInCurrentLocale($parentForm)->willReturn(false);
         $translatableFormHelper->getFormNormDataLocale($parentForm)->willReturn('en');
 

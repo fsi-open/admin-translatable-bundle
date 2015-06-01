@@ -140,9 +140,9 @@ class DataContext extends BehatContext implements KernelAwareInterface
     }
 
     /**
-     * @Given /^I add new comment with text "([^"]*)" to the news with name "([^"]*)" in "([^"]*)" locale$/
+     * @Given /^I add new comment with text "([^"]*)" to the event with name "([^"]*)" in "([^"]*)" locale$/
      */
-    public function iAddNewCommentWithTextToTheNewsWithNameInLocale($commentText, $eventName, $locale)
+    public function iAddNewCommentWithTextToTheEventWithNameInLocale($commentText, $eventName, $locale)
     {
         $manager = $this->getDoctrineManager();
         $event = $manager->getRepository('FSi\FixturesBundle\Entity\EventTranslation')
@@ -177,7 +177,7 @@ class DataContext extends BehatContext implements KernelAwareInterface
     }
 
     /**
-     * @Given /^I add new file to the news with name "([^"]*)" in "([^"]*)" locale$/
+     * @Given /^I add new file to the event with name "([^"]*)" in "([^"]*)" locale$/
      */
     public function iAddNewFileToTheNewsWithNameInLocale($eventName, $locale)
     {

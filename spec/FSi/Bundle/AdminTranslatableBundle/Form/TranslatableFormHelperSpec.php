@@ -65,7 +65,7 @@ class TranslatableFormHelperSpec extends ObjectBehavior
             array('translations' => array('translatable_property' => 'translation_property'))
         );
 
-        $this->isFormForTranslatableProperty($form)->shouldReturn(true);
+        $this->isFormPropertyPathTranslatable($form)->shouldReturn(true);
     }
 
     function it_return_false_if_form_is_not_for_translatable_property(
@@ -73,7 +73,7 @@ class TranslatableFormHelperSpec extends ObjectBehavior
         FormInterface $form
     ) {
         $translatableMetadata->getTranslatableProperties()->willReturn(array());
-        $this->isFormForTranslatableProperty($form)->shouldReturn(false);
+        $this->isFormPropertyPathTranslatable($form)->shouldReturn(false);
     }
 
     function it_gets_locale_from_form_normalized_data(FormInterface $grandParentForm)

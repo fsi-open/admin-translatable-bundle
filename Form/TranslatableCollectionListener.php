@@ -40,7 +40,7 @@ class TranslatableCollectionListener implements EventSubscriberInterface
         $form = $event->getForm();
         $parent = $this->translatableFormHelper->getFirstTranslatableParent($form);
 
-        if ($this->translatableFormHelper->isFormForTranslatableProperty($form)
+        if ($this->translatableFormHelper->isFormPropertyPathTranslatable($form)
             && !$this->translatableFormHelper->isFormDataInCurrentLocale($parent)) {
             $event->setData(null);
         }

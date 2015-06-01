@@ -36,7 +36,7 @@ class TranslatableCollectionListenerSpec extends ObjectBehavior
         FormInterface $form,
         FormInterface $parentForm
     ) {
-        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(false);
+        $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(false);
         $event->setData(Argument::any())->shouldNotBeCalled();
         $this->onPreSetData($event);
     }
@@ -47,7 +47,7 @@ class TranslatableCollectionListenerSpec extends ObjectBehavior
         FormInterface $form,
         FormInterface $parentForm
     ) {
-        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(true);
+        $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(true);
         $translatableFormHelper->isFormDataInCurrentLocale($parentForm)->willReturn(true);
         $event->setData(Argument::any())->shouldNotBeCalled();
         $this->onPreSetData($event);
@@ -59,7 +59,7 @@ class TranslatableCollectionListenerSpec extends ObjectBehavior
         FormInterface $form,
         FormInterface $parentForm
     ) {
-        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(true);
+        $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(true);
         $translatableFormHelper->isFormDataInCurrentLocale($parentForm)->willReturn(false);
         $event->setData(Argument::any())->shouldBeCalled();
         $this->onPreSetData($event);

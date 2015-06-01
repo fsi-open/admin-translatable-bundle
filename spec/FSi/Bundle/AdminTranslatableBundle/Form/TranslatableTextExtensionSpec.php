@@ -105,7 +105,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
         TranslatableFormHelper $translatableFormHelper
     ) {
         $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
-        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(true);
+        $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(true);
 
         $this->finishView($view, $form, array());
 
@@ -119,7 +119,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
         TranslatableFormHelper $translatableFormHelper
     ) {
         $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
-        $translatableFormHelper->isFormForTranslatableProperty($form)->willReturn(true);
+        $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(true);
         $translatableFormHelper->isFormDataInCurrentLocale($parentForm)->willReturn(false);
         $translatableFormHelper->getFormNormDataLocale($parentForm)->willReturn('en');
 

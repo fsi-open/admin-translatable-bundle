@@ -53,7 +53,7 @@ class TranslatableFormHelper
      * @param FormInterface $form
      * @return bool
      */
-    public function isFormForTranslatableProperty(FormInterface $form)
+    public function isFormPropertyPathTranslatable(FormInterface $form)
     {
         $propertyPath = $form->getPropertyPath();
         if (!$propertyPath) {

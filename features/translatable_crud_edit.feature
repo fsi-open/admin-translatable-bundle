@@ -14,8 +14,8 @@ Feature: Edit translatable item
       | de        |
     And default translatable locale is "en"
     And I add new event with name "Event en" in "en" locale
-    And I add new comment with text "great news" to the news with name "Event en" in "en" locale
-    And I add new file to the news with name "Event en" in "en" locale
+    And I add new comment with text "great news" to the event with name "Event en" in "en" locale
+    And I add new file to the event with name "Event en" in "en" locale
     When I am on the "Events list" page
     And I choose "Polish" from translatable locale list
     And I edit first event on the list
