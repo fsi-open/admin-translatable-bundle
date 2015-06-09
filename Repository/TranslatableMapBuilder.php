@@ -51,7 +51,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
         }
 
         $locale = $this->getCurrentLocale();
-        $this->map[$locale] = $this->recursiveParseRawMap(Yaml::parse($mapPath));
+        $this->map[$locale] = $this->loadYamlMap($mapPath);
     }
 
     /**
@@ -64,7 +64,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
         if (isset($this->map[$locale])) {
             return $this->map[$locale];
         } else {
-            return $this->map[$locale] = $this->recursiveParseRawMap(Yaml::parse($this->mapPath));
+            return $this->map[$locale] = $this->loadYamlMap($this->mapPath);
         }
     }
 
@@ -183,5 +183,14 @@ class TranslatableMapBuilder extends BaseMapBuilder
         $accessor = PropertyAccess::createPropertyAccessor();
 
         return $accessor->getValue($map, $propertyPath);
+    }
+
+    /**
+     * @param string $mapPath
+     * @return array
+     */
+    private function loadYamlMap($mapPath)
+    {
+        return $this->recursiveParseRawMap(Yaml::parse(file_get_contents($mapPath)));
     }
 }
