@@ -1,4 +1,4 @@
 admin:
     locale:
         dropdown:
-            title: Translacja (%locale%)
+            title: Język strony (%locale%)
