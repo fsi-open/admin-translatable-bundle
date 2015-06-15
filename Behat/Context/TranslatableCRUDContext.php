@@ -3,11 +3,11 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
 use Behat\Gherkin\Node\TableNode;
-use Behat\Symfony2Extension\Context\KernelAwareInterface;
+use Behat\Symfony2Extension\Context\KernelAwareContext;
 use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class TranslatableCRUDContext extends PageObjectContext implements KernelAwareInterface
+class TranslatableCRUDContext extends PageObjectContext implements KernelAwareContext
 {
     /**
      * @var KernelInterface
@@ -111,11 +111,11 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareIn
     }
 
     /**
-     * @Then /^I should be redirected to "([^"]*)" page$/
+     * @Then /^I should be redirected to "([^"]*)" page with locale "([^"]*)"$/
      */
-    public function iShouldBeRedirectedToPage($pageName)
+    public function iShouldBeRedirectedToPage($pageName, $locale)
     {
-        expect($this->getPage($pageName)->isOpen())->toBe(true);
+        expect($this->getPage($pageName)->isOpen(array('locale' => $locale)))->toBe(true);
     }
 
     /**

@@ -22,7 +22,7 @@
         state: directory
     - name: copy admin-bundle's public resources
       file:
-        src: /var/www/admin-translatable-bundle/vendor/fsi/admin-bundle/FSi/Bundle/AdminBundle/Resources/public
+        src: /var/www/admin-translatable-bundle/vendor/fsi/admin-bundle/Resources/public
         dest: /var/www/admin-translatable-bundle/features/fixtures/project/web/bundles/fsiadmin
         owner: vagrant
         group: vagrant
