@@ -54,14 +54,14 @@ class Action extends ColumnAbstractTypeExtension
      */
     public function initOptions(ColumnTypeInterface $column)
     {
-        $column->getOptionsResolver()->setNormalizers(array(
-            'actions' => function (Options $options, $values) {
-                    foreach ($values as $action => $actionValues) {
-                        $values[$action] = $this->setRouteLocale($actionValues, $this->localeManager);
-                    }
-                    return $values;
+        $column->getOptionsResolver()->setNormalizer('actions',
+            function (Options $options, $values) {
+                foreach ($values as $action => $actionValues) {
+                    $values[$action] = $this->setRouteLocale($actionValues, $this->localeManager);
                 }
-        ));
+                return $values;
+            }
+        );
     }
 
     /**
