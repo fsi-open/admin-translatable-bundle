@@ -2,7 +2,7 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page;
 
-use Behat\Behat\Exception\BehaviorException;
+use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\ElementNotFoundException;
 
 class NonTranslatableResourceEdit extends Page
 {
@@ -16,7 +16,7 @@ class NonTranslatableResourceEdit extends Page
     protected function verifyPage()
     {
         if (!$this->has('css', '#page-header:contains("Edit resources")')) {
-            throw new BehaviorException(sprintf('%s page is missing "Edit resources" header', $this->path));
+            throw new ElementNotFoundException(sprintf('%s page is missing "Edit resources" header', $this->path));
         }
     }
 }

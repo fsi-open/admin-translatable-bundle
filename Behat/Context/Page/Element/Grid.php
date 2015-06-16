@@ -2,9 +2,9 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element;
 
-use Behat\Behat\Exception\BehaviorException;
 use Behat\Mink\Element\NodeElement;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Element;
+use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\ElementNotFoundException;
 
 class Grid extends Element
 {
@@ -44,7 +44,7 @@ class Grid extends Element
 
         $availableColumns = array_map(function (NodeElement $item) { return $item->getText(); }, $items);
 
-        throw new BehaviorException(
+        throw new ElementNotFoundException(
             sprintf('Unable to find column "%s". Available columns: %s', $columnTitle, join(', ', $availableColumns))
         );
     }
@@ -59,12 +59,12 @@ class Grid extends Element
     {
         $row = $this->find('xpath', sprintf('//tbody/tr[%d]', $rowPosition));
         if (null === $row) {
-            throw new BehaviorException(sprintf('Unable to find row %d', $rowPosition));
+            throw new ElementNotFoundException(sprintf('Unable to find row %d', $rowPosition));
         }
 
         $cell = $row->find('xpath', sprintf('//td[%d]', $columnPosition));
         if (null === $cell) {
-            throw new BehaviorException(sprintf('Unable to find cell %d in row %d', $columnPosition, $rowPosition));
+            throw new ElementNotFoundException(sprintf('Unable to find cell %d in row %d', $columnPosition, $rowPosition));
         }
 
         return $cell;

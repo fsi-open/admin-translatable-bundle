@@ -2,8 +2,8 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element;
 
-use Behat\Behat\Exception\BehaviorException;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Element;
+use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\ElementNotFoundException;
 
 class TopMenu extends Element
 {
@@ -40,7 +40,7 @@ class TopMenu extends Element
         $element = $this->find('css', $selector);
 
         if (null === $element) {
-            throw new BehaviorException(sprintf('Unable to find %s', $selector));
+            throw new ElementNotFoundException(sprintf('Unable to find %s', $selector));
         }
 
         return $element;
