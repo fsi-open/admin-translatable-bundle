@@ -22,7 +22,7 @@
 
         <service id="admin_translatable.menu.voter.translatable_element"
                  class="%admin_translatable.menu.voter.translatable_element.class%"
-                 decorates="admin.menu.voter.element">
+                 decorates="admin.menu.knp.voter.element">
             <argument type="service" id="admin_translatable.menu.voter.translatable_element.inner" />
             <argument type="service" id="admin_translatable.manager.locale"/>
             <tag name="knp_menu.voter" request="true" />

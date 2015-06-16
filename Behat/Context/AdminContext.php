@@ -3,24 +3,16 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
 use Behat\Gherkin\Node\TableNode;
-use Behat\Symfony2Extension\Context\KernelAwareInterface;
+use Behat\Symfony2Extension\Context\KernelAwareContext;
 use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class AdminContext extends PageObjectContext implements KernelAwareInterface
+class AdminContext extends PageObjectContext implements KernelAwareContext
 {
     /**
      * @var KernelInterface
      */
     protected $kernel;
-
-    function __construct()
-    {
-        $this->useContext('data', new DataContext());
-        $this->useContext('TranslatableCRUD', new TranslatableCRUDContext());
-        $this->useContext('List', new ListContext());
-        $this->useContext('Popover', new PopoverContext());
-    }
 
     public function setKernel(KernelInterface $kernel)
     {
@@ -60,7 +52,7 @@ class AdminContext extends PageObjectContext implements KernelAwareInterface
         $definedLanguages = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.locales');
 
         foreach ($languages as $language) {
-            expect(in_array($language, $definedLanguages))->toBe(true);
+            expect(in_array($language['Locale'], $definedLanguages))->toBe(true);
         }
     }
 

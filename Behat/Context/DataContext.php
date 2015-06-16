@@ -5,6 +5,7 @@ namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Exception\BehaviorException;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use FSi\FixturesBundle\Entity\Comment;
@@ -13,7 +14,7 @@ use FSi\FixturesBundle\Entity\File;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class DataContext extends BehatContext implements KernelAwareInterface
+class DataContext implements KernelAwareContext
 {
     /**
      * @var KernelInterface

@@ -15,4 +15,9 @@ class EventsList extends Page
     {
         $this->find('css', '.datagrid-actions select')->selectOption($action);
     }
+
+    public function open(array $urlParameters = array('locale' => 'en'))
+    {
+        return parent::open($urlParameters);
+    }
 }

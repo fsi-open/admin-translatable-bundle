@@ -15,7 +15,7 @@ Feature: Deleting existing translatable item
     Given I am on the "Events list" page with translatable locale "pl"
     When I check first item on the list
     And I choose "Delete" from batch action list and confirm it with "Ok"
-    Then I should be redirected to "Events List" page
+    Then I should be redirected to "Events List" page with locale "pl"
     And I should see 2 events on the list
     And I choose "English" from translatable locale list
     And I should see 2 events on the list
