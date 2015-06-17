@@ -2,15 +2,13 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
-use Behat\Behat\Context\BehatContext;
-use Behat\Behat\Exception\BehaviorException;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
-use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use FSi\FixturesBundle\Entity\Comment;
 use FSi\FixturesBundle\Entity\Event;
 use FSi\FixturesBundle\Entity\File;
+use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\ElementNotFoundException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -203,7 +201,7 @@ class DataContext implements KernelAwareContext
         $comment = $manager->getRepository('FSi\FixturesBundle\Entity\CommentTranslation')->findOneBy(array('text' => $text));
 
         if (null === $comment) {
-            throw new BehaviorException(sprintf('Unable to find comment entity with text %s', $text));
+            throw new ElementNotFoundException(sprintf('Unable to find comment entity with text %s', $text));
         }
     }
 }
