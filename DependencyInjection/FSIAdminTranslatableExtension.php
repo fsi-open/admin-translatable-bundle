@@ -30,7 +30,6 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
         $loader->load('context/display.xml');
         $loader->load('context/form.xml');
         $loader->load('context/list.xml');
-        $loader->load('context/resource.xml');
     }
 
     /**
