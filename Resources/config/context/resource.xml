@@ -12,7 +12,6 @@
     <services>
         <service id="admin_translatable.resource.context_builder" class="%admin_translatable.resource.context_builder.class%">
             <argument type="service" id="admin_translatable.resource.context"/>
-            <tag name="admin.context.builder" />
         </service>
 
         <service id="admin_translatable.resource.context" class="%admin_translatable.resource.context.class%">
