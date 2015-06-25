@@ -8,6 +8,16 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
+     * @var array
+     */
+    private $adminTemplates;
+
+    public function __construct(array $adminTemplates)
+    {
+        $this->adminTemplates = $adminTemplates;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getConfigTreeBuilder()
@@ -19,6 +29,15 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('locales')
                     ->isRequired()
                     ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('templates')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('crud_list')->defaultValue($this->adminTemplates['crud_list'])->end()
+                        ->scalarNode('crud_form')->defaultValue($this->adminTemplates['crud_form'])->end()
+                        ->scalarNode('list')->defaultValue($this->adminTemplates['list'])->end()
+                        ->scalarNode('form')->defaultValue($this->adminTemplates['form'])->end()
+                    ->end()
                 ->end()
             ->end();
 
