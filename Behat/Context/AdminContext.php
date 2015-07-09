@@ -201,7 +201,7 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
         $label = $this->getElement('Form')->findLabel($field);
         expect($label)->toNotBe(null);
 
-        expect(count($label->getParent()->findAll('css', 'div[data-prototype] > div.form-group')))->toBe((int)$count);
+        expect(count($label->getParent()->findAll('css', 'div[data-prototype] > .collection-items > div.form-group')))->toBe((int)$count);
     }
 
     /**
@@ -250,11 +250,11 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
      */
     public function iClickDefaultLocaleBadgeForField($field)
     {
-        usleep(500);
+        usleep(2000);
         $field = $this->getElement('Form')->findField($field);
         $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
         $fieldLabel->find('css', '.badge')->click();
-        usleep(500);
+        usleep(2000);
     }
 
     /**

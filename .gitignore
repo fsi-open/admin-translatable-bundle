@@ -1,3 +1,5 @@
+!/features/fixtures/project/web/app_test.php
+/features/fixtures/project/web/*
 /vendor/
 /bin/
 /composer.phar
