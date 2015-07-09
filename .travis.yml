@@ -29,20 +29,17 @@ before_install:
     - composer require symfony/symfony:${SYMFONY_VERSION} -n --prefer-source
 
 install:
-    - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
+    - wget http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar
 
 before_script:
     - nohup php -S localhost:8080 -t features/fixtures/project/web > server.log 2>&1 &
+    - features/fixtures/project/app/console assets:install features/fixtures/project/web --relative --symlink
     - sh -e /etc/init.d/xvfb start
     - export DISPLAY=:99.0
-    - java -jar selenium-server-standalone-2.44.0.jar > /dev/null 2>&1 &
+    - java -jar selenium-server-standalone-2.46.0.jar > /dev/null 2>&1 &
     - sleep 5
-    - mkdir -p features/fixtures/project/web/bundles/fsiadmin
-    - mkdir -p features/fixtures/project/web/bundles/fsiadmintranslatable
-    - cp Resources/public/* features/fixtures/project/web/bundles/fsiadmintranslatable
 
-script:
-    - if [ -d vendor/fsi/admin-bundle/Resources/public ]; then cp vendor/fsi/admin-bundle/Resources/public/* features/fixtures/project/web/bundles/fsiadmin; fi
+script:    
     - bin/phpspec run -f progress -vvv
     - bin/behat --no-snippets --verbose --profile=travis -vvv
 
