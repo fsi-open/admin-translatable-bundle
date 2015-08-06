@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="admin_translatable.context.form.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\FormElementContext</parameter>
-        <parameter key="admin_translatable.context.crud_form.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\TranslatableCRUDFormElementContext</parameter>
+        <parameter key="admin_translatable.context.crud_form.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\CRUDFormElementContext</parameter>
     </parameters>
 
     <services>

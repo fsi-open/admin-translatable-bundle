@@ -33,10 +33,10 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('templates')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('crud_list')->defaultValue($this->adminTemplates['crud_list'])->end()
-                        ->scalarNode('crud_form')->defaultValue($this->adminTemplates['crud_form'])->end()
                         ->scalarNode('list')->defaultValue($this->adminTemplates['list'])->end()
                         ->scalarNode('form')->defaultValue($this->adminTemplates['form'])->end()
+                        ->scalarNode('crud_list')->defaultValue($this->adminTemplates['crud_list'])->end()
+                        ->scalarNode('crud_form')->defaultValue($this->adminTemplates['crud_form'])->end()
                     ->end()
                 ->end()
             ->end();

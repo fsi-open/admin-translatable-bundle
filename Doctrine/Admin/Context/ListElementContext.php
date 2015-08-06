@@ -11,24 +11,26 @@ namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
 use FSi\Bundle\AdminBundle\Admin\CRUD\Context\ListElementContext as BaseListElementContext;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
+use FSi\Bundle\AdminBundle\Admin\Element;
+use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableListElement;
 
 class ListElementContext extends BaseListElementContext
 {
-    /**
-     * @var string
-     */
-    private $formTemplate;
-
     /**
      * @var LocaleManager
      */
     private $localeManager;
 
+    /**
+     * @var string
+     */
+    private $formTemplate;
+
     public function __construct($requestHandlers, LocaleManager $localeManager, $formTemplate)
     {
         parent::__construct($requestHandlers);
-        $this->formTemplate = $formTemplate;
         $this->localeManager = $localeManager;
+        $this->formTemplate = $formTemplate;
     }
 
     /**
@@ -65,5 +67,17 @@ class ListElementContext extends BaseListElementContext
     protected function getSupportedRoute()
     {
         return 'fsi_admin_translatable_list';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsElement(Element $element)
+    {
+        if (!parent::supportsElement($element)) {
+            return false;
+        }
+
+        return $element instanceof TranslatableListElement;
     }
 }

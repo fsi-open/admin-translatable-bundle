@@ -9,18 +9,18 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
-use FSi\Bundle\AdminBundle\Admin\CRUD\Context\CRUDFormElementContext;
+use FSi\Bundle\AdminBundle\Admin\CRUD\Context\CRUDListElementContext as AdminCRUDListElementContext;
 use FSi\Bundle\AdminBundle\Admin\Element;
 use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableCRUDElement;
 
-class TranslatableCRUDFormElementContext extends CRUDFormElementContext
+class CRUDListElementContext extends AdminCRUDListElementContext
 {
     /**
      * {@inheritdoc}
      */
     protected function getSupportedRoute()
     {
-        return 'fsi_admin_translatable_form';
+        return 'fsi_admin_translatable_list';
     }
 
     /**

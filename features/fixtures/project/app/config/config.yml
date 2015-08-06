@@ -39,7 +39,7 @@ fsi_admin_translatable:
         - pl
         - en
         - de
-#    templates:
+    templates:
 #        form: '@FSiFixturesBundle/test.html.twig'
 #        list: '@FSiFixturesBundle/test.html.twig'
 #        crud_form: '@FSiFixturesBundle/test.html.twig'

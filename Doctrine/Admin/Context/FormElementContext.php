@@ -11,6 +11,8 @@ namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
 use FSi\Bundle\AdminBundle\Admin\CRUD\Context\FormElementContext as BaseFormElementContext;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
+use FSi\Bundle\AdminBundle\Admin\Element;
+use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableFormElement;
 
 class FormElementContext extends BaseFormElementContext
 {
@@ -65,5 +67,13 @@ class FormElementContext extends BaseFormElementContext
     protected function getSupportedRoute()
     {
         return 'fsi_admin_translatable_form';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function supportsElement(Element $element)
+    {
+        return $element instanceof TranslatableFormElement;
     }
 }
