@@ -58,4 +58,12 @@ class FormElementContext extends BaseFormElementContext
         return $this->element->hasOption('template_form') ?
             $this->element->getOption('template_form') : $this->formTemplate;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getSupportedRoute()
+    {
+        return 'fsi_admin_translatable_form';
+    }
 }

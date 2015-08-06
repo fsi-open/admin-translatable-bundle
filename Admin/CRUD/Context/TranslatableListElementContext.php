@@ -10,6 +10,8 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Admin\CRUD\Context;
 
 use FSi\Bundle\AdminBundle\Admin\CRUD\Context\ListElementContext;
+use FSi\Bundle\AdminBundle\Admin\Element;
+use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableListElement;
 
 class TranslatableListElementContext extends ListElementContext
 {
@@ -44,5 +46,17 @@ class TranslatableListElementContext extends ListElementContext
     {
         return $this->element->hasOption('template_list') ?
             $this->element->getOption('template_list') : $this->formTemplate;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsElement(Element $element)
+    {
+        if (!parent::supportsElement($element)) {
+            return false;
+        }
+
+        return $element instanceof TranslatableListElement;
     }
 }

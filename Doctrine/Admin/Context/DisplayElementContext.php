@@ -35,4 +35,9 @@ class DisplayElementContext extends BaseDisplayContext
 
         return $data;
     }
+
+    protected function getSupportedRoute()
+    {
+        return 'fsi_admin_translatable_display';
+    }
 }

@@ -36,4 +36,12 @@ class BatchElementContext extends BaseBatchElementContext
 
         return $data;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getSupportedRoute()
+    {
+        return 'fsi_admin_translatable_batch';
+    }
 }

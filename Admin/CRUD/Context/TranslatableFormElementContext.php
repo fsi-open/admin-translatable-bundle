@@ -10,6 +10,8 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Admin\CRUD\Context;
 
 use FSi\Bundle\AdminBundle\Admin\CRUD\Context\FormElementContext;
+use FSi\Bundle\AdminBundle\Admin\Element;
+use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableFormElement;
 
 class TranslatableFormElementContext extends FormElementContext
 {
@@ -46,4 +48,15 @@ class TranslatableFormElementContext extends FormElementContext
             $this->element->getOption('template_form') : $this->formTemplate;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function supportsElement(Element $element)
+    {
+        if (!parent::supportsElement($element)) {
+            return false;
+        }
+
+        return $element instanceof TranslatableFormElement;
+    }
 }
