@@ -39,11 +39,6 @@ fsi_admin_translatable:
         - pl
         - en
         - de
-    templates:
-#        form: '@FSiFixturesBundle/test.html.twig'
-#        list: '@FSiFixturesBundle/test.html.twig'
-#        crud_form: '@FSiFixturesBundle/test.html.twig'
-#        crud_list: '@FSiFixturesBundle/test.html.twig'
 
 fsi_admin:
     default_locale: en

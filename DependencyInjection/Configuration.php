@@ -37,6 +37,8 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('form')->defaultValue($this->adminTemplates['form'])->end()
                         ->scalarNode('crud_list')->defaultValue($this->adminTemplates['crud_list'])->end()
                         ->scalarNode('crud_form')->defaultValue($this->adminTemplates['crud_form'])->end()
+                        ->scalarNode('resource')->defaultValue($this->adminTemplates['resource'])->end()
+                        ->scalarNode('display')->defaultValue($this->adminTemplates['display'])->end()
                     ->end()
                 ->end()
             ->end();

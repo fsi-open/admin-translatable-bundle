@@ -20,6 +20,8 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
             'crud_form' => $container->getParameter('admin.templates.crud_form'),
             'list' => $container->getParameter('admin.templates.list'),
             'form' => $container->getParameter('admin.templates.form'),
+            'resource' => $container->getParameter('admin.templates.resource'),
+            'display' => $container->getParameter('admin.templates.display'),
         ]);
         $config = $this->processConfiguration($configuration, $configs);
         $container->setParameter('fsi_admin_translatable.locales', $config['locales']);

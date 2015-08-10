@@ -16,6 +16,7 @@
             </argument>
             <argument type="service" id="admin.resource.context.form_builder" />
             <argument type="service" id="admin_translatable.manager.locale" />
+            <argument type="string">%admin_translatable.templates.resource%</argument>
         </service>
 
         <!--Map Builder-->

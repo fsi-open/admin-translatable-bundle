@@ -14,6 +14,7 @@
                 <argument type="service" id="admin.display.context.request_handler"/>
             </argument>
             <argument type="service" id="admin_translatable.manager.locale"/>
+            <argument type="string">%admin_translatable.templates.display%</argument>
             <tag name="admin.context"/>
         </service>
     </services>

@@ -12,3 +12,4 @@ Documentation:
 
 - [Installation](Resources/doc/installation.md)
 - [Translatable Admin Elements](Resources/doc/admin_element.md)
+- [Custom templates](Resources/doc/templates.md)

@@ -19,10 +19,16 @@ class DisplayElementContext extends BaseDisplayContext
      */
     private $localeManager;
 
-    public function __construct($requestHandlers, LocaleManager $localeManager)
+    /**
+     * @var
+     */
+    private $defaultTemplate;
+
+    public function __construct($requestHandlers, LocaleManager $localeManager, $defaultTemplate)
     {
         parent::__construct($requestHandlers);
         $this->localeManager = $localeManager;
+        $this->defaultTemplate = $defaultTemplate;
     }
 
     /**
@@ -42,5 +48,22 @@ class DisplayElementContext extends BaseDisplayContext
     protected function getSupportedRoute()
     {
         return 'fsi_admin_translatable_display';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasTemplateName()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return $this->element->hasOption('template_form') ?
+            $this->element->getOption('template_form') : $this->defaultTemplate;
     }
 }
