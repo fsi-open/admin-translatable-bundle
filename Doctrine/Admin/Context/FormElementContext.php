@@ -11,17 +11,25 @@ namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
 use FSi\Bundle\AdminBundle\Admin\CRUD\Context\FormElementContext as BaseFormElementContext;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
+use FSi\Bundle\AdminBundle\Admin\Element;
+use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableFormElement;
 
 class FormElementContext extends BaseFormElementContext
 {
+    /**
+     * @var string
+     */
+    private $formTemplate;
+
     /**
      * @var LocaleManager
      */
     private $localeManager;
 
-    public function __construct($requestHandlers, LocaleManager $localeManager)
+    public function __construct($requestHandlers, LocaleManager $localeManager, $formTemplate)
     {
         parent::__construct($requestHandlers);
+        $this->formTemplate = $formTemplate;
         $this->localeManager = $localeManager;
     }
 
@@ -34,5 +42,38 @@ class FormElementContext extends BaseFormElementContext
         $data['translatable_locale'] = $this->localeManager->getLocale();
 
         return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasTemplateName()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return $this->element->hasOption('template_form') ?
+            $this->element->getOption('template_form') : $this->formTemplate;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getSupportedRoute()
+    {
+        return 'fsi_admin_translatable_form';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function supportsElement(Element $element)
+    {
+        return $element instanceof TranslatableFormElement;
     }
 }

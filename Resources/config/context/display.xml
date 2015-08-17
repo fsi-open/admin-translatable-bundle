@@ -6,20 +6,16 @@
 
     <parameters>
         <parameter key="admin_translatable.display.context.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\DisplayElementContext</parameter>
-        <parameter key="admin_translatable.display.context_builder.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\DisplayElementContextBuilder</parameter>
     </parameters>
 
     <services>
-        <service id="admin_translatable.display.context_builder" class="%admin_translatable.display.context_builder.class%">
-            <argument type="service" id="admin_translatable.display.context"/>
-            <tag name="admin.context.builder" />
-        </service>
-
         <service id="admin_translatable.display.context" class="%admin_translatable.display.context.class%">
             <argument type="collection">
                 <argument type="service" id="admin.display.context.request_handler"/>
             </argument>
             <argument type="service" id="admin_translatable.manager.locale"/>
+            <argument type="string">%admin_translatable.templates.display%</argument>
+            <tag name="admin.context"/>
         </service>
     </services>
 </container>

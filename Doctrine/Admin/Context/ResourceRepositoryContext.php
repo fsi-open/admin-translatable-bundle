@@ -20,10 +20,16 @@ class ResourceRepositoryContext extends BaseResourceRepositoryContext
      */
     private $localeManager;
 
-    public function __construct($requestHandlers, ResourceFormBuilder $resourceFormBuilder, LocaleManager $localeManager)
+    /**
+     * @var string
+     */
+    private $defaultTemplate;
+
+    public function __construct($requestHandlers, ResourceFormBuilder $resourceFormBuilder, LocaleManager $localeManager, $defaultTemplate)
     {
         parent::__construct($requestHandlers, $resourceFormBuilder);
         $this->localeManager = $localeManager;
+        $this->defaultTemplate = $defaultTemplate;
     }
 
     /**
@@ -35,5 +41,30 @@ class ResourceRepositoryContext extends BaseResourceRepositoryContext
         $data['translatable_locale'] = $this->localeManager->getLocale();
 
         return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getSupportedRoute()
+    {
+        return 'fsi_admin_translatable_resource';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasTemplateName()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return $this->element->hasOption('template_form') ?
+            $this->element->getOption('template_form') : $this->defaultTemplate;
     }
 }
