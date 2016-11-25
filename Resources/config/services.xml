@@ -12,13 +12,6 @@
     </parameters>
 
     <services>
-        <!--Map Builder-->
-        <service id="admin_translatable.resource.map_builder" class="%admin_translatable.resource.map_builder.class%">
-            <argument>%fsi_resource_repository.resource.map_path%</argument>
-            <argument>%fsi_resource_repository.resource.types%</argument>
-            <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
-        </service>
-
         <!--Managers-->
         <service id="admin_translatable.manager.locale" class="%admin_translatable.manager.locale.class%">
             <argument type="service" id="doctrine" />
