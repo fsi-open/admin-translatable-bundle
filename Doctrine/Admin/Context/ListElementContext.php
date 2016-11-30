@@ -24,13 +24,13 @@ class ListElementContext extends BaseListElementContext
     /**
      * @var string
      */
-    private $formTemplate;
+    private $listTemplate;
 
-    public function __construct($requestHandlers, LocaleManager $localeManager, $formTemplate)
+    public function __construct($requestHandlers, LocaleManager $localeManager, $listTemplate)
     {
         parent::__construct($requestHandlers);
         $this->localeManager = $localeManager;
-        $this->formTemplate = $formTemplate;
+        $this->listTemplate = $listTemplate;
     }
 
     /**
@@ -57,8 +57,8 @@ class ListElementContext extends BaseListElementContext
      */
     public function getTemplateName()
     {
-        return $this->element->hasOption('template_form') ?
-            $this->element->getOption('template_form') : $this->formTemplate;
+        return $this->element->hasOption('template_list') ?
+            $this->element->getOption('template_list') : $this->listTemplate;
     }
 
     /**
