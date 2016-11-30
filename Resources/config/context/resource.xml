@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="admin_translatable.resource.context.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\ResourceRepositoryContext</parameter>
+        <parameter key="admin_translatable.resource.map_builder.class">FSi\Bundle\AdminTranslatableBundle\Repository\TranslatableMapBuilder</parameter>
     </parameters>
 
     <services>
