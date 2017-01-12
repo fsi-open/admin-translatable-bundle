@@ -5,11 +5,21 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="admin_translatable.controller.resource.class">FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableResourceController</parameter>
         <parameter key="admin_translatable.resource.context.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\ResourceRepositoryContext</parameter>
         <parameter key="admin_translatable.resource.map_builder.class">FSi\Bundle\AdminTranslatableBundle\Repository\TranslatableMapBuilder</parameter>
+        <parameter key="admin_translatable.form_extension.translatable_resource.class">FSi\Bundle\AdminTranslatableBundle\Repository\Form\ResourceTypeExtension</parameter>
     </parameters>
 
     <services>
+        <!-- Controller -->
+        <service id="admin_translatable.controller.resource" class="%admin_translatable.controller.resource.class%">
+            <argument type="service" id="templating"/>
+            <argument type="service" id="admin.context.manager"/>
+            <argument>%admin.templates.resource%</argument>
+        </service>
+
+        <!-- Context -->
         <service id="admin_translatable.resource.context" class="%admin_translatable.resource.context.class%">
             <argument type="collection">
                 <argument type="service" id="admin.resource.context.request_handler.form_submit"/>
@@ -27,5 +37,10 @@
             <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
         </service>
 
+        <!-- Form -->
+        <service id="admin_translatable.form_extension.translatable_resource" class="%admin_translatable.form_extension.translatable_resource.class%">
+            <argument type="service" id="admin_translatable.resource.map_builder" />
+            <tag name="form.type_extension" alias="resource" />
+        </service>
     </services>
 </container>

@@ -12,7 +12,6 @@
         <parameter key="admin_translatable.form_listener.translatable_collection.class">FSi\Bundle\AdminTranslatableBundle\Form\TranslatableCollectionListener</parameter>
         <parameter key="admin_translatable.form_helper.class">FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper</parameter>
         <parameter key="admin_translatable.form_extension.translatable_file.class">FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFSiRemovableFileExtension</parameter>
-        <parameter key="admin_translatable.form_extension.translatable_resource.class">FSi\Bundle\AdminTranslatableBundle\Repository\Form\ResourceTypeExtension</parameter>
     </parameters>
 
     <services>
@@ -53,11 +52,6 @@
             <argument type="service" id="admin_translatable.form_helper" />
             <argument type="service" id="fsi_doctrine_extensions.resolver.fsi.file_path" />
             <tag name="form.type_extension" alias="fsi_removable_file" />
-        </service>
-
-        <service id="admin_translatable.form_extension.translatable_resource" class="%admin_translatable.form_extension.translatable_resource.class%">
-            <argument type="service" id="admin_translatable.resource.map_builder" />
-            <tag name="form.type_extension" alias="resource" />
         </service>
     </services>
 </container>
