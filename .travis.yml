@@ -46,6 +46,7 @@ before_script:
 script:
     - bin/phpspec run -f progress -vvv
     - bin/behat --no-snippets --verbose --profile=travis -vvv
+    - bin/phpunit
 
 after_failure:
     - cat server.log
