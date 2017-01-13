@@ -10,7 +10,8 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 
 use FSi\Bundle\AdminBundle\Doctrine\Admin\CRUDElement;
-use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
+use FSi\Bundle\AdminBundle\Exception\RuntimeException;
+use FSi\Component\DataGrid\DataGridInterface;
 
 abstract class TranslatableCRUDElement extends CRUDElement implements TranslatableAwareElement
 {
@@ -38,5 +39,38 @@ abstract class TranslatableCRUDElement extends CRUDElement implements Translatab
     public function getSuccessRouteParameters()
     {
         return $this->appendLocaleParameter(parent::getSuccessRouteParameters());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createDataGrid()
+    {
+        $datagrid = $this->initDataGrid($this->datagridFactory);
+        if (!is_object($datagrid) || !$datagrid instanceof DataGridInterface) {
+            throw new RuntimeException(
+                'initDataGrid should return instanceof FSi\\Component\\DataGrid\\DataGridInterface'
+            );
+        }
+
+        if ($this->options['allow_delete']) {
+            if (!$datagrid->hasColumnType('batch')) {
+                $datagrid->addColumn('batch', 'batch', [
+                    'actions' => [
+                        'delete' => [
+                            'route_name' => 'fsi_admin_translatable_batch',
+                            'additional_parameters' => [
+                                'element' => $this->getId(),
+                                'locale' => $this->localeManager->getLocale()
+                            ],
+                            'label' => 'crud.list.batch.delete'
+                        ]
+                    ],
+                    'display_order' => -1000
+                ]);
+            }
+        }
+
+        return $datagrid;
     }
 }

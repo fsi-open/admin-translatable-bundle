@@ -9,8 +9,8 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Controller;
 
-use FSi\Bundle\AdminBundle\Controller\DisplayController as BaseDisplayController;
 use FSi\Bundle\AdminBundle\Admin\Display\Element as DisplayElement;
+use FSi\Bundle\AdminBundle\Controller\DisplayController as BaseDisplayController;
 use Symfony\Component\HttpFoundation\Request;
 
 class TranslatableDisplayController extends BaseDisplayController

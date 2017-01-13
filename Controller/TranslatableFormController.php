@@ -12,7 +12,6 @@ namespace FSi\Bundle\AdminTranslatableBundle\Controller;
 use FSi\Bundle\AdminBundle\Admin\CRUD\FormElement;
 use FSi\Bundle\AdminBundle\Controller\FormController as BaseFormController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TranslatableFormController extends BaseFormController
 {
