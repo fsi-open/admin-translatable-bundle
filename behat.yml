@@ -22,7 +22,7 @@ default: &default
                 env: test
                 debug: true
                 path: features/fixtures/project/app/AppKernel.php
-                bootstrap: features/fixtures/project/app/bootstrap.php
+                bootstrap: features/fixtures/project/app/autoload.php
         SensioLabs\Behat\PageObjectExtension:
             namespaces:
                 page: FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page
