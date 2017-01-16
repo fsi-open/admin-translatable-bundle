@@ -17,6 +17,10 @@
             <argument type="service" id="templating"/>
             <argument type="service" id="admin.context.manager"/>
             <argument>%admin.templates.resource%</argument>
+            <!-- Cannot utilize the "admin.event_dispatcher_aware" tag, since the relevant compiler pass has already been executed -->
+            <call method="setEventDispatcher">
+                <argument type="service" id="event_dispatcher"/>
+            </call>
         </service>
 
         <!-- Context -->

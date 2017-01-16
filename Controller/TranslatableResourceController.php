@@ -10,10 +10,9 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Controller;
 
 use FSi\Bundle\AdminBundle\Admin\ResourceRepository;
+use FSi\Bundle\AdminBundle\Controller\ResourceController as BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use FSi\Bundle\AdminBundle\Controller\ResourceController as BaseController;
 
 class TranslatableResourceController extends BaseController
 {

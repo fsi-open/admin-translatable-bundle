@@ -17,11 +17,12 @@ class AppKernel extends Kernel
             new FSi\Bundle\DataGridBundle\DataGridBundle(),
             new FSi\Bundle\AdminBundle\FSiAdminBundle(),
             new FSi\Bundle\DoctrineExtensionsBundle\FSiDoctrineExtensionsBundle(),
-            new FSi\FixturesBundle\FSiFixturesBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new FSi\Bundle\ResourceRepositoryBundle\FSiResourceRepositoryBundle(),
             new FSi\Bundle\AdminTranslatableBundle\FSiAdminTranslatableBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+
+            new FSi\FixturesBundle\FSiFixturesBundle(),
         );
     }
 

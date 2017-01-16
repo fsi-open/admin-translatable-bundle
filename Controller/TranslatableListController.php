@@ -12,7 +12,6 @@ namespace FSi\Bundle\AdminTranslatableBundle\Controller;
 use FSi\Bundle\AdminBundle\Admin\CRUD\ListElement;
 use FSi\Bundle\AdminBundle\Controller\ListController as BaseListController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TranslatableListController extends BaseListController
 {
