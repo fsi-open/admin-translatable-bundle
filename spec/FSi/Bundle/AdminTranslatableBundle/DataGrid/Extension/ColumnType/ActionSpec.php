@@ -23,6 +23,6 @@ class ActionSpec extends ObjectBehavior
 
     function it_extends_action_column()
     {
-        $this->getExtendedColumnTypes()->shouldReturn(array('action'));
+        $this->getExtendedColumnTypes()->shouldReturn(['action']);
     }
 }

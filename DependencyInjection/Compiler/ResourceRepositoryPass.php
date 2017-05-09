@@ -27,17 +27,17 @@ class ResourceRepositoryPass implements CompilerPassInterface
             $loader->load('context/resource.xml');
 
             $contextManagerDefinition = $container->getDefinition('admin.context.manager');
-            $contextManagerDefinition->addMethodCall('addContext', array(
+            $contextManagerDefinition->addMethodCall('addContext', [
                 new Reference('admin_translatable.resource.context')
-            ));
+            ]);
 
             $definition = $container->getDefinition('fsi_resource_repository.resource.repository');
             $translatableMapBuilderDefinition = $container->getDefinition('admin_translatable.resource.map_builder');
-            $translatableMapBuilderDefinition->setArguments(array(
+            $translatableMapBuilderDefinition->setArguments([
                 '%fsi_resource_repository.resource.map_path%',
                 '%fsi_resource_repository.resource.types%',
                 new Reference('fsi_doctrine_extensions.listener.translatable')
-            ));
+            ]);
 
             $arguments = $definition->getArguments();
             $arguments[0] = $translatableMapBuilderDefinition;

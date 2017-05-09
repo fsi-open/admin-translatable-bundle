@@ -85,16 +85,16 @@ class TranslationLocaleMenuListener
         $translation->setLabel(
             $this->translator->trans(
                 'admin.locale.dropdown.title',
-                array('%locale%' => $this->localeManager->getLocale()),
+                ['%locale%' => $this->localeManager->getLocale()],
                 'FSiAdminTranslatableBundle'
             )
         );
 
-        $translation->setOptions(array(
-            'attr' => array(
+        $translation->setOptions([
+            'attr' => [
                 'id' => 'translatable-switcher',
-            )
-        ));
+            ]
+        ]);
 
         return $translation;
     }
@@ -139,16 +139,16 @@ class TranslationLocaleMenuListener
             return null;
         }
 
-        $redirectServer = array(
+        $redirectServer = [
             'SCRIPT_FILENAME' => $this->request->server->get('SCRIPT_FILENAME'),
             'PHP_SELF' => $this->request->server->get('PHP_SELF'),
             'REQUEST_URI' => $redirectUrlParts['path'],
-        );
+        ];
         if (isset($redirectUrlParts['query'])) {
             $redirectServer['QUERY_STRING'] = $redirectUrlParts['query'];
         }
 
-        return new Request(array(), array(), array(), array(), array(), $redirectServer);
+        return new Request([], [], [], [], [], $redirectServer);
     }
 
     /**

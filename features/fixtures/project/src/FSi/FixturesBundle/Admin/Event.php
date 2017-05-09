@@ -46,31 +46,31 @@ class Event extends TranslatableCRUDElement
     {
         $datagrid = $factory->createDataGrid($this->getId());
 
-        $datagrid->addColumn('name', 'text', array(
+        $datagrid->addColumn('name', 'text', [
             'label' => 'admin.events.grid.name',
             'editable' => true,
-        ));
+        ]);
 
-        $datagrid->addColumn('agreement', 'fsi_file', array(
+        $datagrid->addColumn('agreement', 'fsi_file', [
             'label' => 'admin.events.grid.agreement'
-        ));
+        ]);
 
-        $datagrid->addColumn('actions', 'action', array(
+        $datagrid->addColumn('actions', 'action', [
             'label' => 'admin.grid.actions',
-            'field_mapping' => array('id'),
-            'actions' => array(
-                'edit' => array(
+            'field_mapping' => ['id'],
+            'actions' => [
+                'edit' => [
                     'route_name' => 'fsi_admin_translatable_form',
-                    'additional_parameters' => array('element' => $this->getId()),
-                    'parameters_field_mapping' => array('id' => 'id')
-                ),
-                'display' => array(
+                    'additional_parameters' => ['element' => $this->getId()],
+                    'parameters_field_mapping' => ['id' => 'id']
+                ],
+                'display' => [
                     'route_name' => 'fsi_admin_translatable_display',
-                    'additional_parameters' => array('element' => 'admin_event_preview'),
-                    'parameters_field_mapping' => array('id' => 'id')
-                ),
-            )
-        ));
+                    'additional_parameters' => ['element' => 'admin_event_preview'],
+                    'parameters_field_mapping' => ['id' => 'id']
+                ],
+            ]
+        ]);
 
         return $datagrid;
     }
@@ -82,11 +82,11 @@ class Event extends TranslatableCRUDElement
     {
         $qb = $this->getRepository()->createTranslatableQueryBuilder('e', 't', 'dt');
 
-        $datasource = $factory->createDataSource('doctrine', array('qb' => $qb), $this->getId());
+        $datasource = $factory->createDataSource('doctrine', ['qb' => $qb], $this->getId());
 
-        $datasource->addField('name', 'text', 'like', array(
+        $datasource->addField('name', 'text', 'like', [
             'field' => 't.name'
-        ));
+        ]);
 
         return $datasource;
     }
@@ -96,33 +96,33 @@ class Event extends TranslatableCRUDElement
      */
     protected function initForm(FormFactoryInterface $factory, $data = null)
     {
-        $form = $factory->create('form', $data, array(
+        $form = $factory->create('form', $data, [
             'data_class' => $this->getClassName(),
-        ));
+        ]);
 
-        $form->add('name', 'text', array('label' => 'admin.events.form.name'));
+        $form->add('name', 'text', ['label' => 'admin.events.form.name']);
 
-        $form->add('agreement', 'fsi_removable_file', array(
+        $form->add('agreement', 'fsi_removable_file', [
             'required' => false
-        ));
+        ]);
 
-        $form->add('description', 'ckeditor', array(
+        $form->add('description', 'ckeditor', [
             'required' => false
-        ));
+        ]);
 
-        $form->add('comments', 'collection', array(
+        $form->add('comments', 'collection', [
             'type' => new CommentType(),
             'allow_add' => true,
             'allow_delete' => true,
             'by_reference' => false
-        ));
+        ]);
 
-        $form->add('files', 'collection', array(
+        $form->add('files', 'collection', [
             'type' => new FilesType(),
             'allow_add' => true,
             'allow_delete' => true,
             'by_reference' => false
-        ));
+        ]);
 
         return $form;
     }

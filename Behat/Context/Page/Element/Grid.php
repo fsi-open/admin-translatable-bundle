@@ -8,7 +8,7 @@ use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\ElementNotFoundExc
 
 class Grid extends Element
 {
-    protected $selector = array('css' => 'table.table-datagrid');
+    protected $selector = ['css' => 'table.table-datagrid'];
 
     public function hasColumn($columnName)
     {

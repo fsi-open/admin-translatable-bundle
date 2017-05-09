@@ -31,21 +31,21 @@ class KnpMenuTranslatableElementVoterSpec extends ObjectBehavior
 
         $menuElementVoter->matchItem($item)->willReturn(true);
 
-        $item->getExtra('routes', array())->willReturn(array(
-            0 => array('parameters' => array('locale' => 'en'))
-        ));
+        $item->getExtra('routes', [])->willReturn([
+            0 => ['parameters' => ['locale' => 'en']]
+        ]);
 
         $this->matchItem($item)->shouldReturn(false);
 
-        $item->getExtra('routes', array())->willReturn(array(
-            0 => array('parameters' => array('locale' => 'pl'))
-        ));
+        $item->getExtra('routes', [])->willReturn([
+            0 => ['parameters' => ['locale' => 'pl']]
+        ]);
 
         $this->matchItem($item)->shouldReturn(true);
 
-        $item->getExtra('routes', array())->willReturn(array(
-            0 => array('parameters' => array('locale' => 'de'))
-        ));
+        $item->getExtra('routes', [])->willReturn([
+            0 => ['parameters' => ['locale' => 'de']]
+        ]);
 
         $this->matchItem($item)->shouldReturn(false);
     }

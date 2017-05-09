@@ -41,21 +41,21 @@ class News extends CRUDElement
     {
         $datagrid = $factory->createDataGrid($this->getId());
 
-        $datagrid->addColumn('title', 'text', array(
+        $datagrid->addColumn('title', 'text', [
             'label' => 'admin.news.grid.title'
-        ));
+        ]);
 
-        $datagrid->addColumn('actions', 'action', array(
+        $datagrid->addColumn('actions', 'action', [
             'label' => 'admin.grid.actions',
-            'field_mapping' => array('id'),
-            'actions' => array(
-                'edit' => array(
+            'field_mapping' => ['id'],
+            'actions' => [
+                'edit' => [
                     'route_name' => 'fsi_admin_crud_edit',
-                    'additional_parameters' => array('element' => $this->getId()),
-                    'parameters_field_mapping' => array('id' => 'id')
-                ),
-            )
-        ));
+                    'additional_parameters' => ['element' => $this->getId()],
+                    'parameters_field_mapping' => ['id' => 'id']
+                ],
+            ]
+        ]);
 
         return $datagrid;
     }
@@ -65,7 +65,7 @@ class News extends CRUDElement
      */
     protected function initDataSource(DataSourceFactoryInterface $factory)
     {
-        return $factory->createDataSource('doctrine', array('entity' => $this->getClassName()), $this->getId());
+        return $factory->createDataSource('doctrine', ['entity' => $this->getClassName()], $this->getId());
     }
 
     /**
@@ -73,11 +73,11 @@ class News extends CRUDElement
      */
     protected function initForm(FormFactoryInterface $factory, $data = null)
     {
-        $form = $factory->create('form', $data, array(
+        $form = $factory->create('form', $data, [
             'data_class' => $this->getClassName(),
-        ));
+        ]);
 
-        $form->add('title', 'text', array('label' => 'admin.news.form.title'));
+        $form->add('title', 'text', ['label' => 'admin.news.form.title']);
 
         return $form;
     }

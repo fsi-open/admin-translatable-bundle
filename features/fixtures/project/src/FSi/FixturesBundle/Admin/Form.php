@@ -24,9 +24,9 @@ class Form extends TranslatableFormElement
 
     protected function initForm(FormFactoryInterface $factory, $data = null)
     {
-        $form = $factory->create('form', $data, array(
+        $form = $factory->create('form', $data, [
             'data_class' => $this->getClassName(),
-        ));
+        ]);
 
         $form->add('text', 'textarea');
 

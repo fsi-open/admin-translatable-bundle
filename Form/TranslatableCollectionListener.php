@@ -31,7 +31,7 @@ class TranslatableCollectionListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            FormEvents::PRE_SET_DATA => array('onPreSetData', 10),
+            FormEvents::PRE_SET_DATA => ['onPreSetData', 10],
         ];
     }
 

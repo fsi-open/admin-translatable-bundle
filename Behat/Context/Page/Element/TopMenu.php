@@ -7,7 +7,7 @@ use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\ElementNotFoundExc
 
 class TopMenu extends Element
 {
-    protected $selector = array('css' => 'div.navbar.navbar-inverse.navbar-fixed-top');
+    protected $selector = ['css' => 'div.navbar.navbar-inverse.navbar-fixed-top'];
 
     public function getTranslatableSwitcher()
     {

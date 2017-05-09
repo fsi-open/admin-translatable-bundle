@@ -15,7 +15,7 @@ class CommentType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'FSi\FixturesBundle\Entity\Comment'));
+        $resolver->setDefaults(['data_class' => 'FSi\FixturesBundle\Entity\Comment']);
     }
 
     public function getName()

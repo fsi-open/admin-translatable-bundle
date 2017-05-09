@@ -145,7 +145,7 @@ class DataContext implements KernelAwareContext
     {
         $manager = $this->getDoctrineManager();
         $event = $manager->getRepository('FSi\FixturesBundle\Entity\EventTranslation')
-            ->findOneBy(array('name' => $eventName))
+            ->findOneBy(['name' => $eventName])
             ->getEvent();
 
         $comment = new Comment();
@@ -182,7 +182,7 @@ class DataContext implements KernelAwareContext
     {
         $manager = $this->getDoctrineManager();
         $eventTranslation = $manager->getRepository('FSi\FixturesBundle\Entity\EventTranslation')
-            ->findOneBy(array('name' => $eventName, 'locale' => $locale));
+            ->findOneBy(['name' => $eventName, 'locale' => $locale]);
 
         $file = new File();
         $file->setFile(new \SplFileInfo(__DIR__ . '/../../features/fixtures/test_file.txt'));
@@ -198,7 +198,7 @@ class DataContext implements KernelAwareContext
     public function itShouldBeSavedCommentEntityWithText($text)
     {
         $manager = $this->getDoctrineManager();
-        $comment = $manager->getRepository('FSi\FixturesBundle\Entity\CommentTranslation')->findOneBy(array('text' => $text));
+        $comment = $manager->getRepository('FSi\FixturesBundle\Entity\CommentTranslation')->findOneBy(['text' => $text]);
 
         if (null === $comment) {
             throw new ElementNotFoundException(sprintf('Unable to find comment entity with text %s', $text));

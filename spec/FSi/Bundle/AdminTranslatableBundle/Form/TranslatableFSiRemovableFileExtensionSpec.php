@@ -40,7 +40,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
     ) {
         $form->getPropertyPath()->willReturn(null);
 
-        $this->finishView($view, $form, array());
+        $this->finishView($view, $form, []);
     }
 
     function it_does_nothing_if_form_has_no_translatable_parent(
@@ -59,7 +59,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
 
         $parentForm->getParent()->willReturn(null);
 
-        $this->finishView($view, $form, array());
+        $this->finishView($view, $form, []);
     }
 
     function it_does_nothing_if_forms_property_is_not_translatable_in_first_translatable_parent(
@@ -71,7 +71,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
         $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
         $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(false);
 
-        $this->finishView($view, $form, array());
+        $this->finishView($view, $form, []);
 
         expect($view->vars['translatable'])->toBe(false);
         expect($view->vars['not_translated'])->toBe(false);
@@ -92,7 +92,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
 
         $form->getName()->willReturn('translatable_property');
 
-        $this->finishView($view, $form, array());
+        $this->finishView($view, $form, []);
 
         expect($view->vars['translatable'])->toBe(true);
         expect($view->vars['not_translated'])->toBe(false);
@@ -126,7 +126,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
         $filePathResolver->fileBasename($uploadableFile->getWrappedObject())->willReturn('default-locale-filename');
         $filePathResolver->fileUrl($uploadableFile->getWrappedObject())->willReturn('default-locale-url');
 
-        $this->finishView($view, $form, array('remove_name' => 'remove'));
+        $this->finishView($view, $form, ['remove_name' => 'remove']);
 
         expect($view->vars['translatable'])->toBe(true);
         expect($view->vars['not_translated'])->toBe(true);

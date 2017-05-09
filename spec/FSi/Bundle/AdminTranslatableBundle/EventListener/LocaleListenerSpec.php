@@ -24,9 +24,9 @@ class LocaleListenerSpec extends ObjectBehavior
     function it_subscribes_kernel_request_event()
     {
         $this->getSubscribedEvents()->shouldReturn(
-            array(
+            [
                 KernelEvents::REQUEST => 'onKernelRequest',
-            )
+            ]
         );
     }
 

@@ -6,7 +6,7 @@ use SensioLabs\Behat\PageObjectExtension\PageObject\Element;
 
 class Popover extends Element
 {
-    protected $selector = array('css' => '.popover');
+    protected $selector = ['css' => '.popover'];
 
     public function getForm()
     {

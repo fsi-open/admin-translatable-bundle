@@ -115,7 +115,7 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareCo
      */
     public function iShouldBeRedirectedToPage($pageName, $locale)
     {
-        expect($this->getPage($pageName)->isOpen(array('locale' => $locale)))->toBe(true);
+        expect($this->getPage($pageName)->isOpen(['locale' => $locale]))->toBe(true);
     }
 
     /**

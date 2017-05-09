@@ -38,7 +38,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
     ) {
         $form->getPropertyPath()->willReturn(null);
 
-        $this->finishView($view, $form, array());
+        $this->finishView($view, $form, []);
     }
 
     function it_does_nothing_if_form_has_no_translatable_parent(
@@ -57,7 +57,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
 
         $parentForm->getParent()->willReturn(null);
 
-        $this->finishView($view, $form, array());
+        $this->finishView($view, $form, []);
     }
 
     function it_does_nothing_if_forms_property_is_not_translatable_in_first_translatable_parent(
@@ -90,9 +90,9 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
         $managerRegistry->getManagerForClass('translatable_class')->willReturn($manager);
         $translatableListener->getExtendedMetadata($manager, 'translatable_class')->willReturn($translatableMetadata);
         $translatableMetadata->hasTranslatableProperties()->willReturn(true);
-        $translatableMetadata->getTranslatableProperties()->willReturn(array());
+        $translatableMetadata->getTranslatableProperties()->willReturn([]);
 
-        $this->finishView($view, $form, array());
+        $this->finishView($view, $form, []);
 
         expect($view->vars['translatable'])->toBe(false);
         expect($view->vars['not_translated'])->toBe(false);
@@ -107,7 +107,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
         $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
         $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(true);
 
-        $this->finishView($view, $form, array());
+        $this->finishView($view, $form, []);
 
         expect($view->vars['translatable'])->toBe(true);
         expect($view->vars['not_translated'])->toBe(false);
@@ -126,7 +126,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
         $view = new FormView();
         $view->vars['value'] = 'default-locale-value';
 
-        $this->finishView($view, $form, array());
+        $this->finishView($view, $form, []);
 
         expect($view->vars['translatable'])->toBe(true);
         expect($view->vars['not_translated'])->toBe(true);

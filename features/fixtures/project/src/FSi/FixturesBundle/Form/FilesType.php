@@ -10,14 +10,14 @@ class FilesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('file', 'fsi_removable_file', array(
+        $builder->add('file', 'fsi_removable_file', [
             'required' => false
-        ));
+        ]);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'FSi\FixturesBundle\Entity\File'));
+        $resolver->setDefaults(['data_class' => 'FSi\FixturesBundle\Entity\File']);
     }
 
     public function getName()

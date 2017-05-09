@@ -26,7 +26,7 @@ class TranslatableCollectionListenerSpec extends ObjectBehavior
     public function it_subscribe_to_pre_set_data()
     {
         $this->getSubscribedEvents()->shouldReturn([
-            FormEvents::PRE_SET_DATA => array('onPreSetData', 10),
+            FormEvents::PRE_SET_DATA => ['onPreSetData', 10],
         ]);
     }
 

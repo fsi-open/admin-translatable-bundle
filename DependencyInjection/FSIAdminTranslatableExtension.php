@@ -46,19 +46,19 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
      */
     public function prepend(ContainerBuilder $container)
     {
-        $container->prependExtensionConfig('fsi_admin', array(
-            'templates' => array(
+        $container->prependExtensionConfig('fsi_admin', [
+            'templates' => [
                 'datagrid_theme' => '@FSiAdminTranslatable/DataGrid/translatable_datagrid.html.twig',
                 'form_theme' => '@FSiAdminTranslatable/Form/translatable_form.html.twig'
-            )
-        ));
+            ]
+        ]);
     }
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param array $config
      */
-    protected function setTemplateParameters(ContainerBuilder $container, $config = array())
+    protected function setTemplateParameters(ContainerBuilder $container, $config = [])
     {
         foreach ($config as $key => $value) {
             $container->setParameter(sprintf('admin_translatable.templates.%s', $key), $value);
