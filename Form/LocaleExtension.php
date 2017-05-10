@@ -42,9 +42,9 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             FormEvents::POST_SUBMIT => 'setTranslatableLocale'
-        );
+        ];
     }
 
     /**

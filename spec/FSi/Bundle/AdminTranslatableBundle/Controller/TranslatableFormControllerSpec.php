@@ -28,9 +28,9 @@ class TranslatableFormControllerSpec extends ObjectBehavior
         $contextManager->createContext('fsi_admin_translatable_form', $element)->willReturn($context);
         $context->handleRequest($request)->shouldBeCalled();
         $context->hasTemplateName()->willReturn(false);
-        $context->getData()->willReturn(array(1, 2, 3));
+        $context->getData()->willReturn([1, 2, 3]);
 
-        $templating->renderResponse('@FSiAdmin/Form/form.html.twig', array(1, 2, 3))->willReturn($response);
+        $templating->renderResponse('@FSiAdmin/Form/form.html.twig', [1, 2, 3])->willReturn($response);
 
         $this->formAction($element, $request)->shouldReturn($response);
     }

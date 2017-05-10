@@ -61,7 +61,7 @@ class KnpMenuTranslatableElementVoter implements VoterInterface
         }
 
         $currentLocale = $this->localeManager->getLocale();
-        $routes = (array) $item->getExtra('routes', array());
+        $routes = (array) $item->getExtra('routes', []);
 
         foreach ($routes as $testedRoute) {
             $routeParameters = $testedRoute['parameters'];

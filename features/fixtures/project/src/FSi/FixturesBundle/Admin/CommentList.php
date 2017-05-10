@@ -26,9 +26,9 @@ class CommentList extends TranslatableListElement
     {
         $datagrid = $factory->createDataGrid($this->getId());
 
-        $datagrid->addColumn('text', 'text', array(
+        $datagrid->addColumn('text', 'text', [
             'label' => 'admin.comment.grid.text'
-        ));
+        ]);
 
         return $datagrid;
     }
@@ -37,6 +37,6 @@ class CommentList extends TranslatableListElement
     {
         $qb = $this->getRepository()->createTranslatableQueryBuilder('e', 't', 'dt');
 
-        return $factory->createDataSource('doctrine', array('qb' => $qb), $this->getId());
+        return $factory->createDataSource('doctrine', ['qb' => $qb], $this->getId());
     }
 }

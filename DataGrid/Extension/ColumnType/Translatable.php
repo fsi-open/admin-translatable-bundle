@@ -47,14 +47,14 @@ class Translatable extends ColumnAbstractTypeExtension
 
     public function getExtendedColumnTypes()
     {
-        return array(
+        return [
             'text',
             'boolean',
             'datetime',
             'money',
             'number',
             'fsi_file'
-        );
+        ];
     }
 
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)

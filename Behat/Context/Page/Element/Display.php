@@ -6,7 +6,7 @@ use SensioLabs\Behat\PageObjectExtension\PageObject\Element;
 
 class Display extends Element
 {
-    protected $selector = array('css' => 'table');
+    protected $selector = ['css' => 'table'];
 
     public function getRowValue($name)
     {

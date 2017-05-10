@@ -15,7 +15,7 @@ class TranslatableWorkerPass implements CompilerPassInterface
         $productionLine = $container->findDefinition('admin.element.factory.production_line');
         $productionLine->addMethodCall(
             'addWorker',
-            array($container->findDefinition('admin_translatable.factory.worker.translatable'))
+            [$container->findDefinition('admin_translatable.factory.worker.translatable')]
         );
     }
 }

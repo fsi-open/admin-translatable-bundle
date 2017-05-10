@@ -6,7 +6,7 @@ use SensioLabs\Behat\PageObjectExtension\PageObject\Element;
 
 class Form extends Element
 {
-    protected $selector = array('css' => 'form');
+    protected $selector = ['css' => 'form'];
 
     public function findLabel($label)
     {

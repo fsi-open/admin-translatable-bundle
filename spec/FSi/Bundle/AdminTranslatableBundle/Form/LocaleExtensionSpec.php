@@ -39,7 +39,7 @@ class LocaleExtensionSpec extends ObjectBehavior
     {
         $formBuilder->addEventSubscriber($this)->shouldBeCalled();
 
-        $this->buildForm($formBuilder, array());
+        $this->buildForm($formBuilder, []);
     }
 
     function it_is_event_subscriber()
@@ -49,9 +49,9 @@ class LocaleExtensionSpec extends ObjectBehavior
 
     function it_should_listen_to_post_submit_event()
     {
-        $this->getSubscribedEvents()->shouldReturn(array(
+        $this->getSubscribedEvents()->shouldReturn([
             FormEvents::POST_SUBMIT => 'setTranslatableLocale'
-        ));
+        ]);
     }
 
     function it_sets_locale_on_translatable_data(

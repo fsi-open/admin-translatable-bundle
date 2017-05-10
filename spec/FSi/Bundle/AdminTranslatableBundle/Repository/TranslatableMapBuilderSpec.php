@@ -10,10 +10,10 @@ use Prophecy\Argument;
 
 class TranslatableMapBuilderSpec extends ObjectBehavior
 {
-    protected $resources = array(
+    protected $resources = [
         'text' => 'FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\TextType',
         'integer' => 'FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\TypeIntegerType'
-    );
+    ];
 
     function let(
         TranslatableListener $translatableListener
@@ -30,11 +30,11 @@ class TranslatableMapBuilderSpec extends ObjectBehavior
     ) {
         $this->shouldThrow('FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException')->during(
             '__construct',
-            array(
+            [
                 __DIR__ . '/../../../../fixtures/resource_map_with_invalid_value.yml',
                 $this->resources,
                 $translatableListener
-            )
+            ]
         );
     }
 

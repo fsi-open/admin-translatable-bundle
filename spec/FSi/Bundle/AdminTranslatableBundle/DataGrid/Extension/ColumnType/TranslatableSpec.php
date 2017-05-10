@@ -35,21 +35,21 @@ class TranslatableSpec extends ObjectBehavior
 
     function it_extends_action_column()
     {
-        $this->getExtendedColumnTypes()->shouldReturn(array(
+        $this->getExtendedColumnTypes()->shouldReturn([
             'text',
             'boolean',
             'datetime',
             'money',
             'number',
             'fsi_file'
-        ));
+        ]);
     }
 
     function it_sets_translatable_and_not_translated_to_false_when_column_has_no_properties_in_field_mapping(
         ColumnTypeInterface $column,
         CellViewInterface $view
     ) {
-        $column->getOption('field_mapping')->willReturn(array('[property]'));
+        $column->getOption('field_mapping')->willReturn(['[property]']);
 
         $view->setAttribute('translatable', false)->shouldBeCalled();
         $view->setAttribute('not_translated', false)->shouldBeCalled();
@@ -62,8 +62,8 @@ class TranslatableSpec extends ObjectBehavior
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
     ) {
-        $column->getOption('field_mapping')->willReturn(array('property'));
-        $data = (object) array('property' => 'value');
+        $column->getOption('field_mapping')->willReturn(['property']);
+        $data = (object) ['property' => 'value'];
         $view->getSource()->willReturn($data);
         $translatableMetadata->hasTranslatableProperties()->willReturn(false);
 
@@ -78,12 +78,12 @@ class TranslatableSpec extends ObjectBehavior
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
     ) {
-        $column->getOption('field_mapping')->willReturn(array('property'));
-        $data = (object) array('property' => 'value');
+        $column->getOption('field_mapping')->willReturn(['property']);
+        $data = (object) ['property' => 'value'];
         $view->getSource()->willReturn($data);
         $translatableMetadata->hasTranslatableProperties()->willReturn(true);
         $translatableMetadata->getTranslatableProperties()
-            ->willReturn(array('translations' => array('translatable_property' => 'translation_property')));
+            ->willReturn(['translations' => ['translatable_property' => 'translation_property']]);
 
         $view->setAttribute('translatable', false)->shouldBeCalled();
         $view->setAttribute('not_translated', false)->shouldBeCalled();
@@ -96,16 +96,16 @@ class TranslatableSpec extends ObjectBehavior
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
     ) {
-        $column->getOption('field_mapping')->willReturn(array('translatable_property'));
-        $data = (object) array(
+        $column->getOption('field_mapping')->willReturn(['translatable_property']);
+        $data = (object) [
             'translatable_property' => 'value',
             'non_translatable_property' => 'value',
             'locale' => 'en'
-        );
+        ];
         $view->getSource()->willReturn($data);
         $translatableMetadata->hasTranslatableProperties()->willReturn(true);
         $translatableMetadata->getTranslatableProperties()
-            ->willReturn(array('translations' => array('translatable_property' => 'translation_property')));
+            ->willReturn(['translations' => ['translatable_property' => 'translation_property']]);
         $translatableMetadata->localeProperty = 'locale';
 
         $view->setAttribute('translatable', true)->shouldBeCalled();
@@ -119,17 +119,17 @@ class TranslatableSpec extends ObjectBehavior
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
     ) {
-        $column->getOption('field_mapping')->willReturn(array('nested_object.translatable_property'));
-        $nested_object = (object) array(
+        $column->getOption('field_mapping')->willReturn(['nested_object.translatable_property']);
+        $nested_object = (object) [
             'translatable_property' => 'value',
             'non_translatable_property' => 'value',
             'locale' => 'en'
-        );
-        $data = (object) array('nested_object' => $nested_object);
+        ];
+        $data = (object) ['nested_object' => $nested_object];
         $view->getSource()->willReturn($data);
         $translatableMetadata->hasTranslatableProperties()->willReturn(true);
         $translatableMetadata->getTranslatableProperties()
-            ->willReturn(array('translations' => array('translatable_property' => 'translation_property')));
+            ->willReturn(['translations' => ['translatable_property' => 'translation_property']]);
         $translatableMetadata->localeProperty = 'locale';
 
         $view->setAttribute('translatable', true)->shouldBeCalled();
@@ -143,16 +143,16 @@ class TranslatableSpec extends ObjectBehavior
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
     ) {
-        $column->getOption('field_mapping')->willReturn(array('translatable_property'));
-        $data = (object) array(
+        $column->getOption('field_mapping')->willReturn(['translatable_property']);
+        $data = (object) [
             'translatable_property' => 'value',
             'non_translatable_property' => 'value',
             'locale' => 'de'
-        );
+        ];
         $view->getSource()->willReturn($data);
         $translatableMetadata->hasTranslatableProperties()->willReturn(true);
         $translatableMetadata->getTranslatableProperties()
-            ->willReturn(array('translations' => array('translatable_property' => 'translation_property')));
+            ->willReturn(['translations' => ['translatable_property' => 'translation_property']]);
         $translatableMetadata->localeProperty = 'locale';
 
         $view->setAttribute('translatable', true)->shouldBeCalled();
@@ -166,17 +166,17 @@ class TranslatableSpec extends ObjectBehavior
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
     ) {
-        $column->getOption('field_mapping')->willReturn(array('nested_object.translatable_property'));
-        $nested_object = (object) array(
+        $column->getOption('field_mapping')->willReturn(['nested_object.translatable_property']);
+        $nested_object = (object) [
             'translatable_property' => 'value',
             'non_translatable_property' => 'value',
             'locale' => 'de'
-        );
-        $data = (object) array('nested_object' => $nested_object);
+        ];
+        $data = (object) ['nested_object' => $nested_object];
         $view->getSource()->willReturn($data);
         $translatableMetadata->hasTranslatableProperties()->willReturn(true);
         $translatableMetadata->getTranslatableProperties()
-            ->willReturn(array('translations' => array('translatable_property' => 'translation_property')));
+            ->willReturn(['translations' => ['translatable_property' => 'translation_property']]);
         $translatableMetadata->localeProperty = 'locale';
 
         $view->setAttribute('translatable', true)->shouldBeCalled();

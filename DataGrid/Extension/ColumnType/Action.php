@@ -44,9 +44,9 @@ class Action extends ColumnAbstractTypeExtension
      */
     public function getExtendedColumnTypes()
     {
-        return array(
+        return [
             'action'
-        );
+        ];
     }
 
     /**
@@ -89,7 +89,7 @@ class Action extends ColumnAbstractTypeExtension
         if ($route) {
             return $route->compile()->getVariables();
         } else {
-            return array();
+            return [];
         }
     }
 

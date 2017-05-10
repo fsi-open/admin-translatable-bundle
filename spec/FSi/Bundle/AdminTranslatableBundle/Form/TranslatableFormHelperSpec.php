@@ -62,7 +62,7 @@ class TranslatableFormHelperSpec extends ObjectBehavior
         FormInterface $form
     ) {
         $translatableMetadata->getTranslatableProperties()->willReturn(
-            array('translations' => array('translatable_property' => 'translation_property'))
+            ['translations' => ['translatable_property' => 'translation_property']]
         );
 
         $this->isFormPropertyPathTranslatable($form)->shouldReturn(true);
@@ -72,7 +72,7 @@ class TranslatableFormHelperSpec extends ObjectBehavior
         ClassMetadata $translatableMetadata,
         FormInterface $form
     ) {
-        $translatableMetadata->getTranslatableProperties()->willReturn(array());
+        $translatableMetadata->getTranslatableProperties()->willReturn([]);
         $this->isFormPropertyPathTranslatable($form)->shouldReturn(false);
     }
 

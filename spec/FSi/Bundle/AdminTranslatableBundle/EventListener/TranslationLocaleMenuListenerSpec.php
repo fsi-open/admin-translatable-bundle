@@ -27,28 +27,28 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
     ) {
         $localeManager->getLocale()->willReturn('en');
         $request->getLocale()->willReturn('en');
-        $request->get('_route_params')->willReturn(array('element' => 'event', 'locale' => 'en'));
+        $request->get('_route_params')->willReturn(['element' => 'event', 'locale' => 'en']);
         $request->get('_route')->willReturn('admin_translatable_list');
         $requestStack->getCurrentRequest()->willReturn($request);
 
-        $query->all()->willReturn(array('param1' => 'val1', 'redirect_uri' => '/admin/en/list/element?param=value'));
+        $query->all()->willReturn(['param1' => 'val1', 'redirect_uri' => '/admin/en/list/element?param=value']);
         $request->query = $query;
 
         $router->matchRequest(Argument::that(function ($argument) {
             return $argument->server->get('REQUEST_URI') === '/admin/en/list/element' &&
                 $argument->server->get('QUERY_STRING') === 'param=value';
-        }))->willReturn(array(
+        }))->willReturn([
             '_route' => 'some_admin_route',
             'locale' => 'en',
             'element' => 'element'
-        ));
+        ]);
         $request->server = $server;
 
-        $localeManager->getLocales()->willReturn(array('pl', 'en', 'de'));
+        $localeManager->getLocales()->willReturn(['pl', 'en', 'de']);
 
         $translator->trans(
             'admin.locale.dropdown.title',
-            array('%locale%' => 'en'),
+            ['%locale%' => 'en'],
             'FSiAdminTranslatableBundle'
         )->willReturn('Menu label');
 
@@ -62,17 +62,17 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
 
         $router->generate(
             'some_admin_route',
-            array('locale' => 'en', 'element' => 'element'),
+            ['locale' => 'en', 'element' => 'element'],
             UrlGeneratorInterface::ABSOLUTE_PATH)->willReturn('/admin/en/list/element');
 
         $router->generate(
             'some_admin_route',
-            array('locale' => 'pl', 'element' => 'element'),
+            ['locale' => 'pl', 'element' => 'element'],
             UrlGeneratorInterface::ABSOLUTE_PATH)->willReturn('/admin/pl/list/element');
 
         $router->generate(
             'some_admin_route',
-            array('locale' => 'de', 'element' => 'element'),
+            ['locale' => 'de', 'element' => 'element'],
             UrlGeneratorInterface::ABSOLUTE_PATH)->willReturn('/admin/de/list/element');
 
 
@@ -93,32 +93,32 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
 
         expect($localePl->getLabel())->toBe('Polish');
         expect($localePl->getRoute())->toBe('admin_translatable_list');
-        expect($localePl->getRouteParameters())->toBe(array(
+        expect($localePl->getRouteParameters())->toBe([
             'element' => 'event',
             'locale' => 'pl',
             'param1' => 'val1',
             'redirect_uri' => '/admin/pl/list/element?param=value'
-        ));
+        ]);
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
 
         expect($localeEn->getLabel())->toBe('English');
         expect($localeEn->getRoute())->toBe('admin_translatable_list');
-        expect($localeEn->getRouteParameters())->toBe(array(
+        expect($localeEn->getRouteParameters())->toBe([
             'element' => 'event',
             'locale' => 'en',
             'param1' => 'val1',
             'redirect_uri' => '/admin/en/list/element?param=value'
-        ));
+        ]);
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
 
         expect($localeDe->getLabel())->toBe('German');
         expect($localeDe->getRoute())->toBe('admin_translatable_list');
-        expect($localeDe->getRouteParameters())->toBe(array(
+        expect($localeDe->getRouteParameters())->toBe([
             'element' => 'event',
             'locale' => 'de',
             'param1' => 'val1',
             'redirect_uri' => '/admin/de/list/element?param=value'
-        ));
+        ]);
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
     }
 
@@ -127,7 +127,7 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         $menuItem = new Item();
         $menuEvent->getMenu()->willReturn($menuItem);
 
-        $request->get('_route_params')->willReturn(array('element' => 'news'));
+        $request->get('_route_params')->willReturn(['element' => 'news']);
 
         $this->createTranslationLocaleMenu($menuEvent);
 
@@ -138,7 +138,7 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         expect($translationLocale->getOption('attr'))
             ->toHaveOption('id', 'translatable-switcher');
 
-        expect($translationLocale->getChildren())->toBe(array());
+        expect($translationLocale->getChildren())->toBe([]);
     }
 
     public function getMatchers()

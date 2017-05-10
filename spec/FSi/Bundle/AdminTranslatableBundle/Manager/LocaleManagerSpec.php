@@ -22,18 +22,18 @@ class LocaleManagerSpec extends ObjectBehavior
         $managerRegistry->getManager()->willReturn($entityManager);
         $entityManager->getEventManager()->willReturn($eventManager);
         $eventManager->getListeners()
-            ->willReturn(array(
-                'preFlush' => array(
+            ->willReturn([
+                'preFlush' => [
                     $translatableListener
-                )
-            ));
+                ]
+            ]);
 
-        $this->beConstructedWith($managerRegistry, $session, array('en', 'de'));
+        $this->beConstructedWith($managerRegistry, $session, ['en', 'de']);
     }
 
     function it_returns_configured_locales()
     {
-        $this->getLocales()->shouldReturn(array('en', 'de'));
+        $this->getLocales()->shouldReturn(['en', 'de']);
     }
 
     function it_sets_locale(

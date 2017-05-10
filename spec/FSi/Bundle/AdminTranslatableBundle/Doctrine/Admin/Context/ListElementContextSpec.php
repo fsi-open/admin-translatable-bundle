@@ -16,7 +16,7 @@ class TranslatableListElementContextSpec extends ObjectBehavior
      */
     function let($element, $datasource, $datagrid, $handler)
     {
-        $this->beConstructedWith(array($handler), 'some_template.html.twig');
+        $this->beConstructedWith([$handler], 'some_template.html.twig');
         $element->createDataGrid()->willReturn($datagrid);
         $element->createDataSource()->willReturn($datasource);
         $this->setElement($element);
@@ -83,7 +83,7 @@ class TranslatableListElementContextSpec extends ObjectBehavior
 
     public function getMatchers()
     {
-        return array(
+        return [
             'haveKeyInArray' => function($subject, $key) {
                 if (!is_array($subject)) {
                     return false;
@@ -91,6 +91,6 @@ class TranslatableListElementContextSpec extends ObjectBehavior
 
                 return array_key_exists($key, $subject);
             },
-        );
+        ];
     }
 }

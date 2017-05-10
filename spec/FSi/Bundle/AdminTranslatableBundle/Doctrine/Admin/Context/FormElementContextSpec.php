@@ -15,7 +15,7 @@ class TranslatableFormElementContextSpec extends ObjectBehavior
      */
     function let($element, $form, $handler)
     {
-        $this->beConstructedWith(array($handler), 'some_template.html.twig');
+        $this->beConstructedWith([$handler], 'some_template.html.twig');
         $element->createForm(null)->willReturn($form);
         $this->setElement($element);
     }
@@ -41,9 +41,9 @@ class TranslatableFormElementContextSpec extends ObjectBehavior
         $this->getData()->shouldHaveKeyInArray('form');
         $this->getData()->shouldHaveKeyInArray('element');
 
-        $form->getData()->willReturn(array('object'));
+        $form->getData()->willReturn(['object']);
         $element->getDataIndexer()->willReturn($dataIndexer);
-        $dataIndexer->getIndex(array('object'))->willReturn('id');
+        $dataIndexer->getIndex(['object'])->willReturn('id');
         $this->getData()->shouldHaveKeyInArray('id');
     }
 
@@ -95,7 +95,7 @@ class TranslatableFormElementContextSpec extends ObjectBehavior
 
     public function getMatchers()
     {
-        return array(
+        return [
             'haveKeyInArray' => function($subject, $key) {
                 if (!is_array($subject)) {
                     return false;
@@ -103,6 +103,6 @@ class TranslatableFormElementContextSpec extends ObjectBehavior
 
                 return array_key_exists($key, $subject);
             },
-        );
+        ];
     }
 }

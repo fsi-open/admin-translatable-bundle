@@ -37,14 +37,14 @@ class TranslatableMapBuilder extends BaseMapBuilder
      * @param string[] $resourceTypes
      * @param TranslatableListener $translatableListener
      */
-    public function __construct($mapPath, $resourceTypes = array(), TranslatableListener $translatableListener)
+    public function __construct($mapPath, $resourceTypes = [], TranslatableListener $translatableListener)
     {
         $this->mapPath = $mapPath;
         $this->translatableListener = $translatableListener;
-        $this->translatedKeys = array();
+        $this->translatedKeys = [];
 
-        $this->resourceTypes = array();
-        $this->resources = array();
+        $this->resourceTypes = [];
+        $this->resources = [];
 
         foreach ($resourceTypes as $type => $class) {
             $this->resourceTypes[$type] = $class;
@@ -125,11 +125,11 @@ class TranslatableMapBuilder extends BaseMapBuilder
      */
     protected function validateResourceConfiguration($configuration)
     {
-        $validKeys = array(
+        $validKeys = [
             'form_options',
             'constraints',
             'translatable'
-        );
+        ];
 
         foreach ($configuration as $key => $options) {
             if ($key === 'type') {
