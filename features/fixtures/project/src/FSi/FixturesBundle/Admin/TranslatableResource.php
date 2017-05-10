@@ -2,8 +2,8 @@
 
 namespace FSi\FixturesBundle\Admin;
 
-use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableResourceElement;
 use FSi\Bundle\AdminBundle\Annotation as Admin;
+use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableResourceElement;
 
 /**
  * @Admin\Element
@@ -18,11 +18,6 @@ class TranslatableResource extends TranslatableResourceElement
     public function getKey()
     {
         return 'resources.translatable_resource';
-    }
-
-    public function getName()
-    {
-        return 'admin.translatable_resource.name';
     }
 
     public function getClassName()

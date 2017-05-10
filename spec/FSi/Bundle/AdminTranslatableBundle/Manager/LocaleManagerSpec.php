@@ -5,71 +5,71 @@ namespace spec\FSi\Bundle\AdminTranslatableBundle\Manager;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
+use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class LocaleManagerSpec extends ObjectBehavior
 {
+    const DE = 'de';
+    const EN = 'en';
+    const PL = 'pl';
+
     function let(
         ManagerRegistry $managerRegistry,
         EntityManager $entityManager,
         EventManager $eventManager,
         TranslatableListener $translatableListener,
-        Session $session
+        SessionInterface $session
     ) {
         $managerRegistry->getManager()->willReturn($entityManager);
         $entityManager->getEventManager()->willReturn($eventManager);
-        $eventManager->getListeners()
-            ->willReturn([
-                'preFlush' => [
-                    $translatableListener
-                ]
-            ]);
+        $eventManager->getListeners()->willReturn(['preFlush' => [$translatableListener]]);
 
-        $this->beConstructedWith($managerRegistry, $session, ['en', 'de']);
+        $this->beConstructedWith($managerRegistry, $session, [self::EN, self::DE]);
     }
 
     function it_returns_configured_locales()
     {
-        $this->getLocales()->shouldReturn(['en', 'de']);
+        $this->getLocales()->shouldReturn([self::EN, self::DE]);
     }
 
     function it_sets_locale(
-        Session $session,
+        SessionInterface $session,
         TranslatableListener $translatableListener
     ) {
 
-        $session->set('admin-locale', 'pl')->shouldBeCalled();
-        $translatableListener->setLocale('pl')->shouldBeCalled();
+        $session->set(LocaleManager::SESSION_KEY, self::PL)->shouldBeCalled();
+        $translatableListener->setLocale(self::PL)->shouldBeCalled();
 
-        $this->setLocale('pl');
+        $this->setLocale(self::PL);
     }
 
     function it_gets_default_locale_when_session_is_empty(
-        Session $session,
+        SessionInterface $session,
         TranslatableListener $translatableListener
     ) {
-        $session->has('admin-locale')->willReturn(false);
-        $translatableListener->getDefaultLocale()->willReturn('en');
+        $translatableListener->getDefaultLocale()->willReturn(self::EN);
+        $session->get(LocaleManager::SESSION_KEY, self::EN)->willReturn(self::EN);
 
-        $this->getLocale()->shouldReturn('en');
+        $this->getLocale()->shouldReturn(self::EN);
     }
 
     function it_gets_locale_when_session_is_not_empty(
-        Session $session
+        SessionInterface $session,
+        TranslatableListener $translatableListener
     ) {
-        $session->has('admin-locale')->willReturn(true);
-        $session->get('admin-locale')->willReturn('en');
+        $translatableListener->getDefaultLocale()->willReturn(self::PL);
+        $session->get(LocaleManager::SESSION_KEY, self::PL)->willReturn(self::EN);
 
-        $this->getLocale()->shouldReturn('en');
+        $this->getLocale()->shouldReturn(self::EN);
     }
 
     function it_gets_deafult_locale(TranslatableListener $translatableListener)
     {
-        $translatableListener->getDefaultLocale()->willReturn('en');
+        $translatableListener->getDefaultLocale()->willReturn(self::EN);
 
-        $this->getDefaultLocale()->shouldReturn('en');
+        $this->getDefaultLocale()->shouldReturn(self::EN);
     }
 }

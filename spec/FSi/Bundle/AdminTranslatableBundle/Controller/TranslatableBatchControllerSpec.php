@@ -7,14 +7,18 @@ use FSi\Bundle\AdminBundle\Admin\Context\ContextManager;
 use FSi\Bundle\AdminBundle\Admin\CRUD\BatchElement;
 use PhpSpec\ObjectBehavior;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TranslatableBatchControllerSpec extends ObjectBehavior
 {
-    function let(EngineInterface $templating, ContextManager $contextManager)
-    {
-        $this->beConstructedWith($templating, $contextManager);
+    function let(
+        EngineInterface $templating,
+        ContextManager $contextManager,
+        EventDispatcherInterface $eventDispatcher
+    ) {
+        $this->beConstructedWith($templating, $contextManager, $eventDispatcher);
     }
 
     function it_should_handle_batch_action(

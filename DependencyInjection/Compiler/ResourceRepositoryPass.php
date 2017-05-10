@@ -28,7 +28,7 @@ class ResourceRepositoryPass implements CompilerPassInterface
 
             $contextManagerDefinition = $container->getDefinition('admin.context.manager');
             $contextManagerDefinition->addMethodCall('addContext', [
-                new Reference('admin_translatable.resource.context')
+                new Reference('admin_translatable.context.resource')
             ]);
 
             $definition = $container->getDefinition('fsi_resource_repository.resource.repository');

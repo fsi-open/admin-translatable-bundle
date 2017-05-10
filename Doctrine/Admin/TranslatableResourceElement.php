@@ -10,7 +10,6 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 
 use FSi\Bundle\AdminBundle\Doctrine\Admin\ResourceElement;
-use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 
 abstract class TranslatableResourceElement extends ResourceElement implements TranslatableAwareElement
 {

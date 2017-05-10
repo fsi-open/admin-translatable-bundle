@@ -2,13 +2,15 @@
 
 namespace FSi\FixturesBundle\Admin;
 
+use FSi\Bundle\AdminBundle\Annotation as Admin;
 use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableCRUDElement;
+use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\Component\DataGrid\DataGridFactoryInterface;
 use FSi\Component\DataSource\DataSourceFactoryInterface;
+use FSi\FixturesBundle\Entity\Event as EventEntity;
 use FSi\FixturesBundle\Form\CommentType;
 use FSi\FixturesBundle\Form\FilesType;
 use Symfony\Component\Form\FormFactoryInterface;
-use FSi\Bundle\AdminBundle\Annotation as Admin;
 
 /**
  * @Admin\Element
@@ -21,14 +23,6 @@ class Event extends TranslatableCRUDElement
     public function getId()
     {
         return 'admin_event';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName()
-    {
-        return 'admin.events.type_name';
     }
 
     /**
@@ -96,29 +90,38 @@ class Event extends TranslatableCRUDElement
      */
     protected function initForm(FormFactoryInterface $factory, $data = null)
     {
-        $form = $factory->create('form', $data, [
-            'data_class' => $this->getClassName(),
-        ]);
+        if (!$data) {
+            $data = new EventEntity();
+        }
+        $formType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\FormType', 'form');
+        $textType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\TextType', 'text');
+        $ckeditorType = TypeSolver::getFormType('Ivory\CKEditorBundle\Form\Type\CKEditorType', 'ckeditor');
+        $collectionType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\CollectionType', 'collection');
+        $removableFileType = TypeSolver::getFormType(
+            'FSi\Bundle\DoctrineExtensionsBundle\Form\Type\FSi\RemovableFileType',
+            'fsi_removable_file'
+        );
+        $commentType = TypeSolver::getFormType('FSi\FixturesBundle\Form\CommentType', new CommentType());
+        $filesType = TypeSolver::getFormType('FSi\FixturesBundle\Form\FilesType', new FilesType());
 
-        $form->add('name', 'text', ['label' => 'admin.events.form.name']);
+        $form = $factory->create($formType, $data, ['data_class' => $this->getClassName()]);
 
-        $form->add('agreement', 'fsi_removable_file', [
-            'required' => false
-        ]);
+        $form->add('name', $textType, ['label' => 'admin.events.form.name']);
 
-        $form->add('description', 'ckeditor', [
-            'required' => false
-        ]);
+        $form->add('agreement', $removableFileType, ['required' => false]);
 
-        $form->add('comments', 'collection', [
-            'type' => new CommentType(),
+        $form->add('description', $ckeditorType, ['required' => false]);
+
+        $entryTypeLabel = TypeSolver::isSymfony3FormNamingConvention()? 'entry_type' : 'type';
+        $form->add('comments', $collectionType, [
+            $entryTypeLabel => $commentType,
             'allow_add' => true,
             'allow_delete' => true,
             'by_reference' => false
         ]);
 
-        $form->add('files', 'collection', [
-            'type' => new FilesType(),
+        $form->add('files', $collectionType, [
+            $entryTypeLabel => $filesType,
             'allow_add' => true,
             'allow_delete' => true,
             'by_reference' => false

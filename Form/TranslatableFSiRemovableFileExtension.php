@@ -9,12 +9,10 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\Bundle\DoctrineExtensionsBundle\Resolver\FSiFilePathResolver;
-use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class TranslatableFSiRemovableFileExtension extends AbstractTranslatableExtension
 {
@@ -37,8 +35,12 @@ class TranslatableFSiRemovableFileExtension extends AbstractTranslatableExtensio
      */
     public function getExtendedType()
     {
-        return 'fsi_removable_file';
+        return TypeSolver::getFormType(
+            'FSi\Bundle\DoctrineExtensionsBundle\Form\Type\FSi\RemovableFileType',
+            'fsi_removable_file'
+        );
     }
+
     /**
      * @param FormView $view
      * @param FormInterface $form

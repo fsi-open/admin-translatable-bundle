@@ -12,20 +12,19 @@ namespace FSi\Bundle\AdminTranslatableBundle\Manager;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use FSi\Bundle\AdminBundle\Exception\RuntimeException;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-/**
- * @author Artur Czocher <wasper@wasper.pl>
- */
 class LocaleManager
 {
+    const SESSION_KEY = 'admin_translatable_locale';
+
     /**
      * @var ManagerRegistry
      */
     private $managerRegistry;
 
     /**
-     * @var Session
+     * @var SessionInterface
      */
     private $session;
 
@@ -34,14 +33,9 @@ class LocaleManager
      */
     private $locales;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param Session $session
-     * @param array $locales
-     */
     public function __construct(
         ManagerRegistry $managerRegistry,
-        Session $session,
+        SessionInterface $session,
         array $locales
     ) {
         $this->managerRegistry = $managerRegistry;
@@ -59,15 +53,7 @@ class LocaleManager
      */
     public function setLocale($locale)
     {
-        $this->session->set('admin-locale', $locale);
-        $this->setTranslatableLocale($locale);
-    }
-
-    /**
-     * @param string $locale
-     */
-    private function setTranslatableLocale($locale)
-    {
+        $this->session->set(self::SESSION_KEY, $locale);
         $this->getTranslatableListener()->setLocale($locale);
     }
 
@@ -84,19 +70,7 @@ class LocaleManager
      */
     public function getLocale()
     {
-        if ($this->hasLocale()) {
-            return $this->session->get('admin-locale');
-        } else {
-            return $this->getDefaultLocale();
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    private function hasLocale()
-    {
-        return $this->session->has('admin-locale');
+        return $this->session->get(self::SESSION_KEY, $this->getDefaultLocale());
     }
 
     /**

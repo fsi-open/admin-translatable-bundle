@@ -21,17 +21,11 @@ class LocaleListener implements EventSubscriberInterface
      */
     private $localeManager;
 
-    /**
-     * @param LocaleManager $localeManager
-     */
     public function __construct(LocaleManager $localeManager)
     {
         $this->localeManager = $localeManager;
     }
 
-    /**
-     * @return array
-     */
     public static function getSubscribedEvents()
     {
         return  [
@@ -39,12 +33,10 @@ class LocaleListener implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if ($locale = $event->getRequest()->get('locale')) {
+        $locale = $event->getRequest()->get('locale');
+        if ($locale) {
             $this->localeManager->setLocale($locale);
         }
     }

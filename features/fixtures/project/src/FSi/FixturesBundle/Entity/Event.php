@@ -15,10 +15,10 @@ use FSi\Bundle\DoctrineExtensionsBundle\Validator\Constraints as UploadableAsser
 class Event
 {
     /**
-     * @ORM\Column(name="id", type="bigint")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @var integer $id
+     * @var integer
      */
     private $id;
 
@@ -45,28 +45,28 @@ class Event
      * @UploadableAssert\File()
      * @var \FSi\DoctrineExtensions\Uploadable\File|\SplFileInfo
      */
-    protected $agreement;
+    private $agreement;
 
     /**
-     * @ORM\OneToMany(targetEntity="\FSi\FixturesBundle\Entity\Comment", mappedBy="events", cascade="all", orphanRemoval=true)
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="events", cascade="all", orphanRemoval=true)
+     * @var ArrayCollection
      */
     private $comments;
 
     /**
      * @Translatable\Translatable(mappedBy="translations")
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      */
     private $files;
 
     /**
      * @ORM\OneToMany(
-     *          targetEntity="\FSi\FixturesBundle\Entity\EventTranslation",
-     *          mappedBy="event",
-     *          indexBy="locale",
-     *          orphanRemoval=true
+     *      targetEntity="EventTranslation",
+     *      mappedBy="event",
+     *      indexBy="locale",
+     *      orphanRemoval=true
      * )
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      */
     private $translations;
 
@@ -79,49 +79,32 @@ class Event
 
     /**
      * @ORM\PostLoad()
-     * @param \Doctrine\ORM\Event\LifecycleEventArgs $eventArgs
      */
     public function postLoad(LifecycleEventArgs $eventArgs)
     {
         $this->files = new ArrayCollection();
     }
 
-
-    /**
-     * @return int
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName($name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription()
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription($description)
     {
         $this->description = $description;
@@ -137,81 +120,48 @@ class Event
         $this->agreement = $agreement;
     }
 
-    /**
-     * @param $locale
-     */
     public function setLocale($locale)
     {
-        $this->locale = (string)$locale;
+        $this->locale = (string) $locale;
     }
 
-    /**
-     * @return string
-     */
     public function getLocale()
     {
         return $this->locale;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getComments()
     {
         return $this->comments;
     }
 
-    /**
-     * @param \FSi\FixturesBundle\Entity\Comment $comment
-     */
     public function addComment(Comment $comment)
     {
         $this->comments->add($comment);
         $comment->setEvent($this);
     }
 
-    /**
-     * @param \FSi\FixturesBundle\Entity\Comment $comment
-     */
     public function removeComment(Comment $comment)
     {
         $this->comments->removeElement($comment);
         $comment->setEvent(null);
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getTranslations()
     {
         return $this->translations;
     }
 
-    /**
-     * @param string $locale
-     * @return bool
-     */
     public function hasTranslation($locale)
     {
         return isset($this->translations[$locale]);
     }
 
-    /**
-     * @param string $locale
-     * @return null|string
-     */
     public function getTranslation($locale)
     {
-        if ($this->hasTranslation($locale)) {
-            return $this->translations[$locale];
-        } else {
-            return null;
-        }
+        return $this->hasTranslation($locale) ? $this->translations[$locale] : null;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getFiles()
     {
         return $this->files;

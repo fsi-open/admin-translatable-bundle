@@ -3,6 +3,7 @@
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
@@ -32,7 +33,9 @@ class LocaleExtensionSpec extends ObjectBehavior
 
     function it_extends_from_type()
     {
-        $this->getExtendedType()->shouldReturn('form');
+        $this->getExtendedType()->shouldReturn(
+            TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\FormType', 'form')
+        );
     }
 
     function it_adds_itself_as_form_event_subscriber(FormBuilderInterface $formBuilder)

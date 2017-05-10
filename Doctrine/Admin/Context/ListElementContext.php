@@ -21,16 +21,10 @@ class ListElementContext extends BaseListElementContext
      */
     private $localeManager;
 
-    /**
-     * @var string
-     */
-    private $listTemplate;
-
     public function __construct($requestHandlers, LocaleManager $localeManager, $listTemplate)
     {
-        parent::__construct($requestHandlers);
+        parent::__construct($requestHandlers, $listTemplate);
         $this->localeManager = $localeManager;
-        $this->listTemplate = $listTemplate;
     }
 
     /**
@@ -42,23 +36,6 @@ class ListElementContext extends BaseListElementContext
         $data['translatable_locale'] = $this->localeManager->getLocale();
 
         return $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasTemplateName()
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTemplateName()
-    {
-        return $this->element->hasOption('template_list') ?
-            $this->element->getOption('template_list') : $this->listTemplate;
     }
 
     /**

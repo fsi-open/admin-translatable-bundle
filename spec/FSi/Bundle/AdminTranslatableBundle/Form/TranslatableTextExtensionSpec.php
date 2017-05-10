@@ -5,14 +5,13 @@ namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper;
+use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\PropertyAccess\PropertyPath;
 
 class TranslatableTextExtensionSpec extends ObjectBehavior
@@ -29,7 +28,9 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
 
     function it_extends_text_form()
     {
-        $this->getExtendedType()->shouldReturn('text');
+        $this->getExtendedType()->shouldReturn(
+            TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\TextType', 'text')
+        );
     }
 
     function it_does_nothing_if_form_has_no_property_path(

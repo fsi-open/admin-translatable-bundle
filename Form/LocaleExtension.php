@@ -10,6 +10,7 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -67,7 +68,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
      */
     public function getExtendedType()
     {
-        return 'form';
+        return TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\FormType', 'form');
     }
 
     /**
@@ -168,9 +169,10 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
      */
     private function setFormDataLocale(FormEvent $event)
     {
-        if (!$data = $event->getData()) {
+        $data = $event->getData();
+        if (!$data) {
             return;
-        };
+        }
 
         $this->propertyAccessor->setValue(
             $data,
