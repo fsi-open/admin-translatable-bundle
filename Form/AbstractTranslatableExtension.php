@@ -9,7 +9,6 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;

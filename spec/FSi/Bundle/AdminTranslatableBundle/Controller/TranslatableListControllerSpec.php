@@ -7,14 +7,18 @@ use FSi\Bundle\AdminBundle\Admin\Context\ContextManager;
 use FSi\Bundle\AdminBundle\Doctrine\Admin\ListElement;
 use PhpSpec\ObjectBehavior;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TranslatableListControllerSpec extends ObjectBehavior
 {
-    function let(EngineInterface $templating, ContextManager $contextManager)
-    {
-        $this->beConstructedWith($templating, $contextManager, '@FSiAdmin/List/list.html.twig');
+    function let(
+        EngineInterface $templating,
+        ContextManager $contextManager,
+        EventDispatcherInterface $eventDispatcher
+    ) {
+        $this->beConstructedWith($templating, $contextManager, $eventDispatcher);
     }
 
     function it_should_handle_list_action(
@@ -27,10 +31,11 @@ class TranslatableListControllerSpec extends ObjectBehavior
     ) {
         $contextManager->createContext('fsi_admin_translatable_list', $element)->willReturn($context);
         $context->handleRequest($request)->shouldBeCalled();
-        $context->hasTemplateName()->willReturn(false);
+        $context->hasTemplateName()->willReturn(true);
+        $context->getTemplateName()->willReturn('translatable_template');
         $context->getData()->willReturn([1, 2, 3]);
 
-        $templating->renderResponse('@FSiAdmin/List/list.html.twig', [1, 2, 3])->willReturn($response);
+        $templating->renderResponse('translatable_template', [1, 2, 3])->willReturn($response);
 
         $this->listAction($element, $request)->shouldReturn($response);
     }

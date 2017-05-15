@@ -10,7 +10,6 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin;
 
 use FSi\Bundle\AdminBundle\Doctrine\Admin\BatchElement;
-use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 
 abstract class TranslatableBatchElement extends BatchElement implements TranslatableAwareElement
 {

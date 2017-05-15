@@ -9,6 +9,8 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
+use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
+
 class TranslatableTextExtension extends AbstractSimpleTranslatableExtension
 {
     /**
@@ -16,6 +18,6 @@ class TranslatableTextExtension extends AbstractSimpleTranslatableExtension
      */
     public function getExtendedType()
     {
-        return 'text';
+        return TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\TextType', 'text');
     }
 }

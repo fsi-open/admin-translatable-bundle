@@ -33,8 +33,7 @@ class TranslatableCollectionListenerSpec extends ObjectBehavior
     public function it_do_nothing_if_not_translatable_property(
         TranslatableFormHelper $translatableFormHelper,
         FormEvent $event,
-        FormInterface $form,
-        FormInterface $parentForm
+        FormInterface $form
     ) {
         $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(false);
         $event->setData(Argument::any())->shouldNotBeCalled();

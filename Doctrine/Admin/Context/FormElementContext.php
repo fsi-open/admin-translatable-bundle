@@ -17,19 +17,13 @@ use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableFormElement;
 class FormElementContext extends BaseFormElementContext
 {
     /**
-     * @var string
-     */
-    private $formTemplate;
-
-    /**
      * @var LocaleManager
      */
     private $localeManager;
 
     public function __construct($requestHandlers, LocaleManager $localeManager, $formTemplate)
     {
-        parent::__construct($requestHandlers);
-        $this->formTemplate = $formTemplate;
+        parent::__construct($requestHandlers, $formTemplate);
         $this->localeManager = $localeManager;
     }
 
@@ -42,23 +36,6 @@ class FormElementContext extends BaseFormElementContext
         $data['translatable_locale'] = $this->localeManager->getLocale();
 
         return $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasTemplateName()
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTemplateName()
-    {
-        return $this->element->hasOption('template_form') ?
-            $this->element->getOption('template_form') : $this->formTemplate;
     }
 
     /**

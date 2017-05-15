@@ -2,8 +2,8 @@
 
 namespace FSi\FixturesBundle\Admin;
 
-use FSi\Bundle\AdminBundle\Display\ObjectDisplay;
 use FSi\Bundle\AdminBundle\Annotation as Admin;
+use FSi\Bundle\AdminBundle\Display\PropertyAccessDisplay;
 use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableDisplayElement;
 
 /**
@@ -23,8 +23,8 @@ class EventPreview extends TranslatableDisplayElement
 
     protected function initDisplay($object)
     {
-        $objectDisplay = new ObjectDisplay($object);
-        $objectDisplay->add('name');
+        $objectDisplay = new PropertyAccessDisplay($object);
+        $objectDisplay->add('name', 'Name');
 
         return $objectDisplay;
     }

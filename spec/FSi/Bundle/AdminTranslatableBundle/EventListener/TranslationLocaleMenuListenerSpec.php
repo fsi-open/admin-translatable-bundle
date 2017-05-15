@@ -35,8 +35,9 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         $request->query = $query;
 
         $router->matchRequest(Argument::that(function ($argument) {
-            return $argument->server->get('REQUEST_URI') === '/admin/en/list/element' &&
-                $argument->server->get('QUERY_STRING') === 'param=value';
+            return $argument->server->get('REQUEST_URI') === '/admin/en/list/element'
+                && $argument->server->get('QUERY_STRING') === 'param=value'
+            ;
         }))->willReturn([
             '_route' => 'some_admin_route',
             'locale' => 'en',

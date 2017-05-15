@@ -15,28 +15,25 @@
         <service id="admin_translatable.controller.display" class="%admin_translatable.controller.display.class%">
             <argument type="service" id="templating"/>
             <argument type="service" id="admin.context.manager"/>
-            <argument>%admin.templates.display%</argument>
-            <tag name="admin.event_dispatcher_aware" />
+            <argument type="service" id="event_dispatcher"/>
         </service>
 
         <service id="admin_translatable.controller.list" class="%admin_translatable.controller.list.class%">
             <argument type="service" id="templating"/>
             <argument type="service" id="admin.context.manager"/>
-            <argument>%admin.templates.list%</argument>
-            <tag name="admin.event_dispatcher_aware" />
+            <argument type="service" id="event_dispatcher"/>
         </service>
 
         <service id="admin_translatable.controller.form" class="%admin_translatable.controller.form.class%">
             <argument type="service" id="templating"/>
             <argument type="service" id="admin.context.manager"/>
-            <argument>%admin.templates.form%</argument>
-            <tag name="admin.event_dispatcher_aware" />
+            <argument type="service" id="event_dispatcher"/>
         </service>
 
         <service id="admin_translatable.controller.batch" class="%admin_translatable.controller.batch.class%">
             <argument type="service" id="templating"/>
             <argument type="service" id="admin.context.manager"/>
-            <tag name="admin.event_dispatcher_aware" />
+            <argument type="service" id="event_dispatcher"/>
         </service>
     </services>
 </container>

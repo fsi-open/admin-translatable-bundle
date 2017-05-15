@@ -17,14 +17,6 @@ class ResourceTranslatableElement extends TranslatableResourceElement
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
-        return 'admin.translatable_element';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getKey()
     {
         return 'resources.translatable_element';

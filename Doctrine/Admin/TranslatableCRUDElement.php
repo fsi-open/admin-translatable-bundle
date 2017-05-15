@@ -53,7 +53,7 @@ abstract class TranslatableCRUDElement extends CRUDElement implements Translatab
             );
         }
 
-        if ($this->options['allow_delete']) {
+        if ($this->getOption('allow_delete')) {
             if (!$datagrid->hasColumnType('batch')) {
                 $datagrid->addColumn('batch', 'batch', [
                     'actions' => [

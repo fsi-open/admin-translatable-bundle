@@ -2,6 +2,7 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\DependencyInjection;
 
+use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -31,7 +32,10 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
         $loader->load('controller.xml');
-        $loader->load('form.xml');
+        $loader->load(TypeSolver::isSymfony3FormNamingConvention()
+            ? 'form-symfony-3.xml'
+            : 'form-symfony-2.xml'
+        );
         $loader->load('datagrid.xml');
         $loader->load('menu.xml');
 

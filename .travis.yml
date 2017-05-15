@@ -22,7 +22,9 @@ matrix:
         - php: 5.6
           env:
               - SYMFONY_VERSION=2.8.*
+        - php: 5.6
         - php: 7.0
+        - php: 7.1
 
 before_install:
     - phpenv config-rm xdebug.ini
@@ -46,7 +48,6 @@ before_script:
 script:
     - bin/phpspec run -f progress -vvv
     - bin/behat --no-snippets --verbose --profile=travis -vvv
-    - bin/phpunit
 
 after_failure:
     - cat server.log

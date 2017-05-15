@@ -13,22 +13,22 @@ use FSi\DoctrineExtensions\Uploadable\Mapping\Annotation as Uploadable;
 class EventTranslation
 {
     /**
-     * @ORM\Column(name="id", type="bigint")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @var integer $id
+     * @var integer
      */
     private $id;
 
     /**
      * @Translatable\Locale
-     * @ORM\Column(type="string", length=2)
+     * @ORM\Column(length=2)
      * @var string
      */
     private $locale;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column
      * @var string
      */
     private $name;
@@ -40,38 +40,31 @@ class EventTranslation
     private $description;
 
     /**
-     * @ORM\Column(length=255, nullable=true)
+     * @ORM\Column(nullable=true)
      * @Uploadable\Uploadable(targetField="agreement")
      */
-    protected $agreementKey;
+    private $agreementKey;
 
     /**
      * @var \FSi\DoctrineExtensions\Uploadable\File|\SplFileInfo
      */
-    protected $agreement;
+    private $agreement;
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="\FSi\FixturesBundle\Entity\File",
+     *     targetEntity="File",
      *     mappedBy="eventTranslation",
-     *     cascade="all",
+     *     cascade={"persist", "remove"},
      *     orphanRemoval=true
      * )
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      */
     private $files;
 
     /**
-     * @ORM\ManyToOne(
-     *          targetEntity="\FSi\FixturesBundle\Entity\Event",
-     *          inversedBy="translations"
-     * )
-     * @ORM\JoinColumn(
-     *          name="events",
-     *          referencedColumnName="id"
-     * )
+     * @ORM\ManyToOne(targetEntity="Event", inversedBy="translations")
      *
-     * @var \FSi\FixturesBundle\Entity\Event
+     * @var Event
      */
     private $event;
 
@@ -89,27 +82,11 @@ class EventTranslation
     }
 
     /**
-     * @param \FSi\FixturesBundle\Entity\Event $events
-     */
-    public function setHeader(Event $events)
-    {
-        $this->event = $events;
-    }
-
-    /**
-     * @return \FSi\FixturesBundle\Entity\Event
-     */
-    public function getHeader()
-    {
-        return $this->event;
-    }
-
-    /**
      * @param $name
      */
     public function setName($name)
     {
-        $this->name = (string)$name;
+        $this->name = $name;
     }
 
     /**
@@ -173,7 +150,7 @@ class EventTranslation
      */
     public function setLocale($locale)
     {
-        $this->locale = (string)$locale;
+        $this->locale = (string) $locale;
     }
 
     /**
