@@ -27,5 +27,7 @@ fsi_admin_translatable:
     display: '@CustomBundle/display.html.twig'
     resource: '@CustomBundle/resource.html.twig'
 ```
+
 ## Single element configuration
-You can also set custom template for single admin element as [described in admin-bundle documentation](https://github.com/fsi-open/admin-bundle/blob/master/Resources/doc/admin_element_crud.md#5-admin-element-options)
+You can also set custom template for single admin element as 
+[described in admin-bundle documentation](https://github.com/fsi-open/admin-bundle/blob/master/Resources/doc/admin_element_crud.md#5-admin-element-options).

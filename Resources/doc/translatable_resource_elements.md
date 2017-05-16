@@ -2,19 +2,18 @@
 
 ##  Install Resource Repository Bundle
 
-**This element type require to install fsi/resource-repository-bundle before using it.**
+**This element type requires fsi/resource-repository-bundle.**
 **You can read more about it [here](https://github.com/fsi-open/resource-repository-bundle)**
 
-Add to your composer.json following lines
+Add to your `composer.json` following lines
 
-```
+```json
 "require": {
-    "doctrine/doctrine-bundle" : "dev-master"
-    "fsi/resource-repository-bundle" : "1.0.*"
+    "fsi/resource-repository-bundle" : "^1.1@dev" // or ^2.0@dev if you are using Symfony 3+
 }
 ```
 
-Update AppKernel.php
+Update `AppKernel.php`
 
 ```php
 public function registerBundles()
@@ -50,7 +49,7 @@ class Resource extends BaseResource
 
 ## Modify app/config/config.yml
 
-```
+```yaml
 # app/config/config.yml
 
 fsi_resource_repository:
@@ -59,8 +58,8 @@ fsi_resource_repository:
 
 ## Update database with following console command
 
-```
-$ php app/console doctrine:schema:update --force
+```bash
+$ bin/console doctrine:schema:update --force
 ```
 
 # Create admin object class
@@ -88,14 +87,6 @@ class MainPage extends TranslatableResourceElement
     public function getId()
     {
         return 'main_page';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'Main Page';
     }
 
     /**
@@ -134,7 +125,7 @@ resources:
                 label: Main page content
 ```
 
-Now you see that ``content`` field will be translated, but ``title`` field does not.
+Now you can see that ``content`` field will be translated, but ``title`` will not.
 
 ## Main page resource service
 

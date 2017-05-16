@@ -2,13 +2,11 @@
 
 ##1. Composer
 
-Add to composer.json
+Add this line to `composer.json`
 
-```
+```json
 "require": {
-        "fsi/admin-translatable-bundle": "dev-master",
-        "fsi/doctrine-extensions": "dev-master as 1.0.x-dev",
-        "fsi/doctrine-extensions-bundle": "dev-master@dev"
+        "fsi/admin-translatable-bundle": "^3.0@dev"
 }
 ```
 
@@ -20,7 +18,7 @@ Add to composer.json
 
 public function registerBundles()
 {
-    $bundles = array(
+    $bundles = [
         // ...
         new Knp\Bundle\MenuBundle\KnpMenuBundle(),
         new FSi\Bundle\DataSourceBundle\DataSourceBundle(),
@@ -28,13 +26,13 @@ public function registerBundles()
         new FSi\Bundle\AdminBundle\FSiAdminBundle(),
         new FSi\Bundle\DoctrineExtensionsBundle\FSiDoctrineExtensionsBundle(),
         new FSi\Bundle\AdminTranslatableBundle\FSiAdminTranslatableBundle(),
-    );
+    ];
 }
 ```
 
 ## 3. Set route
 
-```
+```yaml
 # app/config/routing.yml
 
 admin_translatable:
@@ -44,7 +42,7 @@ admin_translatable:
 
 ##4. Configure doctrine extension bundle
 
-```
+```yaml
 # app/config/config.yml
 
 fsi_doctrine_extensions:
@@ -55,7 +53,7 @@ fsi_doctrine_extensions:
 
 ##5. Enable translations
 
-```
+```yaml
 # app/config/config.yml
 
 framework:
@@ -64,7 +62,7 @@ framework:
 
 ##6. Set translatable locales
 
-```
+```yaml
 # app/config/config.yml
 
 fsi_admin_translatable:
@@ -74,4 +72,4 @@ fsi_admin_translatable:
       - de
 ```
 
-Now you could create [translatable admin elements](admin_element.md)
+Next on, creating [translatable admin elements](admin_element.md).

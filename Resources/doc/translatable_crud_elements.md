@@ -18,7 +18,7 @@ class News extends TranslatableCRUDElement
      */
     public function getClassName()
     {
-        return 'FSiDemoBundle:News'; // Doctrine class name
+        return 'FSi\Bundle\DemoBundle\Entity\News'; // Doctrine class name
     }
 
     /**
@@ -32,20 +32,12 @@ class News extends TranslatableCRUDElement
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
-        return 'News'; // names are translated in twig so you can use translation key as name
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function initDataSource(DataSourceFactoryInterface $factory)
     {
         /* @var $datasource \FSi\Component\DataSource\DataSource */
-        $datasource = $factory->createDataSource('doctrine', array(
+        $datasource = $factory->createDataSource('doctrine', [
             'entity' => $this->getClassName()
-        ), 'datasource');
+        ], 'datasource');
 
         $datasource->setMaxResults(10);
 
@@ -74,9 +66,9 @@ class News extends TranslatableCRUDElement
      */
     protected function initForm(FormFactoryInterface $factory, $data = null)
     {
-        $form = $factory->create('form', $data, array(
-            'data_class' => 'FSi\Bundle\DemoBundle\Entity\News' // this option is important for create form
-        ));
+        $form = $factory->create('form', $data, [
+            'data_class' => 'FSi\Bundle\DemoBundle\Entity\News' // this option is important during form creation
+        ]);
 
         $form->add('title', 'text');
         $form->add('content', 'text');
@@ -92,7 +84,7 @@ class News extends TranslatableCRUDElement
 
 ## Configure Datagrid
 
-```
+```yaml
 # src/FSi/Bundle/DemoBundle/Resources/config/datagrid/admin_news.yml
 
 columns:
@@ -165,10 +157,10 @@ use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 class News
 {
     /**
-     * @ORM\Column(name="id", type="bigint")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @var integer $id
+     * @var integer
      */
     private $id;
 
@@ -197,7 +189,13 @@ class News
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="NewsTranslation", mappedBy="news", indexBy="locale")
+     * @ORM\OneToMany(
+     *     targetEntity="NewsTranslation",
+     *     mappedBy="news",
+     *     indexBy="locale",
+     *     cascade={"persist", "remove"},
+     *     orphanRemoval=true
+     * )
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $translations;
@@ -208,7 +206,6 @@ class News
     }
 
     /**
-     * Get id
      * @return integer
      */
     public function getId()
@@ -218,8 +215,7 @@ class News
 
     public function setTitle($title)
     {
-        $this->title = (string)$title;
-        return $this;
+        $this->title = (string) $title;
     }
 
     public function getTitle()
@@ -229,8 +225,7 @@ class News
 
     public function setContent($content)
     {
-        $this->content = (string)$content;
-        return $this;
+        $this->content = (string) $content;
     }
 
     public function getContent()
@@ -241,7 +236,6 @@ class News
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-        return $this;
     }
 
     public function getCreatedAt()
@@ -251,8 +245,7 @@ class News
 
     public function setLocale($locale)
     {
-        $this->locale = (string)$locale;
-        return $this;
+        $this->locale = (string) $locale;
     }
 
     public function getLocale()
@@ -272,16 +265,12 @@ class News
 
     public function getTranslation($locale)
     {
-        if ($this->hasTranslation($locale)) {
-            return $this->translations[$locale];
-        } else {
-            return null;
-        }
+        return $this->hasTranslation($locale) ? $this->translations[$locale] : null;
     }
 }
 ```
 
-##Related translatable Entity
+## Related translatable Entity
 
 ```php
 <?php
@@ -298,10 +287,10 @@ use FSi\DoctrineExtensions\Translatable\Mapping\Annotation as Translatable;
 class NewsTranslation
 {
     /**
-     * @ORM\Column(name="id", type="bigint")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @var integer $id
+     * @var integer
      */
     private $id;
 
@@ -326,15 +315,14 @@ class NewsTranslation
 
     /**
      * @ORM\ManyToOne(targetEntity="News", inversedBy="translations")
-     * @ORM\JoinColumn(name="news", referencedColumnName="id")
+     * @ORM\JoinColumn(name="news", referencedColumnName="id", onDelete="CASCADE")
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $news;
 
     public function setTitle($title)
     {
-        $this->title = (string)$title;
-        return $this;
+        $this->title = (string) $title;
     }
 
     public function getTitle()
@@ -344,8 +332,7 @@ class NewsTranslation
 
     public function setContent($content)
     {
-        $this->content = (string)$content;
-        return $this;
+        $this->content = (string) $content;
     }
 
     public function getContent()
@@ -355,8 +342,7 @@ class NewsTranslation
 
     public function setLocale($locale)
     {
-        $this->locale = (string)$locale;
-        return $this;
+        $this->locale = (string) $locale;
     }
 
     public function getLocale()
@@ -365,4 +351,3 @@ class NewsTranslation
     }
 }
 ```
-

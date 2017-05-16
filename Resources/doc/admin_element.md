@@ -1,8 +1,10 @@
 # Admin Elements
 
-Actually you can use two types of elements
+There are two types of elements that you can use:
 
 * [Translatable CRUD Elements (Create Read Update Delete)](translatable_crud_elements.md)
 * [Translatable Resource Elements](translatable_resource_elements.md)
 
-You can also use events. Read more about [FSi Admin Bundle - Events](https://github.com/fsi-open/admin-bundle/blob/1.0/Resources/doc/events.md )
+## Events
+
+Read more in [FSi Admin Bundle](https://github.com/fsi-open/admin-bundle/blob/master/Resources/doc/events.md).
