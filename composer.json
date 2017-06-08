@@ -26,7 +26,7 @@
     "require-dev": {
         "ext-pdo_sqlite": "*",
         "doctrine/doctrine-bundle": "^1.6",
-        "phpspec/phpspec": "2.5.6",
+        "phpspec/phpspec": "2.5.6|3.4.0",
         "behat/behat": "3.3.0",
         "behat/symfony2-extension": "2.1.1",
         "behat/mink": "^1.7",
