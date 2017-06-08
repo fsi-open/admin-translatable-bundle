@@ -7,7 +7,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -23,7 +22,6 @@ class TranslatableFormHelperSpec extends ObjectBehavior
         ObjectManager $manager,
         ClassMetadata $translatableMetadata,
         PropertyPath $propertyPath,
-        FormView $view,
         FormInterface $form,
         FormConfigInterface $formConfig,
         FormInterface $parentForm,

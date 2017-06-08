@@ -2,11 +2,9 @@
 
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Repository;
 
-use FSi\DoctrineExtensions\Translatable\TranslatableListener;
-use FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException;
 use FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\TextType;
+use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class TranslatableMapBuilderSpec extends ObjectBehavior
 {

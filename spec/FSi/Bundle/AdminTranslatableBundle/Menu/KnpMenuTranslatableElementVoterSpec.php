@@ -6,7 +6,6 @@ use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class KnpMenuTranslatableElementVoterSpec extends ObjectBehavior
 {
