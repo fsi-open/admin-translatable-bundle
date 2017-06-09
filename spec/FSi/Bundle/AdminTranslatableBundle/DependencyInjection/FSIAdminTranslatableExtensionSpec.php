@@ -3,8 +3,6 @@
 namespace spec\FSi\Bundle\AdminTranslatableBundle\DependencyInjection;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class FSIAdminTranslatableExtensionSpec extends ObjectBehavior
 {
