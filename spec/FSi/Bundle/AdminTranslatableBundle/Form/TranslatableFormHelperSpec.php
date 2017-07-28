@@ -3,13 +3,12 @@
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\PropertyAccess\PropertyPath;
 
@@ -19,7 +18,7 @@ class TranslatableFormHelperSpec extends ObjectBehavior
         ManagerRegistry $managerRegistry,
         TranslatableListener $translatableListener,
         PropertyAccessor $propertyAccessor,
-        ObjectManager $manager,
+        EntityManagerInterface $manager,
         ClassMetadata $translatableMetadata,
         PropertyPath $propertyPath,
         FormInterface $form,

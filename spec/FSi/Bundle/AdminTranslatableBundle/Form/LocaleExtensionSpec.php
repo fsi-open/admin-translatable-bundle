@@ -2,7 +2,7 @@
 
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
@@ -59,7 +59,7 @@ class LocaleExtensionSpec extends ObjectBehavior
 
     function it_sets_locale_on_translatable_data(
         ManagerRegistry $managerRegistry,
-        ObjectManager $objectManager,
+        EntityManagerInterface $objectManager,
         TranslatableListener $translatableListener,
         FormEvent $event,
         FormInterface $form,
@@ -117,7 +117,7 @@ class LocaleExtensionSpec extends ObjectBehavior
 
     function it_does_nothing_when_form_data_is_not_translatable(
         ManagerRegistry $managerRegistry,
-        ObjectManager $objectManager,
+        EntityManagerInterface $objectManager,
         TranslatableListener $translatableListener,
         FormEvent $event,
         FormInterface $form,
@@ -139,7 +139,7 @@ class LocaleExtensionSpec extends ObjectBehavior
 
     function it_does_nothing_when_form_data_has_no_translatable_properties(
         ManagerRegistry $managerRegistry,
-        ObjectManager $objectManager,
+        EntityManagerInterface $objectManager,
         TranslatableListener $translatableListener,
         FormEvent $event,
         FormInterface $form,

@@ -3,7 +3,7 @@
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper;
 use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
@@ -63,7 +63,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
 
     function it_does_nothing_if_forms_property_is_not_translatable_in_first_translatable_parent(
         ManagerRegistry $managerRegistry,
-        ObjectManager $manager,
+        EntityManagerInterface $manager,
         TranslatableListener $translatableListener,
         ClassMetadata $translatableMetadata,
         PropertyPath $propertyPath,
