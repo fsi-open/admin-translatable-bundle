@@ -3,7 +3,7 @@
 namespace spec\FSi\Bundle\AdminTranslatableBundle\DataGrid\Extension\ColumnType;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
@@ -17,7 +17,7 @@ class TranslatableSpec extends ObjectBehavior
     function let(
         ManagerRegistry $managerRegistry,
         TranslatableListener $translatableListener,
-        ObjectManager $manager,
+        EntityManagerInterface $manager,
         ClassMetadata $translatableMetadata
     ) {
         $managerRegistry->getManagerForClass(Argument::type('string'))->willReturn($manager);
