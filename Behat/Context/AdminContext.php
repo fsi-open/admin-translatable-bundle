@@ -250,11 +250,14 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
      */
     public function iClickDefaultLocaleBadgeForField($field)
     {
-        usleep(2000);
-        $field = $this->getElement('Form')->findField($field);
-        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        $element = $this->getElement('Form');
+        usleep(5000);
+        $fieldLabel = $element->find(
+            'css',
+            sprintf('label[for="%s"]', $element->findField($field)->getAttribute('id'))
+        );
         $fieldLabel->find('css', '.badge')->click();
-        usleep(2000);
+        usleep(5000);
     }
 
     /**
