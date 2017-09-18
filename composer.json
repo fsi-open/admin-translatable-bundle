@@ -1,7 +1,7 @@
 {
     "name": "fsi/admin-translatable-bundle",
     "type": "symfony-bundle",
-    "description": "Simple translation mechanisms for fsi/admin-bundle",
+    "description": "Simple translation mechanisms for fsi-open/admin-bundle",
     "keywords": ["admin", "panel", "symfony", "bundle", "fsi", "translatable", "translations"],
     "license": "MIT",
     "authors": [
@@ -12,10 +12,13 @@
     ],
     "require": {
         "php": ">=7.1",
+        "symfony/form": "^2.8|^3.0",
         "symfony/framework-bundle": "^2.8|^3.0",
+        "symfony/http-kernel": "^2.8|^3.0",
         "symfony/options-resolver": "^2.6|^3.0",
         "symfony/routing": "^2.4|^3.0",
         "symfony/translation": "^2.6|^3.0",
+        "symfony/twig-bridge": "^2.8|^3.0",
         "symfony/validator": "^2.5|^3.0",
         "symfony/twig-bundle": "^2.8|^3.0",
         "fsi/admin-bundle": "^3.0@dev",
@@ -38,10 +41,7 @@
         "fsi/datasource-bundle": "^2.0@dev",
         "fsi/resource-repository-bundle": "^1.1.5|^2.0@dev",
         "egeloen/ckeditor-bundle": "^4.0.6|^5.0",
-        "symfony/debug": "^2.8|^3.0",
-        "symfony/form": "^2.8|^3.0",
-        "symfony/http-kernel": "^2.8|^3.0",
-        "symfony/twig-bridge": "^2.8|^3.0"
+        "symfony/debug": "^2.8|^3.0"
     },
     "config": {
         "bin-dir": "bin"
