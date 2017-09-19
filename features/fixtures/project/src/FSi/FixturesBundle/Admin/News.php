@@ -6,8 +6,11 @@ use FSi\Bundle\AdminBundle\Annotation as Admin;
 use FSi\Bundle\AdminBundle\Doctrine\Admin\CRUDElement;
 use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\Component\DataGrid\DataGridFactoryInterface;
+use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataSource\DataSourceFactoryInterface;
+use FSi\Component\DataSource\DataSourceInterface;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * @Admin\Element
@@ -17,7 +20,7 @@ class News extends CRUDElement
     /**
      * {@inheritDoc}
      */
-    public function getId()
+    public function getId(): string
     {
         return 'admin_news';
     }
@@ -25,7 +28,7 @@ class News extends CRUDElement
     /**
      * {@inheritDoc}
      */
-    public function getClassName()
+    public function getClassName(): string
     {
         return 'FSi\FixturesBundle\Entity\News';
     }
@@ -33,7 +36,7 @@ class News extends CRUDElement
     /**
      * {@inheritDoc}
      */
-    protected function initDataGrid(DataGridFactoryInterface $factory)
+    protected function initDataGrid(DataGridFactoryInterface $factory): DataGridInterface
     {
         $datagrid = $factory->createDataGrid($this->getId());
 
@@ -59,7 +62,7 @@ class News extends CRUDElement
     /**
      * {@inheritDoc}
      */
-    protected function initDataSource(DataSourceFactoryInterface $factory)
+    protected function initDataSource(DataSourceFactoryInterface $factory): DataSourceInterface
     {
         return $factory->createDataSource('doctrine', ['entity' => $this->getClassName()], $this->getId());
     }
@@ -67,7 +70,7 @@ class News extends CRUDElement
     /**
      * {@inheritDoc}
      */
-    protected function initForm(FormFactoryInterface $factory, $data = null)
+    protected function initForm(FormFactoryInterface $factory, $data = null): FormInterface
     {
         $formType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\FormType', 'form');
         $textareaType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\TextareaType', 'textarea');

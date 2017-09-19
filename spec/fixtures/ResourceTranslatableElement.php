@@ -9,7 +9,7 @@ class ResourceTranslatableElement extends TranslatableResourceElement
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId(): string
     {
         return 'translatable_element';
     }
@@ -17,7 +17,7 @@ class ResourceTranslatableElement extends TranslatableResourceElement
     /**
      * {@inheritdoc}
      */
-    public function getKey()
+    public function getKey(): string
     {
         return 'resources.translatable_element';
     }
@@ -25,7 +25,7 @@ class ResourceTranslatableElement extends TranslatableResourceElement
     /**
      * {@inheritdoc}
      */
-    public function getClassName()
+    public function getClassName(): string
     {
         return 'FSi\Bundle\DemoBundle\Entity\Resource';
     }

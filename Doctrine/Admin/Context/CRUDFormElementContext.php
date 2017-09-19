@@ -18,7 +18,7 @@ class CRUDFormElementContext extends AdminCRUDFormElementContext
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedRoute()
+    protected function getSupportedRoute(): string
     {
         return 'fsi_admin_translatable_form';
     }
@@ -26,7 +26,7 @@ class CRUDFormElementContext extends AdminCRUDFormElementContext
     /**
      * {@inheritdoc}
      */
-    public function supportsElement(Element $element)
+    public function supportsElement(Element $element): bool
     {
         if (!parent::supportsElement($element)) {
             return false;

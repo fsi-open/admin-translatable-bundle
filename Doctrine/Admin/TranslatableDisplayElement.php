@@ -18,7 +18,7 @@ abstract class TranslatableDisplayElement extends DisplayElement implements Tran
     /**
      * {@inheritdoc}
      */
-    public function getRoute()
+    public function getRoute(): string
     {
         return 'fsi_admin_translatable_display';
     }
@@ -26,7 +26,7 @@ abstract class TranslatableDisplayElement extends DisplayElement implements Tran
     /**
      * {@inheritdoc}
      */
-    public function getRouteParameters()
+    public function getRouteParameters(): array
     {
         return $this->appendLocaleParameter(parent::getRouteParameters());
     }

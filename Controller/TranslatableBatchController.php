@@ -12,10 +12,11 @@ namespace FSi\Bundle\AdminTranslatableBundle\Controller;
 use FSi\Bundle\AdminBundle\Admin\CRUD\BatchElement;
 use FSi\Bundle\AdminBundle\Controller\BatchController as BaseBatchController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class TranslatableBatchController extends BaseBatchController
 {
-    public function batchAction(BatchElement $element, Request $request)
+    public function batchAction(BatchElement $element, Request $request): Response
     {
         return $this->handleRequest($element, $request, 'fsi_admin_translatable_batch');
     }

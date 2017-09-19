@@ -30,7 +30,7 @@ class ListElementContext extends BaseListElementContext
     /**
      * {@inheritdoc}
      */
-    public function getData()
+    public function getData(): array
     {
         $data = parent::getData();
         $data['translatable_locale'] = $this->localeManager->getLocale();
@@ -41,7 +41,7 @@ class ListElementContext extends BaseListElementContext
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedRoute()
+    protected function getSupportedRoute(): string
     {
         return 'fsi_admin_translatable_list';
     }
@@ -49,7 +49,7 @@ class ListElementContext extends BaseListElementContext
     /**
      * {@inheritdoc}
      */
-    public function supportsElement(Element $element)
+    public function supportsElement(Element $element): bool
     {
         if (!parent::supportsElement($element)) {
             return false;

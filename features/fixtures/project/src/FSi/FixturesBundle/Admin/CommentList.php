@@ -2,27 +2,29 @@
 
 namespace FSi\FixturesBundle\Admin;
 
+use FSi\Bundle\AdminBundle\Annotation as Admin;
 use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableListElement;
 use FSi\Component\DataGrid\DataGridFactoryInterface;
+use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataSource\DataSourceFactoryInterface;
-use FSi\Bundle\AdminBundle\Annotation as Admin;
+use FSi\Component\DataSource\DataSourceInterface;
 
 /**
  * @Admin\Element
  */
 class CommentList extends TranslatableListElement
 {
-    public function getId()
+    public function getId(): string
     {
         return 'admin_comment';
     }
 
-    public function getClassName()
+    public function getClassName(): string
     {
         return 'FSi\FixturesBundle\Entity\Comment';
     }
 
-    protected function initDataGrid(DataGridFactoryInterface $factory)
+    protected function initDataGrid(DataGridFactoryInterface $factory): DataGridInterface
     {
         $datagrid = $factory->createDataGrid($this->getId());
 
@@ -33,7 +35,7 @@ class CommentList extends TranslatableListElement
         return $datagrid;
     }
 
-    protected function initDataSource(DataSourceFactoryInterface $factory)
+    protected function initDataSource(DataSourceFactoryInterface $factory): DataSourceInterface
     {
         $qb = $this->getRepository()->createTranslatableQueryBuilder('e', 't', 'dt');
 

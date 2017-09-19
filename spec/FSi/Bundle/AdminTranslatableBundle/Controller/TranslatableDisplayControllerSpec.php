@@ -30,7 +30,7 @@ class TranslatableDisplayControllerSpec extends ObjectBehavior
         EngineInterface $templating
     ) {
         $contextManager->createContext('fsi_admin_translatable_display', $element)->willReturn($context);
-        $context->handleRequest($request)->shouldBeCalled();
+        $context->handleRequest($request)->willReturn(null);
         $context->hasTemplateName()->willReturn(true);
         $context->getTemplateName()->willReturn('translatable_template');
         $context->getData()->willReturn([1, 2, 3]);

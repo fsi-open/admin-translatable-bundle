@@ -10,17 +10,17 @@ use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableResourceElemen
  */
 class TranslatableResource extends TranslatableResourceElement
 {
-    public function getId()
+    public function getId(): string
     {
         return 'translatable_resource';
     }
 
-    public function getKey()
+    public function getKey(): string
     {
         return 'resources.translatable_resource';
     }
 
-    public function getClassName()
+    public function getClassName(): string
     {
         return 'FSi\FixturesBundle\Entity\Resource';
     }
