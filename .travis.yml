@@ -36,4 +36,5 @@ script:
     - bin/behat --no-snippets --verbose --profile=travis -vvv
 
 after_failure:
+    - cat /tmp/FSiAdminTranslatableBundle/logs/test.log
     - cat server.log
