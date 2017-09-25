@@ -45,6 +45,10 @@ class TranslatableCRUDContext extends DefaultContext
      */
     public function iEditFirstEventOnTheList()
     {
+        if ($this->isSeleniumDriver()) {
+            $this->waitUntilObjectVisible('//td[contains(., "Edit")]', true);
+        }
+
         $this->getElement('Grid')->clickEdit();
     }
 

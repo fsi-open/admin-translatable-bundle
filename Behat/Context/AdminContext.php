@@ -193,7 +193,10 @@ class AdminContext extends DefaultContext
         $label = $this->getElement('Form')->findLabel($field);
         expect($label)->toNotBe(null);
 
-        expect(count($label->getParent()->findAll('css', 'div[data-prototype] > .collection-items > div.form-group')))->toBe((int)$count);
+        expect(count($label->getParent()->findAll(
+            'css',
+            'div[data-prototype] > .collection-items > div.form-group'))
+        )->toBe((int)$count);
     }
 
     /**
@@ -210,10 +213,14 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^form "([^"]*)" field should have translatable flag$/
      */
-    public function FormFieldShouldHaveTranslatableFlag($field)
+    public function formFieldShouldHaveTranslatableFlag($field)
     {
-        $field = $this->getElement('Form')->findField($field);
-        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
+        $element = $this->getElement('Form');
+        $fieldId = $element->findField($field)->getAttribute('id');
+        $this->waitUntilObjectVisible(sprintf('[for="%s"] i.glyphicon-flag', $fieldId));
+
+        $fieldLabel = $element->find('css', sprintf('label[for="%s"]', $fieldId));
         expect($fieldLabel->has('css', 'i.glyphicon-flag'))->toBe(true);
     }
 
@@ -222,8 +229,12 @@ class AdminContext extends DefaultContext
      */
     public function formFieldShouldHaveBadgeWithDefaultLocale($field, $defaultLocale)
     {
-        $field = $this->getElement('Form')->findField($field);
-        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
+        $element = $this->getElement('Form');
+        $fieldId = $element->findField($field)->getAttribute('id');
+        $this->waitUntilObjectVisible(sprintf('[for="%s"] .badge', $fieldId));
+
+        $fieldLabel = $element->find('css', sprintf('label[for="%s"]', $fieldId));
         expect($fieldLabel->has('css', sprintf('.badge:contains("%s")', $defaultLocale)))->toBe(true);
     }
 
@@ -232,8 +243,12 @@ class AdminContext extends DefaultContext
      */
     public function formFieldShouldNotHaveBadgeWithDefaultLocale($field)
     {
-        $field = $this->getElement('Form')->findField($field);
-        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
+        $element = $this->getElement('Form');
+        $fieldId = $element->findField($field)->getAttribute('id');
+        $this->waitUntilObjectVisible(sprintf('[for="%s"] .badge', $fieldId));
+
+        $fieldLabel = $element->find('css', sprintf('label[for="%s"]', $fieldId));
         expect($fieldLabel->has('css', '.badge'))->toBe(false);
     }
 
@@ -242,14 +257,13 @@ class AdminContext extends DefaultContext
      */
     public function iClickDefaultLocaleBadgeForField($field)
     {
+        $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
         $element = $this->getElement('Form');
-        usleep(5000);
-        $fieldLabel = $element->find(
-            'css',
-            sprintf('label[for="%s"]', $element->findField($field)->getAttribute('id'))
-        );
+        $fieldId = $element->findField($field)->getAttribute('id');
+        $this->waitUntilObjectVisible(sprintf('[for="%s"] .badge', $fieldId));
+
+        $fieldLabel = $element->find('css', sprintf('label[for="%s"]', $fieldId));
         $fieldLabel->find('css', '.badge')->click();
-        usleep(5000);
     }
 
     /**

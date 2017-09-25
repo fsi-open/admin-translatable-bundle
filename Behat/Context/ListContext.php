@@ -23,6 +23,10 @@ class ListContext extends DefaultContext
      */
     public function iShouldSeeFollowingList(TableNode $table)
     {
+        if ($this->isSeleniumDriver()) {
+            $this->waitUntilObjectVisible('table.table-datagrid');
+        }
+
         /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Grid $grid */
         $grid = $this->getElement('Grid');
 
