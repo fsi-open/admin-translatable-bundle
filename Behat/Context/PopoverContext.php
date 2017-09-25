@@ -2,9 +2,7 @@
 
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
-use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
-
-class PopoverContext extends PageObjectContext
+class PopoverContext extends DefaultContext
 {
     /**
      * @Given /^I should see popover with value "([^"]*)" in field "([^"]*)"$/

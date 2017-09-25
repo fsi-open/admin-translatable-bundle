@@ -3,22 +3,11 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
 use Behat\Gherkin\Node\TableNode;
-use Behat\Symfony2Extension\Context\KernelAwareContext;
-use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
-use Symfony\Component\HttpKernel\KernelInterface;
+use FSi\Bundle\AdminBundle\Admin\Manager;
+use FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Display;
 
-class AdminContext extends PageObjectContext implements KernelAwareContext
+class AdminContext extends DefaultContext
 {
-    /**
-     * @var KernelInterface
-     */
-    protected $kernel;
-
-    public function setKernel(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
-    }
-
     /**
      * @Given /^I am on the "([^"]*)" page$/
      */
@@ -124,7 +113,7 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
      */
     public function theFollowingAdminTranslatableElementsWereRegistered(TableNode $elements)
     {
-        /** @var \FSi\Bundle\AdminBundle\Admin\Manager $manager */
+        /** @var Manager $manager */
         $manager = $this->kernel->getContainer()->get('admin.manager');
 
         foreach ($elements->getHash() as $serviceRow) {
@@ -155,7 +144,10 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
                 expect($this->kernel->getContainer()
                     ->get('fsi_resource_repository.map_builder')
                     ->getResource($resource['Key']))->toBeAnInstanceOf(
-                        sprintf('FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\%sType', ucfirst($resource['Type']))
+                        sprintf(
+                            'FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\%sType',
+                            ucfirst($resource['Type'])
+                        )
                     );
             }
         }
@@ -281,7 +273,7 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
      */
     public function iShouldSeeRowWithValue($name, $value)
     {
-        /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Display $display */
+        /** @var Display $display */
         $display = $this->getElement('Display');
 
         expect($display->getRowValue($name)->getText())->toBe($value);

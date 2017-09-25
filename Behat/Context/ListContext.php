@@ -3,9 +3,8 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
 use Behat\Gherkin\Node\TableNode;
-use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
 
-class ListContext extends PageObjectContext
+class ListContext extends DefaultContext
 {
     /**
      * @Given /^I click edit in "([^"]*)" column in third row$/
