@@ -3,22 +3,11 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
 use Behat\Gherkin\Node\TableNode;
-use Behat\Symfony2Extension\Context\KernelAwareContext;
-use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
-use Symfony\Component\HttpKernel\KernelInterface;
+use FSi\Bundle\AdminBundle\Admin\Manager;
+use FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Display;
 
-class AdminContext extends PageObjectContext implements KernelAwareContext
+class AdminContext extends DefaultContext
 {
-    /**
-     * @var KernelInterface
-     */
-    protected $kernel;
-
-    public function setKernel(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
-    }
-
     /**
      * @Given /^I am on the "([^"]*)" page$/
      */
@@ -124,7 +113,7 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
      */
     public function theFollowingAdminTranslatableElementsWereRegistered(TableNode $elements)
     {
-        /** @var \FSi\Bundle\AdminBundle\Admin\Manager $manager */
+        /** @var Manager $manager */
         $manager = $this->kernel->getContainer()->get('admin.manager');
 
         foreach ($elements->getHash() as $serviceRow) {
@@ -155,7 +144,10 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
                 expect($this->kernel->getContainer()
                     ->get('fsi_resource_repository.map_builder')
                     ->getResource($resource['Key']))->toBeAnInstanceOf(
-                        sprintf('FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\%sType', ucfirst($resource['Type']))
+                        sprintf(
+                            'FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\%sType',
+                            ucfirst($resource['Type'])
+                        )
                     );
             }
         }
@@ -201,7 +193,10 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
         $label = $this->getElement('Form')->findLabel($field);
         expect($label)->toNotBe(null);
 
-        expect(count($label->getParent()->findAll('css', 'div[data-prototype] > .collection-items > div.form-group')))->toBe((int)$count);
+        expect(count($label->getParent()->findAll(
+            'css',
+            'div[data-prototype] > .collection-items > div.form-group'))
+        )->toBe((int)$count);
     }
 
     /**
@@ -218,10 +213,14 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
     /**
      * @Given /^form "([^"]*)" field should have translatable flag$/
      */
-    public function FormFieldShouldHaveTranslatableFlag($field)
+    public function formFieldShouldHaveTranslatableFlag($field)
     {
-        $field = $this->getElement('Form')->findField($field);
-        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
+        $element = $this->getElement('Form');
+        $fieldId = $element->findField($field)->getAttribute('id');
+        $this->waitUntilObjectVisible(sprintf('[for="%s"] i.glyphicon-flag', $fieldId));
+
+        $fieldLabel = $element->find('css', sprintf('label[for="%s"]', $fieldId));
         expect($fieldLabel->has('css', 'i.glyphicon-flag'))->toBe(true);
     }
 
@@ -230,8 +229,12 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
      */
     public function formFieldShouldHaveBadgeWithDefaultLocale($field, $defaultLocale)
     {
-        $field = $this->getElement('Form')->findField($field);
-        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
+        $element = $this->getElement('Form');
+        $fieldId = $element->findField($field)->getAttribute('id');
+        $this->waitUntilObjectVisible(sprintf('[for="%s"] .badge', $fieldId));
+
+        $fieldLabel = $element->find('css', sprintf('label[for="%s"]', $fieldId));
         expect($fieldLabel->has('css', sprintf('.badge:contains("%s")', $defaultLocale)))->toBe(true);
     }
 
@@ -240,8 +243,12 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
      */
     public function formFieldShouldNotHaveBadgeWithDefaultLocale($field)
     {
-        $field = $this->getElement('Form')->findField($field);
-        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
+        $element = $this->getElement('Form');
+        $fieldId = $element->findField($field)->getAttribute('id');
+        $this->waitUntilObjectVisible(sprintf('[for="%s"] .badge', $fieldId));
+
+        $fieldLabel = $element->find('css', sprintf('label[for="%s"]', $fieldId));
         expect($fieldLabel->has('css', '.badge'))->toBe(false);
     }
 
@@ -250,11 +257,13 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
      */
     public function iClickDefaultLocaleBadgeForField($field)
     {
-        usleep(2000);
-        $field = $this->getElement('Form')->findField($field);
-        $fieldLabel = $this->getElement('Form')->find('css', sprintf('label[for="%s"]', $field->getAttribute('id')));
+        $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
+        $element = $this->getElement('Form');
+        $fieldId = $element->findField($field)->getAttribute('id');
+        $this->waitUntilObjectVisible(sprintf('[for="%s"] .badge', $fieldId));
+
+        $fieldLabel = $element->find('css', sprintf('label[for="%s"]', $fieldId));
         $fieldLabel->find('css', '.badge')->click();
-        usleep(2000);
     }
 
     /**
@@ -278,7 +287,7 @@ class AdminContext extends PageObjectContext implements KernelAwareContext
      */
     public function iShouldSeeRowWithValue($name, $value)
     {
-        /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Display $display */
+        /** @var Display $display */
         $display = $this->getElement('Display');
 
         expect($display->getRowValue($name)->getText())->toBe($value);

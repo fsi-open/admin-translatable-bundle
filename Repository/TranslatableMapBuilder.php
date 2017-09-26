@@ -88,7 +88,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     /**
      * {@inheritdoc}
      */
-    protected function createResource($configuration, $path)
+    protected function createResource(array $configuration, $path)
     {
         $locale = $this->getCurrentLocale();
 
@@ -104,7 +104,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
      * @param $path
      * @throws ConfigurationException
      */
-    protected function validateConfiguration($configuration, $path)
+    protected function validateConfiguration(array $configuration, $path)
     {
         if (strlen($path) > 255) {
             throw new ConfigurationException(
@@ -123,7 +123,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
      * @param $configuration
      * @throws ConfigurationException
      */
-    protected function validateResourceConfiguration($configuration)
+    protected function validateResourceConfiguration(array $configuration)
     {
         $validKeys = [
             'form_options',

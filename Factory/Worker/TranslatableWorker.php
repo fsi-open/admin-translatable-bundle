@@ -19,7 +19,7 @@ class TranslatableWorker implements Worker
         $this->localeManager = $localeManager;
     }
 
-    public function mount(Element $element)
+    public function mount(Element $element): void
     {
         if ($element instanceof TranslatableAwareElement) {
             $element->setLocaleManager($this->localeManager);

@@ -30,7 +30,7 @@ class FormElementContext extends BaseFormElementContext
     /**
      * {@inheritdoc}
      */
-    public function getData()
+    public function getData(): array
     {
         $data = parent::getData();
         $data['translatable_locale'] = $this->localeManager->getLocale();
@@ -41,7 +41,7 @@ class FormElementContext extends BaseFormElementContext
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedRoute()
+    protected function getSupportedRoute(): string
     {
         return 'fsi_admin_translatable_form';
     }
@@ -49,7 +49,7 @@ class FormElementContext extends BaseFormElementContext
     /**
      * {@inheritdoc}
      */
-    protected function supportsElement(Element $element)
+    protected function supportsElement(Element $element): bool
     {
         return $element instanceof TranslatableFormElement;
     }

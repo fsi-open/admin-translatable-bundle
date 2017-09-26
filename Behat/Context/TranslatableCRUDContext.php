@@ -3,22 +3,9 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
 use Behat\Gherkin\Node\TableNode;
-use Behat\Symfony2Extension\Context\KernelAwareContext;
-use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
-use Symfony\Component\HttpKernel\KernelInterface;
 
-class TranslatableCRUDContext extends PageObjectContext implements KernelAwareContext
+class TranslatableCRUDContext extends DefaultContext
 {
-    /**
-     * @var KernelInterface
-     */
-    protected $kernel;
-
-    public function setKernel(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
-    }
-
     /**
      * @Then /^I should see list with following columns$/
      */
@@ -58,6 +45,10 @@ class TranslatableCRUDContext extends PageObjectContext implements KernelAwareCo
      */
     public function iEditFirstEventOnTheList()
     {
+        if ($this->isSeleniumDriver()) {
+            $this->waitUntilObjectVisible('//td[contains(., "Edit")]', true);
+        }
+
         $this->getElement('Grid')->clickEdit();
     }
 

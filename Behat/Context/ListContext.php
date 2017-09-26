@@ -3,9 +3,8 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
 use Behat\Gherkin\Node\TableNode;
-use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
 
-class ListContext extends PageObjectContext
+class ListContext extends DefaultContext
 {
     /**
      * @Given /^I click edit in "([^"]*)" column in third row$/
@@ -24,6 +23,10 @@ class ListContext extends PageObjectContext
      */
     public function iShouldSeeFollowingList(TableNode $table)
     {
+        if ($this->isSeleniumDriver()) {
+            $this->waitUntilObjectVisible('table.table-datagrid');
+        }
+
         /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Grid $grid */
         $grid = $this->getElement('Grid');
 

@@ -12,6 +12,7 @@ framework:
     default_locale:  "%locale%"
     profiler:        { only_exceptions: false }
     test:            ~
+    assets:          ~
     session:
         storage_id:     session.storage.filesystem
 
@@ -45,3 +46,4 @@ fsi_admin:
     locales:
         - pl
         - en
+        - de

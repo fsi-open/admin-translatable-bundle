@@ -18,7 +18,7 @@ abstract class TranslatableListElement extends ListElement implements Translatab
     /**
      * {@inheritdoc}
      */
-    public function getRoute()
+    public function getRoute(): string
     {
         return 'fsi_admin_translatable_list';
     }
@@ -26,7 +26,7 @@ abstract class TranslatableListElement extends ListElement implements Translatab
     /**
      * {@inheritdoc}
      */
-    public function getRouteParameters()
+    public function getRouteParameters(): array
     {
         return $this->appendLocaleParameter(parent::getRouteParameters());
     }

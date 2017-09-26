@@ -21,7 +21,7 @@ class TranslatableResourceController extends BaseController
      * @param Request $request
      * @return Response
      */
-    public function resourceAction(ResourceRepository\Element $element, Request $request)
+    public function resourceAction(ResourceRepository\Element $element, Request $request): Response
     {
         return $this->handleRequest($element, $request, 'fsi_admin_translatable_resource');
     }

@@ -18,7 +18,7 @@ class CRUDListElementContext extends AdminCRUDListElementContext
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedRoute()
+    protected function getSupportedRoute(): string
     {
         return 'fsi_admin_translatable_list';
     }
@@ -26,7 +26,7 @@ class CRUDListElementContext extends AdminCRUDListElementContext
     /**
      * {@inheritdoc}
      */
-    public function supportsElement(Element $element)
+    public function supportsElement(Element $element): bool
     {
         if (!parent::supportsElement($element)) {
             return false;
