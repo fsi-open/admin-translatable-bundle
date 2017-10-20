@@ -11,14 +11,15 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class TranslationLocaleMenuListenerSpec extends ObjectBehavior
 {
     function let(
         TranslatorInterface $translator,
-        Router $router,
+        UrlGeneratorInterface $urlGenerator,
+        RequestMatcherInterface $requestMatcher,
         LocaleManager $localeManager,
         RequestStack $requestStack,
         Request $request,
@@ -34,7 +35,7 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         $query->all()->willReturn(['param1' => 'val1', 'redirect_uri' => '/admin/en/list/element?param=value']);
         $request->query = $query;
 
-        $router->matchRequest(Argument::that(function ($argument) {
+        $requestMatcher->matchRequest(Argument::that(function ($argument) {
             return $argument->server->get('REQUEST_URI') === '/admin/en/list/element'
                 && $argument->server->get('QUERY_STRING') === 'param=value'
             ;
@@ -53,25 +54,25 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
             'FSiAdminTranslatableBundle'
         )->willReturn('Menu label');
 
-        $this->beConstructedWith($translator, $router, $localeManager, $requestStack);
+        $this->beConstructedWith($translator, $urlGenerator, $requestMatcher, $localeManager, $requestStack);
     }
 
-    function it_should_create_translations_tools_menu(MenuEvent $menuEvent, Router $router)
+    function it_should_create_translations_tools_menu(MenuEvent $menuEvent, UrlGeneratorInterface $urlGenerator)
     {
         $menuItem = new Item();
         $menuEvent->getMenu()->willReturn($menuItem);
 
-        $router->generate(
+        $urlGenerator->generate(
             'some_admin_route',
             ['locale' => 'en', 'element' => 'element'],
             UrlGeneratorInterface::ABSOLUTE_PATH)->willReturn('/admin/en/list/element');
 
-        $router->generate(
+        $urlGenerator->generate(
             'some_admin_route',
             ['locale' => 'pl', 'element' => 'element'],
             UrlGeneratorInterface::ABSOLUTE_PATH)->willReturn('/admin/pl/list/element');
 
-        $router->generate(
+        $urlGenerator->generate(
             'some_admin_route',
             ['locale' => 'de', 'element' => 'element'],
             UrlGeneratorInterface::ABSOLUTE_PATH)->willReturn('/admin/de/list/element');

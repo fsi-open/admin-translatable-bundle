@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class TranslationLocaleMenuListener
@@ -22,9 +22,14 @@ class TranslationLocaleMenuListener
     private $translator;
 
     /**
-     * @var Router
+     * @var UrlGeneratorInterface
      */
-    private $router;
+    private $urlGenerator;
+
+    /**
+     * @var RequestMatcherInterface
+     */
+    private $requestMatcher;
 
     /**
      * @var LocaleManager
@@ -38,12 +43,14 @@ class TranslationLocaleMenuListener
 
     public function __construct(
         TranslatorInterface $translator,
-        Router $router,
+        UrlGeneratorInterface $urlGenerator,
+        RequestMatcherInterface $requestMatcher,
         LocaleManager $localeManager,
         RequestStack $requestStack
     ) {
         $this->translator = $translator;
-        $this->router = $router;
+        $this->urlGenerator = $urlGenerator;
+        $this->requestMatcher = $requestMatcher;
         $this->localeManager = $localeManager;
         $this->request = $requestStack->getCurrentRequest();
     }
@@ -158,7 +165,7 @@ class TranslationLocaleMenuListener
      */
     private function generateRequestUriForLocale(Request $redirectRequest, $locale)
     {
-        $parameters = $this->router->matchRequest($redirectRequest);
+        $parameters = $this->requestMatcher->matchRequest($redirectRequest);
         if (isset($parameters['locale'])) {
             $parameters['locale'] = $locale;
         }
@@ -166,7 +173,7 @@ class TranslationLocaleMenuListener
         unset($parameters['_route']);
         unset($parameters['_controller']);
 
-        $requestUri = $this->router->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
+        $requestUri = $this->urlGenerator->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
         if ($redirectRequest->getQueryString()) {
             $requestUri .= '?' . $redirectRequest->getQueryString();
         }

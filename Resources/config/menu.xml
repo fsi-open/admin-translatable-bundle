@@ -14,7 +14,8 @@
         <!-- Menu -->
         <service id="admin_translatable.menu.listener.translation_locale" class="%admin_translatable.menu.listener.translation_locale.class%">
             <argument type="service" id="translator"/>
-            <argument type="service" id="router"/>
+            <argument type="service" id="router.default"/>
+            <argument type="service" id="router.default"/>
             <argument type="service" id="admin_translatable.manager.locale"/>
             <argument type="service" id="request_stack"/>
             <tag name="kernel.event_listener" event="fsi_admin.menu.tools" method="createTranslationLocaleMenu" />
