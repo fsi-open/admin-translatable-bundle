@@ -64,7 +64,7 @@ class News extends CRUDElement
      */
     protected function initDataSource(DataSourceFactoryInterface $factory): DataSourceInterface
     {
-        return $factory->createDataSource('doctrine', ['entity' => $this->getClassName()], $this->getId());
+        return $factory->createDataSource('doctrine-orm', ['entity' => $this->getClassName()], $this->getId());
     }
 
     /**

@@ -1,10 +1,10 @@
-!/features/fixtures/project/web/app_test.php
-/features/fixtures/project/web/*
 /vendor/
 /bin/
 /composer.phar
 /composer.lock
 /vagrant/.vagrant
+!/features/fixtures/project/web/app_test.php
+/features/fixtures/project/web/*
 /features/fixtures/project/web/uploaded
 /features/fixtures/project/web/bundles
 /features/fixtures/project/app/data.sqlite

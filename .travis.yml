@@ -1,6 +1,6 @@
 language: php
 
-sudo: false
+sudo: true
 
 cache:
     directories:
@@ -21,6 +21,7 @@ matrix:
 before_install:
     - phpenv config-rm xdebug.ini
     - composer update $COMPOSER_FLAGS
+    - composer validate
     - wget --no-clobber -O bin/selenium.jar http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar || true
 
 before_script:
@@ -32,8 +33,8 @@ before_script:
     - sleep 5
 
 script:
-    - bin/phpspec run -f progress -vvv
-    - bin/behat --no-snippets --verbose --profile=travis -vvv
+    - bin/phpspec run -f progress -v
+    - bin/behat --no-snippets --verbose --profile=travis -v
 
 after_failure:
     - cat /tmp/FSiAdminTranslatableBundle/logs/test.log

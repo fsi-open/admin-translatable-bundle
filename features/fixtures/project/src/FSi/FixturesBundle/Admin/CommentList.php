@@ -39,6 +39,6 @@ class CommentList extends TranslatableListElement
     {
         $qb = $this->getRepository()->createTranslatableQueryBuilder('e', 't', 'dt');
 
-        return $factory->createDataSource('doctrine', ['qb' => $qb], $this->getId());
+        return $factory->createDataSource('doctrine-orm', ['qb' => $qb], $this->getId());
     }
 }

@@ -7,69 +7,57 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\DataGrid\Extension\ColumnType;
 
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
 class Action extends ColumnAbstractTypeExtension
 {
     /**
-     * @var \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager
+     * @var LocaleManager
      */
     protected $localeManager;
 
     /**
-     * @var \Symfony\Component\Routing\RouterInterface
+     * @var RouterInterface
      */
     protected $router;
 
-    /**
-     * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
-     * @param \Symfony\Component\Routing\RouterInterface $router
-     */
-    public function __construct(
-        LocaleManager $localeManager,
-        RouterInterface $router
-    ) {
+    public function __construct(LocaleManager $localeManager, RouterInterface $router)
+    {
         $this->localeManager = $localeManager;
         $this->router = $router;
     }
 
-    /**
-     * @return array
-     */
-    public function getExtendedColumnTypes()
+    public function getExtendedColumnTypes(): array
     {
-        return [
-            'action'
-        ];
+        return ['action'];
     }
 
-    /**
-     * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
-     */
-    public function initOptions(ColumnTypeInterface $column)
+    public function initOptions(ColumnTypeInterface $column): void
     {
         $column->getOptionsResolver()->setNormalizer('actions',
-            function (Options $options, $values) {
+            function (Options $options, $values): array {
                 foreach ($values as $action => $actionValues) {
-                    $values[$action] = $this->setRouteLocale($actionValues, $this->localeManager);
+                    $values[$action] = $this->setRouteLocale(
+                        $actionValues,
+                        $this->localeManager
+                    );
                 }
+
                 return $values;
             }
         );
     }
 
-    /**
-     * @param array $actionValues
-     * @param \FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager $localeManager
-     * @return mixed
-     */
-    private function setRouteLocale($actionValues, $localeManager)
+    private function setRouteLocale(array $actionValues, LocaleManager $localeManager)
     {
         if (in_array('locale', $this->getRouteVariables($actionValues['route_name']))) {
             $actionValues['additional_parameters']['locale'] = $localeManager->getLocale();
@@ -78,25 +66,14 @@ class Action extends ColumnAbstractTypeExtension
         return $actionValues;
     }
 
-    /**
-     * @param string $route
-     * @return array
-     */
-    private function getRouteVariables($route)
+    private function getRouteVariables(string $route): array
     {
         $route = $this->getRouteCollection()->get($route);
 
-        if ($route) {
-            return $route->compile()->getVariables();
-        } else {
-            return [];
-        }
+        return $route ? $route->compile()->getVariables() : [];
     }
 
-    /**
-     * @return null|\Symfony\Component\Routing\RouteCollection
-     */
-    private function getRouteCollection()
+    private function getRouteCollection(): ?RouteCollection
     {
         return $this->router->getRouteCollection();
     }

@@ -7,12 +7,16 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\DataGrid\Extension\ColumnType;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use FSi\DoctrineExtensions\Metadata\ClassMetadataInterface;
+use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPath;
@@ -21,17 +25,17 @@ use Symfony\Component\PropertyAccess\PropertyPathInterface;
 class Translatable extends ColumnAbstractTypeExtension
 {
     /**
-     * @var \Doctrine\Common\Persistence\ManagerRegistry
+     * @var ManagerRegistry
      */
     private $managerRegistry;
 
     /**
-     * @var \FSi\DoctrineExtensions\Translatable\TranslatableListener
+     * @var TranslatableListener
      */
     private $translatableListener;
 
     /**
-     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
+     * @var PropertyAccessorInterface
      */
     private $propertyAccessor;
 
@@ -45,7 +49,7 @@ class Translatable extends ColumnAbstractTypeExtension
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    public function getExtendedColumnTypes()
+    public function getExtendedColumnTypes(): array
     {
         return [
             'text',
@@ -57,7 +61,7 @@ class Translatable extends ColumnAbstractTypeExtension
         ];
     }
 
-    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
+    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view): void
     {
         $translatable = false;
         $notTranslated = false;
@@ -78,58 +82,46 @@ class Translatable extends ColumnAbstractTypeExtension
 
     /**
      * @param string $propertyPath
-     * @return null|\Symfony\Component\PropertyAccess\PropertyPath
+     * @return null|PropertyPath
      */
-    private function validatePropertyPath($propertyPath)
+    private function validatePropertyPath(string $propertyPath): ?PropertyPath
     {
         $propertyPath = new PropertyPath($propertyPath);
-        if ($propertyPath->isProperty($propertyPath->getLength() - 1)) {
-            return $propertyPath;
-        } else {
-            return null;
-        }
+        return $propertyPath->isProperty($propertyPath->getLength() - 1)
+            ? $propertyPath
+            : null
+        ;
     }
 
-    /**
-     * @param \FSi\Component\DataGrid\Column\CellViewInterface $view
-     * @param \Symfony\Component\PropertyAccess\PropertyPathInterface $propertyPath
-     * @return object
-     */
-    private function getMostNestedObject(CellViewInterface $view, PropertyPathInterface $propertyPath)
-    {
-        if ($propertyPath->getLength() > 1) {
-            return $this->propertyAccessor->getValue($view->getSource(), $propertyPath->getParent()->__toString());
-        } else {
-            return $view->getSource();
-        }
+    private function getMostNestedObject(
+        CellViewInterface $view,
+        PropertyPathInterface $propertyPath
+    ) {
+        return $propertyPath->getLength() > 1
+            ? $this->propertyAccessor->getValue(
+                $view->getSource(),
+                (string) $propertyPath->getParent()
+            )
+            : $view->getSource()
+        ;
+
     }
 
-    /**
-     * @param \Symfony\Component\PropertyAccess\PropertyPathInterface $propertyPath
-     * @return string
-     */
-    private function getMostNestedProperty(PropertyPathInterface $propertyPath)
+    private function getMostNestedProperty(PropertyPathInterface $propertyPath): string
     {
         return $propertyPath->getElement($propertyPath->getLength() - 1);
     }
 
-    /**
-     * @param \FSi\Component\DataGrid\Column\CellViewInterface $view
-     * @param \Symfony\Component\PropertyAccess\PropertyPathInterface $propertyPath
-     * @return \FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata
-     */
-    private function getTranslatableMetadata(CellViewInterface $view, PropertyPathInterface $propertyPath)
-    {
+    private function getTranslatableMetadata(
+        CellViewInterface $view,
+        PropertyPathInterface $propertyPath
+    ): ClassMetadata {
         $object = $this->getMostNestedObject($view, $propertyPath);
 
         return $this->getObjectTranslatableMetadata($object);
     }
 
-    /**
-     * @param object $object
-     * @return \FSi\Component\Metadata\ClassMetadataInterface
-     */
-    private function getObjectTranslatableMetadata($object)
+    private function getObjectTranslatableMetadata($object): ClassMetadataInterface
     {
         $class = get_class($object);
         $manager = $this->managerRegistry->getManagerForClass($class);
@@ -137,26 +129,17 @@ class Translatable extends ColumnAbstractTypeExtension
         return $this->translatableListener->getExtendedMetadata($manager, $class);
     }
 
-    /**
-     * @param \FSi\Component\DataGrid\Column\CellViewInterface $view
-     * @param string $propertyPath
-     * @return bool
-     */
-    private function isPropertyPathTranslated(CellViewInterface $view, $propertyPath)
+    private function isPropertyPathTranslated(CellViewInterface $view, string $propertyPath): bool
     {
-        if (!($propertyPath = $this->validatePropertyPath($propertyPath))) {
+        $propertyPath = $this->validatePropertyPath($propertyPath);
+        if (!$propertyPath) {
             return false;
         }
 
         return $this->getObjectLocale($view, $propertyPath) !== $this->translatableListener->getLocale();
     }
 
-    /**
-     * @param \FSi\Component\DataGrid\Column\CellViewInterface $view
-     * @param string $propertyPath
-     * @return bool
-     */
-    private function isPropertyPathTranslatable(CellViewInterface $view, $propertyPath)
+    private function isPropertyPathTranslatable(CellViewInterface $view, string $propertyPath): bool
     {
         if (!($propertyPath = $this->validatePropertyPath($propertyPath))) {
             return false;
@@ -177,11 +160,6 @@ class Translatable extends ColumnAbstractTypeExtension
         return false;
     }
 
-    /**
-     * @param \FSi\Component\DataGrid\Column\CellViewInterface $view
-     * @param $propertyPath
-     * @return mixed
-     */
     private function getObjectLocale(CellViewInterface $view, $propertyPath)
     {
         $object = $this->getMostNestedObject($view, $propertyPath);

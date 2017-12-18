@@ -18,10 +18,7 @@ trait TranslatableAwareElementImpl
      */
     protected $localeManager;
 
-    /**
-     * @param LocaleManager $localeManager
-     */
-    public function setLocaleManager(LocaleManager $localeManager)
+    public function setLocaleManager(LocaleManager $localeManager): void
     {
         $this->localeManager = $localeManager;
     }
