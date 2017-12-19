@@ -6,6 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
@@ -57,7 +58,7 @@ abstract class DefaultContext extends PageObjectContext implements KernelAwareCo
         return $this->mink->getSession();
     }
 
-    protected function getDriver() : DriverInterface
+    protected function getDriver(): DriverInterface
     {
         return $this->getSession()->getDriver();
     }
@@ -67,7 +68,7 @@ abstract class DefaultContext extends PageObjectContext implements KernelAwareCo
      * @param bool $xpath
      * @throws RuntimeException
      */
-    protected function waitUntilObjectVisible(string $selector, bool $xpath = false) : void
+    protected function waitUntilObjectVisible(string $selector, bool $xpath = false): void
     {
         if (!$this->isSeleniumDriver()) {
             throw new RuntimeException('Selenium driver is required for this function!');
@@ -91,7 +92,7 @@ abstract class DefaultContext extends PageObjectContext implements KernelAwareCo
         $this->getDriver()->wait(10000, $condition);
     }
 
-    protected function isSeleniumDriver() : bool
+    protected function isSeleniumDriver(): bool
     {
         return $this->getDriver() instanceof Selenium2Driver;
     }

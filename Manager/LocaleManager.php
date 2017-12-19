@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class LocaleManager
 {
-    const SESSION_KEY = 'admin_translatable_locale';
+    public const SESSION_KEY = 'admin_translatable_locale';
 
     /**
      * @var ManagerRegistry
@@ -50,36 +50,26 @@ class LocaleManager
         return $this->locales;
     }
 
-    /**
-     * @param string $locale
-     */
-    public function setLocale($locale)
+    public function setLocale(string $locale)
     {
         $this->session->set(self::SESSION_KEY, $locale);
         $this->getTranslatableListener()->setLocale($locale);
     }
 
-    /**
-     * @return string
-     */
-    public function getDefaultLocale()
+    public function getDefaultLocale(): ?string
     {
         return $this->getTranslatableListener()->getDefaultLocale();
     }
 
-    /**
-     * @return string
-     */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->session->get(self::SESSION_KEY, $this->getDefaultLocale());
     }
 
     /**
-     * @return TranslatableListener|null
      * @throws RuntimeException
      */
-    private function getTranslatableListener()
+    private function getTranslatableListener(): ?TranslatableListener
     {
         $eventManager = $this->managerRegistry->getManager()->getEventManager();
         foreach ($eventManager->getListeners() as $listeners) {

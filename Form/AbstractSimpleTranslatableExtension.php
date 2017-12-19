@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
-
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 

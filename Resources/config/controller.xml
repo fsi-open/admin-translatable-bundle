@@ -12,25 +12,25 @@
     </parameters>
 
     <services>
-        <service id="admin_translatable.controller.display" class="%admin_translatable.controller.display.class%">
+        <service id="admin_translatable.controller.display" class="%admin_translatable.controller.display.class%" public="true">
             <argument type="service" id="templating"/>
             <argument type="service" id="admin.context.manager"/>
             <argument type="service" id="event_dispatcher"/>
         </service>
 
-        <service id="admin_translatable.controller.list" class="%admin_translatable.controller.list.class%">
+        <service id="admin_translatable.controller.list" class="%admin_translatable.controller.list.class%" public="true">
             <argument type="service" id="templating"/>
             <argument type="service" id="admin.context.manager"/>
             <argument type="service" id="event_dispatcher"/>
         </service>
 
-        <service id="admin_translatable.controller.form" class="%admin_translatable.controller.form.class%">
+        <service id="admin_translatable.controller.form" class="%admin_translatable.controller.form.class%" public="true">
             <argument type="service" id="templating"/>
             <argument type="service" id="admin.context.manager"/>
             <argument type="service" id="event_dispatcher"/>
         </service>
 
-        <service id="admin_translatable.controller.batch" class="%admin_translatable.controller.batch.class%">
+        <service id="admin_translatable.controller.batch" class="%admin_translatable.controller.batch.class%" public="true">
             <argument type="service" id="templating"/>
             <argument type="service" id="admin.context.manager"/>
             <argument type="service" id="event_dispatcher"/>
