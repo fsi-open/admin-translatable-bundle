@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Repository;
 
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
@@ -32,13 +34,11 @@ class TranslatableMapBuilder extends BaseMapBuilder
      */
     protected $mapPath;
 
-    /**
-     * @param string $mapPath
-     * @param string[] $resourceTypes
-     * @param TranslatableListener $translatableListener
-     */
-    public function __construct($mapPath, $resourceTypes = [], TranslatableListener $translatableListener)
-    {
+    public function __construct(
+        string $mapPath,
+        array $resourceTypes,
+        TranslatableListener $translatableListener
+    ) {
         $this->mapPath = $mapPath;
         $this->translatableListener = $translatableListener;
         $this->translatedKeys = [];
@@ -148,28 +148,17 @@ class TranslatableMapBuilder extends BaseMapBuilder
         }
     }
 
-    /**
-     * @param array $configuration
-     * @return boolean
-     */
-    private function isTranslatable(array $configuration)
+    private function isTranslatable(array $configuration): bool
     {
         return (isset($configuration['translatable']) && $configuration['translatable'] === true);
     }
 
-    /**
-     * @return string
-     */
-    private function getCurrentLocale()
+    private function getCurrentLocale(): string
     {
-        return $this->translatableListener->getLocale() ?: $this->translatableListener->getDefaultLocale();
+        return $this->translatableListener->getLocale() ?? $this->translatableListener->getDefaultLocale();
     }
 
-    /**
-     * @param $key
-     * @return mixed
-     */
-    private function getResourceFromMap($key)
+    private function getResourceFromMap(string $key)
     {
         $map = $this->getMap();
 
@@ -185,11 +174,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
         return $accessor->getValue($map, $propertyPath);
     }
 
-    /**
-     * @param string $mapPath
-     * @return array
-     */
-    private function loadYamlMap($mapPath)
+    private function loadYamlMap(string $mapPath): array
     {
         return $this->recursiveParseRawMap(Yaml::parse(file_get_contents($mapPath)));
     }

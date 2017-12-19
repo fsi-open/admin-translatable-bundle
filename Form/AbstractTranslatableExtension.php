@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Symfony\Component\Form\AbstractTypeExtension;
@@ -64,12 +66,16 @@ abstract class AbstractTranslatableExtension extends AbstractTypeExtension
      * @param array $options
      * @return bool
      */
-    abstract protected function hasCurrentValue(FormView $view, FormInterface $form, array $options);
+    abstract protected function hasCurrentValue(FormView $view, FormInterface $form, array $options): bool;
 
     /**
      * @param FormView $view
      * @param FormInterface $form
      * @param array $options
      */
-    abstract protected function moveCurrentValueToDefaultLocaleValue(FormView $view, FormInterface $form, array $options);
+    abstract protected function moveCurrentValueToDefaultLocaleValue(
+        FormView $view,
+        FormInterface $form,
+        array $options
+    ): void;
 }

@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
 use FSi\Bundle\AdminBundle\Admin\Display\Context\DisplayContext as BaseDisplayContext;
@@ -19,8 +21,11 @@ class DisplayElementContext extends BaseDisplayContext
      */
     private $localeManager;
 
-    public function __construct($requestHandlers, LocaleManager $localeManager, $defaultTemplate)
-    {
+    public function __construct(
+        array $requestHandlers,
+        LocaleManager $localeManager,
+        string $defaultTemplate
+    ) {
         parent::__construct($requestHandlers, $defaultTemplate);
         $this->localeManager = $localeManager;
     }

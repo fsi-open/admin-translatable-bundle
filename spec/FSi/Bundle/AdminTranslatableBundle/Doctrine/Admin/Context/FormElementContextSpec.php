@@ -1,9 +1,20 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Admin\CRUD\Context;
 
+use FSi\Bundle\AdminBundle\Admin\Context\ContextInterface;
 use FSi\Bundle\AdminBundle\Admin\Context\Request\HandlerInterface;
 use FSi\Bundle\AdminBundle\Admin\CRUD\FormElement;
+use FSi\Bundle\AdminBundle\Event\FormEvent;
 use FSi\Component\DataIndexer\DataIndexerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -22,7 +33,7 @@ class TranslatableFormElementContextSpec extends ObjectBehavior
 
     function it_is_context()
     {
-        $this->shouldBeAnInstanceOf('FSi\Bundle\AdminBundle\Admin\Context\ContextInterface');
+        $this->shouldBeAnInstanceOf(ContextInterface::class);
     }
 
     function it_have_array_data(
@@ -62,7 +73,7 @@ class TranslatableFormElementContextSpec extends ObjectBehavior
 
     function it_handle_request_with_request_handlers(HandlerInterface $handler, Request $request)
     {
-        $handler->handleRequest(Argument::type('FSi\Bundle\AdminBundle\Event\FormEvent'), $request)
+        $handler->handleRequest(Argument::type(FormEvent::class), $request)
             ->shouldBeCalled();
 
         $this->handleRequest($request)->shouldReturn(null);
@@ -70,11 +81,10 @@ class TranslatableFormElementContextSpec extends ObjectBehavior
 
     function it_return_response_from_handler(HandlerInterface $handler, Request $request)
     {
-        $handler->handleRequest(Argument::type('FSi\Bundle\AdminBundle\Event\FormEvent'), $request)
+        $handler->handleRequest(Argument::type(FormEvent::class), $request)
             ->willReturn(new Response());
 
-        $this->handleRequest($request)
-            ->shouldReturnAnInstanceOf('Symfony\Component\HttpFoundation\Response');
+        $this->handleRequest($request)->shouldReturnAnInstanceOf(Response::class);
     }
 
     public function getMatchers()

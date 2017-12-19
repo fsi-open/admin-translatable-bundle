@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,6 +18,9 @@ use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormEvent;
@@ -28,13 +40,13 @@ class LocaleExtensionSpec extends ObjectBehavior
 
     function it_is_form_extension()
     {
-        $this->shouldBeAnInstanceOf('\Symfony\Component\Form\AbstractTypeExtension');
+        $this->shouldBeAnInstanceOf(AbstractTypeExtension::class);
     }
 
     function it_extends_from_type()
     {
         $this->getExtendedType()->shouldReturn(
-            TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\FormType', 'form')
+            TypeSolver::getFormType(FormType::class, 'form')
         );
     }
 
@@ -47,7 +59,7 @@ class LocaleExtensionSpec extends ObjectBehavior
 
     function it_is_event_subscriber()
     {
-        $this->shouldBeAnInstanceOf('\Symfony\Component\EventDispatcher\EventSubscriberInterface');
+        $this->shouldBeAnInstanceOf(EventSubscriberInterface::class);
     }
 
     function it_should_listen_to_post_submit_event()
@@ -73,8 +85,7 @@ class LocaleExtensionSpec extends ObjectBehavior
         $event->getForm()->willReturn($form);
         $form->getConfig()->willReturn($formConfig);
         $formConfig->getOption('data_class')->willReturn('TranslatableEntity');
-        $managerRegistry->getManagerForClass('TranslatableEntity')
-            ->willReturn($objectManager);
+        $managerRegistry->getManagerForClass('TranslatableEntity')->willReturn($objectManager);
         $translatableListener->getExtendedMetadata($objectManager, 'TranslatableEntity')
             ->willReturn($translatableClassMetadata);
         $translatableClassMetadata->hasTranslatableProperties()->willReturn(true);

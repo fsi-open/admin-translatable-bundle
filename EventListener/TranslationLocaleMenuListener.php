@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\EventListener;
 
 use FSi\Bundle\AdminBundle\Event\MenuEvent;
@@ -67,12 +76,12 @@ class TranslationLocaleMenuListener
         $this->populateTranslationLocaleMenu($translation);
     }
 
-    private function isRequestTranslatable()
+    private function isRequestTranslatable(): bool
     {
         return array_key_exists('locale', $this->getRequestParameters());
     }
 
-    private function getRequestParameters()
+    private function getRequestParameters(): array
     {
         $query = $this->request->query->all();
 
@@ -82,13 +91,9 @@ class TranslationLocaleMenuListener
         );
     }
 
-    /**
-     * @return Item
-     */
-    private function createRootItem()
+    private function createRootItem(): Item
     {
         $translation = new Item('translation-locale');
-
         $translation->setLabel(
             $this->translator->trans(
                 'admin.locale.dropdown.title',
@@ -96,17 +101,12 @@ class TranslationLocaleMenuListener
                 'FSiAdminTranslatableBundle'
             )
         );
-
-        $translation->setOptions([
-            'attr' => [
-                'id' => 'translatable-switcher',
-            ]
-        ]);
+        $translation->setOptions(['attr' => ['id' => 'translatable-switcher']]);
 
         return $translation;
     }
 
-    private function populateTranslationLocaleMenu(Item $menu)
+    private function populateTranslationLocaleMenu(Item $menu): void
     {
         $requestParameters = $this->getRequestParameters();
         $route = $this->request->get('_route');
@@ -122,11 +122,18 @@ class TranslationLocaleMenuListener
 
             if (isset($redirectRequest)) {
                 try {
-                    $requestParameters['redirect_uri'] = $this->generateRequestUriForLocale($redirectRequest, $locale);
+                    $requestParameters['redirect_uri'] = $this->generateRequestUriForLocale(
+                        $redirectRequest,
+                        $locale
+                    );
                 } catch (ResourceNotFoundException $e) { }
             }
 
-            $localeItem = new RoutableItem(sprintf('translation-locale.%s', $locale), $route, $requestParameters);
+            $localeItem = new RoutableItem(
+                sprintf('translation-locale.%s', $locale),
+                $route,
+                $requestParameters
+            );
             $localeItem->setLabel(
                 $languageBundle->getLanguageName($locale, null, $this->request->getLocale())
             );
@@ -135,11 +142,7 @@ class TranslationLocaleMenuListener
         }
     }
 
-    /**
-     * @param string $redirectUri
-     * @return Request
-     */
-    private function createRedirectRequest($redirectUri)
+    private function createRedirectRequest(string $redirectUri): Request
     {
         $redirectUrlParts = parse_url($redirectUri);
         if (($redirectUrlParts === false) || (isset($redirectUrlParts['host']))) {
@@ -163,7 +166,7 @@ class TranslationLocaleMenuListener
      * @param string $locale
      * @return string
      */
-    private function generateRequestUriForLocale(Request $redirectRequest, $locale)
+    private function generateRequestUriForLocale(Request $redirectRequest, string $locale): string
     {
         $parameters = $this->requestMatcher->matchRequest($redirectRequest);
         if (isset($parameters['locale'])) {
@@ -173,7 +176,11 @@ class TranslationLocaleMenuListener
         unset($parameters['_route']);
         unset($parameters['_controller']);
 
-        $requestUri = $this->urlGenerator->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
+        $requestUri = $this->urlGenerator->generate(
+            $route,
+            $parameters,
+            UrlGeneratorInterface::ABSOLUTE_PATH
+        );
         if ($redirectRequest->getQueryString()) {
             $requestUri .= '?' . $redirectRequest->getQueryString();
         }

@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -48,11 +50,6 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
         ];
     }
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param TranslatableListener $translatableListener
-     * @param PropertyAccessorInterface $propertyAccessor
-     */
     public function __construct(
         ManagerRegistry $managerRegistry,
         TranslatableListener $translatableListener,
@@ -83,7 +80,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
     /**
      * @param FormEvent $event
      */
-    public function setTranslatableLocale(FormEvent $event)
+    public function setTranslatableLocale(FormEvent $event): void
     {
         if (!$this->isCurrentLocaleSet()) {
             return;
@@ -100,45 +97,27 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
         $this->setFormDataLocale($event);
     }
 
-    /**
-     * @return bool
-     */
-    private function isCurrentLocaleSet()
+    private function isCurrentLocaleSet(): bool
     {
         return null !== $this->getCurrentLocale();
     }
 
-    /**
-     * @return mixed
-     */
-    private function getCurrentLocale()
+    private function getCurrentLocale(): ?string
     {
         return $this->translatableListener->getLocale();
     }
 
-    /**
-     * @param FormEvent $event
-     * @return bool
-     */
-    private function formHasDataClass(FormEvent $event)
+    private function formHasDataClass(FormEvent $event): bool
     {
         return null !== $this->getFormDataClass($event);
     }
 
-    /**
-     * @param FormEvent $event
-     * @return null|string
-     */
-    private function getFormDataClass(FormEvent $event)
+    private function getFormDataClass(FormEvent $event): ?string
     {
         return $event->getForm()->getConfig()->getOption('data_class');
     }
 
-    /**
-     * @param FormEvent $event
-     * @return bool
-     */
-    private function isFormDataClassTranslatable(FormEvent $event)
+    private function isFormDataClassTranslatable(FormEvent $event): bool
     {
         if (null === $this->getManagerForDataClass($event)) {
             return false;
@@ -152,11 +131,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
         return $translatableMetadata->hasTranslatableProperties();
     }
 
-    /**
-     * @param FormEvent $event
-     * @return ClassMetadata
-     */
-    private function getFormDataTranslatableMetadata(FormEvent $event)
+    private function getFormDataTranslatableMetadata(FormEvent $event): ?ClassMetadata
     {
         return $this->translatableListener->getExtendedMetadata(
             $this->getManagerForDataClass($event),
@@ -164,10 +139,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
         );
     }
 
-    /**
-     * @param FormEvent $event
-     */
-    private function setFormDataLocale(FormEvent $event)
+    private function setFormDataLocale(FormEvent $event): void
     {
         $data = $event->getData();
         if (!$data) {

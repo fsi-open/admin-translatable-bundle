@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -9,27 +18,33 @@ use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
+use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\PropertyAccess\PropertyPath;
+use function expect;
 
 class TranslatableTextExtensionSpec extends ObjectBehavior
 {
-    function let(TranslatableFormHelper $translatableFormHelper)
-    {
+    function let(
+        TranslatableFormHelper $translatableFormHelper,
+        FormInterface $form
+    ) {
+        $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(false);
         $this->beConstructedWith($translatableFormHelper);
     }
 
     function it_is_form_type_extension()
     {
-        $this->shouldBeAnInstanceOf('Symfony\Component\Form\AbstractTypeExtension');
+        $this->shouldBeAnInstanceOf(AbstractTypeExtension::class);
     }
 
     function it_extends_text_form()
     {
         $this->getExtendedType()->shouldReturn(
-            TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\TextType', 'text')
+            TypeSolver::getFormType(TextType::class, 'text')
         );
     }
 

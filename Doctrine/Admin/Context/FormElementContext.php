@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
 use FSi\Bundle\AdminBundle\Admin\CRUD\Context\FormElementContext as BaseFormElementContext;
@@ -21,8 +23,11 @@ class FormElementContext extends BaseFormElementContext
      */
     private $localeManager;
 
-    public function __construct($requestHandlers, LocaleManager $localeManager, $formTemplate)
-    {
+    public function __construct(
+        array $requestHandlers,
+        LocaleManager $localeManager,
+        string $formTemplate
+    ) {
         parent::__construct($requestHandlers, $formTemplate);
         $this->localeManager = $localeManager;
     }

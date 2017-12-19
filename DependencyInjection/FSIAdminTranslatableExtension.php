@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\DependencyInjection;
 
 use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
@@ -11,9 +20,6 @@ use Symfony\Component\DependencyInjection\Loader;
 
 class FSIAdminTranslatableExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration([
@@ -29,7 +35,10 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
 
         $this->setTemplateParameters($container, $config['templates']);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\XmlFileLoader(
+            $container,
+            new FileLocator(__DIR__.'/../Resources/config')
+        );
         $loader->load('services.xml');
         $loader->load('controller.xml');
         $loader->load(TypeSolver::isSymfony3FormNamingConvention()
@@ -45,9 +54,6 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
         $loader->load('context/list.xml');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function prepend(ContainerBuilder $container)
     {
         $container->prependExtensionConfig('fsi_admin', [
@@ -58,11 +64,7 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
         ]);
     }
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param array $config
-     */
-    protected function setTemplateParameters(ContainerBuilder $container, $config = [])
+    protected function setTemplateParameters(ContainerBuilder $container, array $config = []): void
     {
         foreach ($config as $key => $value) {
             $container->setParameter(sprintf('admin_translatable.templates.%s', $key), $value);

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace spec\FSi\Bundle\AdminTranslatableBundle\EventListener;
 
 use FSi\Bundle\AdminBundle\Event\MenuEvent;
@@ -32,7 +41,10 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         $request->get('_route')->willReturn('admin_translatable_list');
         $requestStack->getCurrentRequest()->willReturn($request);
 
-        $query->all()->willReturn(['param1' => 'val1', 'redirect_uri' => '/admin/en/list/element?param=value']);
+        $query->all()->willReturn([
+            'param1' => 'val1',
+            'redirect_uri' => '/admin/en/list/element?param=value'
+        ]);
         $request->query = $query;
 
         $requestMatcher->matchRequest(Argument::that(function ($argument) {
@@ -54,11 +66,19 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
             'FSiAdminTranslatableBundle'
         )->willReturn('Menu label');
 
-        $this->beConstructedWith($translator, $urlGenerator, $requestMatcher, $localeManager, $requestStack);
+        $this->beConstructedWith(
+            $translator,
+            $urlGenerator,
+            $requestMatcher,
+            $localeManager,
+            $requestStack
+        );
     }
 
-    function it_should_create_translations_tools_menu(MenuEvent $menuEvent, UrlGeneratorInterface $urlGenerator)
-    {
+    function it_should_create_translations_tools_menu(
+        MenuEvent $menuEvent,
+        UrlGeneratorInterface $urlGenerator
+    ) {
         $menuItem = new Item();
         $menuEvent->getMenu()->willReturn($menuItem);
 
@@ -124,8 +144,10 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
     }
 
-    function it_creates_empty_locales_menu_for_non_translatable_elements(MenuEvent $menuEvent, Request $request)
-    {
+    function it_creates_empty_locales_menu_for_non_translatable_elements(
+        MenuEvent $menuEvent,
+        Request $request
+    ) {
         $menuItem = new Item();
         $menuEvent->getMenu()->willReturn($menuItem);
 

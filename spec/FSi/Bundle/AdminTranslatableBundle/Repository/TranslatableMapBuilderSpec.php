@@ -1,17 +1,25 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Repository;
 
 use FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\TextType;
+use FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\TypeIntegerType;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
+use TypeError;
 
 class TranslatableMapBuilderSpec extends ObjectBehavior
 {
-    protected $resources = [
-        'text' => 'FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\TextType',
-        'integer' => 'FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\TypeIntegerType'
-    ];
+    protected $resources = ['text' => TextType::class, 'integer' => TypeIntegerType::class];
 
     function let(
         TranslatableListener $translatableListener
@@ -26,7 +34,7 @@ class TranslatableMapBuilderSpec extends ObjectBehavior
     function it_should_throw_exception_when_translatable_option_is_not_boolean(
         TranslatableListener $translatableListener
     ) {
-        $this->shouldThrow('FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException')->during(
+        $this->shouldThrow(TypeError::class)->during(
             '__construct',
             [
                 __DIR__ . '/../../../../fixtures/resource_map_with_invalid_value.yml',
@@ -65,14 +73,12 @@ class TranslatableMapBuilderSpec extends ObjectBehavior
 
         $map = $this->getMap();
 
-        $map['resource_group']['resource_block']['resource_a']
-            ->shouldHaveType('FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\TextType');
+        $map['resource_group']['resource_block']['resource_a']->shouldHaveType(TextType::class);
 
         $map['resource_group']['resource_block']['resource_a']->getName()
             ->shouldReturn('resource_group.resource_block.resource_a.en');
 
-        $map['resource_group']['resource_block']['resource_b']
-            ->shouldHaveType('FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\TextType');
+        $map['resource_group']['resource_block']['resource_b']->shouldHaveType(TextType::class);
 
         $map['resource_group']['resource_block']['resource_b']->getName()
             ->shouldReturn('resource_group.resource_block.resource_b');
