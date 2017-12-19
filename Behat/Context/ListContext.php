@@ -3,6 +3,7 @@
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
 use Behat\Gherkin\Node\TableNode;
+use FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Grid;
 
 class ListContext extends DefaultContext
 {
@@ -11,7 +12,7 @@ class ListContext extends DefaultContext
      */
     public function iClickEditInColumnInThirdRow($columnName)
     {
-        /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Grid $grid */
+        /** @var Grid $grid */
         $grid = $this->getElement('Grid');
         $cell = $grid->getCell(3, $grid->getColumnPosition($columnName));
         $grid->getSession()->getDriver()->click($cell->getXpath());
@@ -27,7 +28,7 @@ class ListContext extends DefaultContext
             $this->waitUntilObjectVisible('table.table-datagrid');
         }
 
-        /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Grid $grid */
+        /** @var Grid $grid */
         $grid = $this->getElement('Grid');
 
         expect(count($table->getHash()))->toBe($grid->getRowsCount());

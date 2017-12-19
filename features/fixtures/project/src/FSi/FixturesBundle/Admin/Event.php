@@ -79,7 +79,7 @@ class Event extends TranslatableCRUDElement
     {
         $qb = $this->getRepository()->createTranslatableQueryBuilder('e', 't', 'dt');
 
-        $datasource = $factory->createDataSource('doctrine', ['qb' => $qb], $this->getId());
+        $datasource = $factory->createDataSource('doctrine-orm', ['qb' => $qb], $this->getId());
 
         $datasource->addField('name', 'text', 'like', [
             'field' => 't.name'
