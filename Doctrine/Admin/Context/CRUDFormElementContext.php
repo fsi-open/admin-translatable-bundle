@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
 use FSi\Bundle\AdminBundle\Admin\CRUD\Context\CRUDFormElementContext as AdminCRUDFormElementContext;

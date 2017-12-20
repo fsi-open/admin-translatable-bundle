@@ -7,8 +7,9 @@
  * file that was distributed with this source code.
  */
 
-namespace FSi\Bundle\AdminTranslatableBundle\Form;
+declare(strict_types=1);
 
+namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -21,7 +22,7 @@ abstract class AbstractSimpleTranslatableExtension extends AbstractTranslatableE
      * @param array $options
      * @return bool
      */
-    protected function hasCurrentValue(FormView $view, FormInterface $form, array $options)
+    protected function hasCurrentValue(FormView $view, FormInterface $form, array $options): bool
     {
         return (bool) $view->vars['value'];
     }
@@ -30,10 +31,12 @@ abstract class AbstractSimpleTranslatableExtension extends AbstractTranslatableE
      * @param FormView $view
      * @param FormInterface $form
      * @param array $options
-     * @return mixed
      */
-    protected function moveCurrentValueToDefaultLocaleValue(FormView $view, FormInterface $form, array $options)
-    {
+    protected function moveCurrentValueToDefaultLocaleValue(
+        FormView $view,
+        FormInterface $form,
+        array $options
+    ): void {
         $view->vars['label_attr']['data-default-locale-value'] = $view->vars['value'];
         $view->vars['value'] = null;
     }

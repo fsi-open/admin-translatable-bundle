@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle;
 
 use FSi\Bundle\AdminTranslatableBundle\DependencyInjection\Compiler\MapBuilderPass;
@@ -18,9 +20,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class FSiAdminTranslatableBundle extends Bundle
 {
-    /**
-     * @param ContainerBuilder $container
-     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
@@ -30,9 +29,6 @@ class FSiAdminTranslatableBundle extends Bundle
         $container->addCompilerPass(new TranslatableWorkerPass());
     }
 
-    /**
-     * @return FSIAdminTranslatableExtension
-     */
     public function getContainerExtension()
     {
         if (null === $this->extension) {

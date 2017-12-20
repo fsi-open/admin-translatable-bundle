@@ -1,32 +1,49 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper;
 use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
+use FSi\Bundle\DoctrineExtensionsBundle\Form\Type\FSi\RemovableFileType;
 use FSi\Bundle\DoctrineExtensionsBundle\Resolver\FSiFilePathResolver;
 use FSi\DoctrineExtensions\Uploadable\File;
 use PhpSpec\ObjectBehavior;
+use stdClass;
+use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use function expect;
 
 class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
 {
-    function let(TranslatableFormHelper $translatableFormHelper, FSiFilePathResolver $filePathResolver)
-    {
+    function let(
+        TranslatableFormHelper $translatableFormHelper,
+        FSiFilePathResolver $filePathResolver,
+        FormInterface $form
+    ) {
+        $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(false);
         $this->beConstructedWith($translatableFormHelper, $filePathResolver);
     }
 
     function it_is_form_type_extension()
     {
-        $this->shouldBeAnInstanceOf('Symfony\Component\Form\AbstractTypeExtension');
+        $this->shouldBeAnInstanceOf(AbstractTypeExtension::class);
     }
 
     function it_extends_text_form()
     {
         $this->getExtendedType()->shouldReturn(TypeSolver::getFormType(
-            'FSi\Bundle\DoctrineExtensionsBundle\Form\Type\FSi\RemovableFileType',
+            RemovableFileType::class,
             'fsi_removable_file'
         ));
     }
@@ -115,7 +132,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
 
         $form->getName()->willReturn('translatable_property');
 
-        $data = new \stdClass();
+        $data = new stdClass();
         $view->vars['value'] = $data;
         $fileView->vars['value'] = $uploadableFile->getWrappedObject();
         $fileView->vars['data'] = $uploadableFile->getWrappedObject();

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
 use Behat\Gherkin\Node\TableNode;
@@ -19,7 +26,7 @@ class TranslatableCRUDContext extends DefaultContext
     /**
      * @Then /^I should see simple text filter "([^"]*)"$/
      */
-    public function iShouldSeeSimpleTextFilter($filterName)
+    public function iShouldSeeSimpleTextFilter(string $filterName)
     {
         expect($this->getElement('Filters')->hasField($filterName))->toBe(true);
     }
@@ -27,7 +34,7 @@ class TranslatableCRUDContext extends DefaultContext
     /**
      * @Given /^I fill simple text filter "([^"]*)" with value "([^"]*)"$/
      */
-    public function iFillSimpleTextFilterWithValue($filterName, $filterValue)
+    public function iFillSimpleTextFilterWithValue(string $filterName, $filterValue)
     {
         $this->getElement('Filters')->fillField($filterName, $filterValue);
     }
@@ -35,7 +42,7 @@ class TranslatableCRUDContext extends DefaultContext
     /**
      * @Given /^simple text filter "([^"]*)" should be filled with value "([^"]*)"$/
      */
-    public function simpleTextFilterShouldBeFilledWithValue($filterName, $filterValue)
+    public function simpleTextFilterShouldBeFilledWithValue(string $filterName, $filterValue)
     {
         expect($this->getElement('Filters')->findField($filterName)->getValue())->toBe($filterValue);
     }
@@ -63,7 +70,7 @@ class TranslatableCRUDContext extends DefaultContext
     /**
      * @Given /^I change "([^"]*)" field value to "([^"]*)"$/
      */
-    public function iChangeFieldValueTo($field, $value)
+    public function iChangeFieldValueTo(string $field, $value)
     {
         $this->getElement('Form')->fillField($field, $value);
     }
@@ -71,7 +78,7 @@ class TranslatableCRUDContext extends DefaultContext
     /**
      * @Given /^I press "([^"]*)" button$/
      */
-    public function iPressButton($button)
+    public function iPressButton(string $button)
     {
         $this->getElement('Form')->pressButton($button);
     }
@@ -87,7 +94,7 @@ class TranslatableCRUDContext extends DefaultContext
     /**
      * @Given /^I choose "([^"]*)" from batch action list and confirm it with "([^"]*)"$/
      */
-    public function iChooseFromBatchActionListAndConfirmItWith($action, $button)
+    public function iChooseFromBatchActionListAndConfirmItWith(string $action, string $button)
     {
         $this->getPage('Events list')->selectBatchAction($action);
         $this->getPage('Events list')->pressButton($button);
@@ -96,7 +103,7 @@ class TranslatableCRUDContext extends DefaultContext
     /**
      * @When /^I press "([^"]*)"$/
      */
-    public function iPress($button)
+    public function iPress(string $button)
     {
         $this->getPage('Events delete confirmation')->pressButton($button);
     }
@@ -104,7 +111,7 @@ class TranslatableCRUDContext extends DefaultContext
     /**
      * @Then /^I should be redirected to "([^"]*)" page with locale "([^"]*)"$/
      */
-    public function iShouldBeRedirectedToPage($pageName, $locale)
+    public function iShouldBeRedirectedToPage(string $pageName, string $locale)
     {
         expect($this->getPage($pageName)->isOpen(['locale' => $locale]))->toBe(true);
     }
@@ -112,7 +119,7 @@ class TranslatableCRUDContext extends DefaultContext
     /**
      * @Given /^I should see (\d+) events on the list$/
      */
-    public function iShouldSeeEventsOnTheList($count)
+    public function iShouldSeeEventsOnTheList(int $count)
     {
         expect($this->getElement('Grid')->getRowsCount())->toBe((int) $count);
     }

@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
 use FSi\Bundle\AdminBundle\Admin\CRUD\Context\ListElementContext as BaseListElementContext;
@@ -21,8 +23,11 @@ class ListElementContext extends BaseListElementContext
      */
     private $localeManager;
 
-    public function __construct($requestHandlers, LocaleManager $localeManager, $listTemplate)
-    {
+    public function __construct(
+        array $requestHandlers,
+        LocaleManager $localeManager,
+        string $listTemplate
+    ) {
         parent::__construct($requestHandlers, $listTemplate);
         $this->localeManager = $localeManager;
     }

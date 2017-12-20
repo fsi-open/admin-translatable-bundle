@@ -1,9 +1,20 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Admin\CRUD\Context;
 
+use FSi\Bundle\AdminBundle\Admin\Context\ContextInterface;
 use FSi\Bundle\AdminBundle\Admin\Context\Request\HandlerInterface;
 use FSi\Bundle\AdminBundle\Admin\CRUD\ListElement;
+use FSi\Bundle\AdminBundle\Event\ListEvent;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataSource\DataSourceInterface;
 use PhpSpec\ObjectBehavior;
@@ -27,7 +38,7 @@ class TranslatableListElementContextSpec extends ObjectBehavior
 
     function it_is_context()
     {
-        $this->shouldBeAnInstanceOf('FSi\Bundle\AdminBundle\Admin\Context\ContextInterface');
+        $this->shouldBeAnInstanceOf(ContextInterface::class);
     }
 
     function it_has_array_data()
@@ -55,7 +66,7 @@ class TranslatableListElementContextSpec extends ObjectBehavior
 
     function it_handles_request_with_request_handlers(HandlerInterface $handler, Request $request)
     {
-        $handler->handleRequest(Argument::type('FSi\Bundle\AdminBundle\Event\ListEvent'), $request)
+        $handler->handleRequest(Argument::type(ListEvent::class), $request)
             ->shouldBeCalled();
 
         $this->handleRequest($request)->shouldReturn(null);
@@ -63,11 +74,10 @@ class TranslatableListElementContextSpec extends ObjectBehavior
 
     function it_returns_response_from_handler(HandlerInterface $handler, Request $request)
     {
-        $handler->handleRequest(Argument::type('FSi\Bundle\AdminBundle\Event\ListEvent'), $request)
+        $handler->handleRequest(Argument::type(ListEvent::class), $request)
             ->willReturn(new Response());
 
-        $this->handleRequest($request)
-            ->shouldReturnAnInstanceOf('Symfony\Component\HttpFoundation\Response');
+        $this->handleRequest($request)->shouldReturnAnInstanceOf(Response::class);
     }
 
     public function getMatchers()

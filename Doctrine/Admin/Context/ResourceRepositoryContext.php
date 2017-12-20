@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
 use FSi\Bundle\AdminBundle\Admin\ResourceRepository\Context\ResourceRepositoryContext as BaseResourceRepositoryContext;
@@ -20,8 +22,12 @@ class ResourceRepositoryContext extends BaseResourceRepositoryContext
      */
     private $localeManager;
 
-    public function __construct($requestHandlers, ResourceFormBuilder $resourceFormBuilder, LocaleManager $localeManager, $defaultTemplate)
-    {
+    public function __construct(
+        array $requestHandlers,
+        ResourceFormBuilder $resourceFormBuilder,
+        LocaleManager $localeManager,
+        string $defaultTemplate
+    ) {
         parent::__construct($requestHandlers, $defaultTemplate, $resourceFormBuilder);
         $this->localeManager = $localeManager;
     }

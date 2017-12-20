@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Repository;
 
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
@@ -32,13 +34,11 @@ class TranslatableMapBuilder extends BaseMapBuilder
      */
     protected $mapPath;
 
-    /**
-     * @param string $mapPath
-     * @param string[] $resourceTypes
-     * @param TranslatableListener $translatableListener
-     */
-    public function __construct($mapPath, $resourceTypes = [], TranslatableListener $translatableListener)
-    {
+    public function __construct(
+        string $mapPath,
+        array $resourceTypes,
+        TranslatableListener $translatableListener
+    ) {
         $this->mapPath = $mapPath;
         $this->translatableListener = $translatableListener;
         $this->translatedKeys = [];
@@ -79,7 +79,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     /**
      * {@inheritdoc}
      */
-    public function hasResource($key)
+    public function hasResource($key): bool
     {
         $resource = $this->getResourceFromMap($key);
         return !empty($resource);
@@ -107,15 +107,17 @@ class TranslatableMapBuilder extends BaseMapBuilder
     protected function validateConfiguration(array $configuration, $path)
     {
         if (strlen($path) > 255) {
-            throw new ConfigurationException(
-                sprintf('"%s..." key is too long. Maximum key length is 255 characters', substr($path, 0, 32))
-            );
+            throw new ConfigurationException(sprintf(
+                '"%s..." key is too long. Maximum key length is 255 characters',
+                substr($path, 0, 32)
+            ));
         }
 
         if (!array_key_exists('type', $configuration)) {
-            throw new ConfigurationException(
-                sprintf('Missing "type" declaration in "%s" element configuration', $path)
-            );
+            throw new ConfigurationException(sprintf(
+                'Missing "type" declaration in "%s" element configuration',
+                $path
+            ));
         }
     }
 
@@ -125,11 +127,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
      */
     protected function validateResourceConfiguration(array $configuration)
     {
-        $validKeys = [
-            'form_options',
-            'constraints',
-            'translatable'
-        ];
+        $validKeys = ['form_options', 'constraints', 'translatable'];
 
         foreach ($configuration as $key => $options) {
             if ($key === 'type') {
@@ -137,39 +135,32 @@ class TranslatableMapBuilder extends BaseMapBuilder
             }
 
             if ($key === 'translatable' && !is_bool($options)) {
-                throw new ConfigurationException('Invalid value of "translatable" option. This option accepts only boolean value.');
+                throw new ConfigurationException(
+                    'Invalid value of "translatable" option. This option accepts only boolean value.'
+                );
             }
 
             if (!in_array($key, $validKeys)) {
-                throw new ConfigurationException(
-                    sprintf('"%s" is not a valid resource type option. Try one from: %s', $key, implode(', ', $validKeys))
-                );
+                throw new ConfigurationException(sprintf(
+                    '"%s" is not a valid resource type option. Try one from: %s',
+                    $key,
+                    implode(', ', $validKeys)
+                ));
             }
         }
     }
 
-    /**
-     * @param array $configuration
-     * @return boolean
-     */
-    private function isTranslatable(array $configuration)
+    private function isTranslatable(array $configuration): bool
     {
         return (isset($configuration['translatable']) && $configuration['translatable'] === true);
     }
 
-    /**
-     * @return string
-     */
-    private function getCurrentLocale()
+    private function getCurrentLocale(): ?string
     {
-        return $this->translatableListener->getLocale() ?: $this->translatableListener->getDefaultLocale();
+        return $this->translatableListener->getLocale() ?? $this->translatableListener->getDefaultLocale();
     }
 
-    /**
-     * @param $key
-     * @return mixed
-     */
-    private function getResourceFromMap($key)
+    private function getResourceFromMap(string $key)
     {
         $map = $this->getMap();
 
@@ -185,11 +176,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
         return $accessor->getValue($map, $propertyPath);
     }
 
-    /**
-     * @param string $mapPath
-     * @return array
-     */
-    private function loadYamlMap($mapPath)
+    private function loadYamlMap(string $mapPath): array
     {
         return $this->recursiveParseRawMap(Yaml::parse(file_get_contents($mapPath)));
     }

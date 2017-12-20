@@ -1,10 +1,20 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace spec\FSi\Bundle\AdminTranslatableBundle\DataGrid\Extension\ColumnType;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
@@ -30,7 +40,7 @@ class TranslatableSpec extends ObjectBehavior
 
     function it_is_column_type_extension()
     {
-        $this->shouldBeAnInstanceOf('FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension');
+        $this->shouldBeAnInstanceOf(ColumnAbstractTypeExtension::class);
     }
 
     function it_extends_action_column()

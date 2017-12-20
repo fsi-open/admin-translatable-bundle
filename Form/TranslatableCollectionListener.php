@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,9 +22,6 @@ class TranslatableCollectionListener implements EventSubscriberInterface
      */
     protected $translatableFormHelper;
 
-    /**
-     * @param TranslatableFormHelper $translatableFormHelper
-     */
     public function __construct(TranslatableFormHelper $translatableFormHelper)
     {
         $this->translatableFormHelper = $translatableFormHelper;

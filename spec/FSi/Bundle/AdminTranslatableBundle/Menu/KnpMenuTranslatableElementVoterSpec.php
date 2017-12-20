@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Menu;
 
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
@@ -14,8 +23,10 @@ class KnpMenuTranslatableElementVoterSpec extends ObjectBehavior
         $this->beConstructedWith($menuElementVoter, $localeManager);
     }
 
-    function it_should_pass_through_if_inner_voter_cant_decide(VoterInterface $menuElementVoter, ItemInterface $item)
-    {
+    function it_should_pass_through_if_inner_voter_cant_decide(
+        VoterInterface $menuElementVoter,
+        ItemInterface $item
+    ) {
         $menuElementVoter->matchItem($item)->willReturn(null);
 
         $this->matchItem($item)->shouldReturn(null);

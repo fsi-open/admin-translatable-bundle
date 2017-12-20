@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
 use FSi\Bundle\AdminBundle\Admin\CRUD\Context\BatchElementContext as BaseBatchElementContext;
@@ -20,8 +22,11 @@ class BatchElementContext extends BaseBatchElementContext
      */
     private $localeManager;
 
-    public function __construct($requestHandlers, FormBuilderInterface $formBuilder, LocaleManager $localeManager)
-    {
+    public function __construct(
+        array $requestHandlers,
+        FormBuilderInterface $formBuilder,
+        LocaleManager $localeManager
+    ) {
         parent::__construct($requestHandlers, $formBuilder);
         $this->localeManager = $localeManager;
     }
