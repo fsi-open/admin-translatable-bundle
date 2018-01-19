@@ -57,7 +57,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     /**
      * {@inheritdoc}
      */
-    public function getMap()
+    public function getMap(): array
     {
         $locale = $this->getCurrentLocale();
 
