@@ -64,7 +64,7 @@ class TranslationLocaleMenuListener
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    public function createTranslationLocaleMenu(MenuEvent $event)
+    public function createTranslationLocaleMenu(MenuEvent $event): void
     {
         $translation = $this->createRootItem();
         $event->getMenu()->addChild($translation);
@@ -142,7 +142,7 @@ class TranslationLocaleMenuListener
         }
     }
 
-    private function createRedirectRequest(string $redirectUri): Request
+    private function createRedirectRequest(string $redirectUri): ?Request
     {
         $redirectUrlParts = parse_url($redirectUri);
         if (($redirectUrlParts === false) || (isset($redirectUrlParts['host']))) {
