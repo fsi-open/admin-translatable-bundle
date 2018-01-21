@@ -67,6 +67,7 @@ class LocaleManager
     }
 
     /**
+     * @return TranslatableListener|null
      * @throws RuntimeException
      */
     private function getTranslatableListener(): ?TranslatableListener

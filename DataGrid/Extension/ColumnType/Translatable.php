@@ -80,10 +80,6 @@ class Translatable extends ColumnAbstractTypeExtension
         $view->setAttribute('not_translated', $notTranslated);
     }
 
-    /**
-     * @param string $propertyPath
-     * @return null|PropertyPath
-     */
     private function validatePropertyPath(string $propertyPath): ?PropertyPath
     {
         $propertyPath = new PropertyPath($propertyPath);
@@ -151,7 +147,7 @@ class Translatable extends ColumnAbstractTypeExtension
         }
 
         $property = $this->getMostNestedProperty($propertyPath);
-        foreach ($translatableMetadata->getTranslatableProperties() as $translations => $translatableProperties) {
+        foreach ($translatableMetadata->getTranslatableProperties() as $translatableProperties) {
             if (isset($translatableProperties[$property])) {
                 return true;
             }
@@ -160,7 +156,7 @@ class Translatable extends ColumnAbstractTypeExtension
         return false;
     }
 
-    private function getObjectLocale(CellViewInterface $view, $propertyPath)
+    private function getObjectLocale(CellViewInterface $view, $propertyPath): ?string
     {
         $object = $this->getMostNestedObject($view, $propertyPath);
         $translatableMetadata = $this->getObjectTranslatableMetadata($object);

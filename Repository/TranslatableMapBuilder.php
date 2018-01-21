@@ -11,11 +11,12 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Repository;
 
-use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException;
 use FSi\Bundle\ResourceRepositoryBundle\Repository\MapBuilder as BaseMapBuilder;
-use Symfony\Component\Yaml\Yaml;
+use FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\ResourceInterface;
+use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Yaml\Yaml;
 
 class TranslatableMapBuilder extends BaseMapBuilder
 {
@@ -54,41 +55,29 @@ class TranslatableMapBuilder extends BaseMapBuilder
         $this->map[$locale] = $this->loadYamlMap($mapPath);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMap()
+    public function getMap(): array
     {
         $locale = $this->getCurrentLocale();
 
-        if (isset($this->map[$locale])) {
-            return $this->map[$locale];
-        } else {
-            return $this->map[$locale] = $this->loadYamlMap($this->mapPath);
+        if (!isset($this->map[$locale])) {
+            $this->map[$locale] = $this->loadYamlMap($this->mapPath);
         }
+        
+        return $this->map[$locale];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getResource($key)
+    public function getResource(string $key)
     {
         return $this->getResourceFromMap($key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasResource($key): bool
     {
         $resource = $this->getResourceFromMap($key);
         return !empty($resource);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function createResource(array $configuration, $path)
+    protected function createResource(array $configuration, string $path): ResourceInterface
     {
         $locale = $this->getCurrentLocale();
 
@@ -100,11 +89,12 @@ class TranslatableMapBuilder extends BaseMapBuilder
     }
 
     /**
-     * @param $configuration
-     * @param $path
+     * @param array $configuration
+     * @param string $path
+     * @return void
      * @throws ConfigurationException
      */
-    protected function validateConfiguration(array $configuration, $path)
+    protected function validateConfiguration(array $configuration, string $path): void
     {
         if (strlen($path) > 255) {
             throw new ConfigurationException(sprintf(
@@ -122,10 +112,11 @@ class TranslatableMapBuilder extends BaseMapBuilder
     }
 
     /**
-     * @param $configuration
+     * @param array $configuration
+     * @return void
      * @throws ConfigurationException
      */
-    protected function validateResourceConfiguration(array $configuration)
+    protected function validateResourceConfiguration(array $configuration): void
     {
         $validKeys = ['form_options', 'constraints', 'translatable'];
 
