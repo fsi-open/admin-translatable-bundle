@@ -28,17 +28,11 @@ class ResourceTypeExtension extends AbstractTypeExtension
         $this->mapBuilder = $mapBuilder;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getExtendedType()
     {
         return 'resource';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $resource = $this->mapBuilder->getResource($options['resource_key']);

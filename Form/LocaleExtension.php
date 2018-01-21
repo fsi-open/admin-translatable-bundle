@@ -18,6 +18,7 @@ use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -40,16 +41,6 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
      */
     private $propertyAccessor;
 
-    /**
-     * @inheritdoc
-     */
-    public static function getSubscribedEvents()
-    {
-        return [
-            FormEvents::POST_SUBMIT => 'setTranslatableLocale'
-        ];
-    }
-
     public function __construct(
         ManagerRegistry $managerRegistry,
         TranslatableListener $translatableListener,
@@ -60,26 +51,23 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    /**
-     * @return string
-     */
-    public function getExtendedType()
+    public static function getSubscribedEvents()
     {
-        return TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\FormType', 'form');
+        return [
+            FormEvents::POST_SUBMIT => 'setTranslatableLocale'
+        ];
     }
 
-    /**
-     * @param FormBuilderInterface $formBuilder
-     * @param array $options
-     */
+    public function getExtendedType()
+    {
+        return TypeSolver::getFormType(FormType::class, 'form');
+    }
+
     public function buildForm(FormBuilderInterface $formBuilder, array $options)
     {
         $formBuilder->addEventSubscriber($this);
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function setTranslatableLocale(FormEvent $event): void
     {
         if (!$this->isCurrentLocaleSet()) {
@@ -153,11 +141,7 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
         );
     }
 
-    /**
-     * @param FormEvent $event
-     * @return ObjectManager|null
-     */
-    private function getManagerForDataClass(FormEvent $event)
+    private function getManagerForDataClass(FormEvent $event): ?ObjectManager
     {
         return $this->managerRegistry->getManagerForClass($this->getFormDataClass($event));
     }

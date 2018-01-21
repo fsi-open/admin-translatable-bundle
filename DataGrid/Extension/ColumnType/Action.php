@@ -57,7 +57,7 @@ class Action extends ColumnAbstractTypeExtension
         );
     }
 
-    private function setRouteLocale(array $actionValues, LocaleManager $localeManager)
+    private function setRouteLocale(array $actionValues, LocaleManager $localeManager): array
     {
         if (in_array('locale', $this->getRouteVariables($actionValues['route_name']))) {
             $actionValues['additional_parameters']['locale'] = $localeManager->getLocale();

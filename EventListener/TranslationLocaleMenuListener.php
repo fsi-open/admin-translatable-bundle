@@ -161,11 +161,6 @@ class TranslationLocaleMenuListener
         return new Request([], [], [], [], [], $redirectServer);
     }
 
-    /**
-     * @param Request $redirectRequest
-     * @param string $locale
-     * @return string
-     */
     private function generateRequestUriForLocale(Request $redirectRequest, string $locale): string
     {
         $parameters = $this->requestMatcher->matchRequest($redirectRequest);

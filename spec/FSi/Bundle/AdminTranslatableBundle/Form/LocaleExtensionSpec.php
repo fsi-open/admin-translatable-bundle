@@ -17,6 +17,7 @@ use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use stdClass;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
@@ -78,7 +79,7 @@ class LocaleExtensionSpec extends ObjectBehavior
         FormConfigInterface $formConfig,
         ClassMetadata $translatableClassMetadata,
         PropertyAccessorInterface $propertyAccessor,
-        \stdClass $entity
+        stdClass $entity
     ) {
         $translatableListener->getLocale()->willReturn('de');
         $event->getData()->willReturn($entity);
@@ -132,7 +133,8 @@ class LocaleExtensionSpec extends ObjectBehavior
         TranslatableListener $translatableListener,
         FormEvent $event,
         FormInterface $form,
-        FormConfigInterface $formConfig
+        FormConfigInterface $formConfig,
+        ClassMetadata $translatableClassMetadata
     ) {
         $translatableListener->getLocale()->willReturn('en');
         $event->getForm()->willReturn($form);
@@ -141,7 +143,8 @@ class LocaleExtensionSpec extends ObjectBehavior
         $managerRegistry->getManagerForClass('TranslatableEntity')
             ->willReturn($objectManager);
         $translatableListener->getExtendedMetadata($objectManager, 'TranslatableEntity')
-            ->willReturn(null);
+            ->willReturn($translatableClassMetadata);
+        $translatableClassMetadata->hasTranslatableProperties()->willReturn(false);
 
         $event->getData()->shouldNotBeCalled();
 

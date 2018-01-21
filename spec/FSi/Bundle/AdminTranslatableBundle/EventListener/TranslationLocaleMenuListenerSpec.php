@@ -165,7 +165,7 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         expect($translationLocale->getChildren())->toBe([]);
     }
 
-    public function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'haveOption' => function($subject, $key, $value) {
