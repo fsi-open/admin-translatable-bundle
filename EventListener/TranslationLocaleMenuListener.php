@@ -142,7 +142,7 @@ class TranslationLocaleMenuListener
         }
     }
 
-    private function createRedirectRequest(string $redirectUri): Request
+    private function createRedirectRequest(string $redirectUri): ?Request
     {
         $redirectUrlParts = parse_url($redirectUri);
         if (($redirectUrlParts === false) || (isset($redirectUrlParts['host']))) {
