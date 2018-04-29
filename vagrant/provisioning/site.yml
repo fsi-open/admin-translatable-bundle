@@ -37,7 +37,7 @@
     - name: copy ckeditor-bundle's public resources
       file:
         src: /var/www/admin-translatable-bundle/vendor/egeloen/ckeditor-bundle/Resources/public
-        dest: /var/www/admin-translatable-bundle/features/fixtures/project/web/bundles/ivoryckeditor
+        dest: /var/www/admin-translatable-bundle/features/fixtures/project/web/bundles/fosckeditor
         owner: vagrant
         group: vagrant
         state: link

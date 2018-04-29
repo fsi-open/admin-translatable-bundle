@@ -20,7 +20,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new FSi\Bundle\ResourceRepositoryBundle\FSiResourceRepositoryBundle(),
             new FSi\Bundle\AdminTranslatableBundle\FSiAdminTranslatableBundle(),
-            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+            new FOS\CKEditorBundle\FOSCKEditorBundle(),
 
             new FSi\FixturesBundle\FSiFixturesBundle(),
         ];

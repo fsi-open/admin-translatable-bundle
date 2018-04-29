@@ -34,7 +34,7 @@
         "behat/symfony2-extension": "^2.1",
         "bossa/phpspec2-expect": "^2.0|^3.0",
         "doctrine/doctrine-bundle": "^1.6",
-        "egeloen/ckeditor-bundle": "^5.0",
+        "friendsofsymfony/ckeditor-bundle": "dev-master",
         "ext-pdo_sqlite": "*",
         "fsi/datagrid": "^2.0@dev",
         "fsi/datagrid-bundle": "^2.0@dev",
