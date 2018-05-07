@@ -98,7 +98,7 @@ class Event extends TranslatableCRUDElement
         }
         $formType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\FormType', 'form');
         $textType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\TextType', 'text');
-        $ckeditorType = TypeSolver::getFormType('Ivory\CKEditorBundle\Form\Type\CKEditorType', 'ckeditor');
+        $ckeditorType = TypeSolver::getFormType('FOS\CKEditorBundle\Form\Type\CKEditorType', 'ckeditor');
         $collectionType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\CollectionType', 'collection');
         $removableFileType = TypeSolver::getFormType(
             'FSi\Bundle\DoctrineExtensionsBundle\Form\Type\FSi\RemovableFileType',

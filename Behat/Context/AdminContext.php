@@ -22,6 +22,10 @@ class AdminContext extends DefaultContext
      */
     public function iAmOnThePage(string $pageName)
     {
+        if (!$this->getSession()->isStarted()) {
+            $this->getSession()->start();
+        }
+
         $this->getPage($pageName)->open();
     }
 
@@ -31,6 +35,10 @@ class AdminContext extends DefaultContext
      */
     public function iAmOnThePageWithTranslatableLocale(string $pageName, string $locale)
     {
+        if (!$this->getSession()->isStarted()) {
+            $this->getSession()->start();
+        }
+
         $this->getPage($pageName)->open(['locale' => $locale]);
     }
 
@@ -39,6 +47,10 @@ class AdminContext extends DefaultContext
      */
     public function iAmOnThePageWithId(string $pageName, $id)
     {
+        if (!$this->getSession()->isStarted()) {
+            $this->getSession()->start();
+        }
+
         $this->getPage($pageName)->open(['id' => $id]);
     }
 
@@ -123,7 +135,7 @@ class AdminContext extends DefaultContext
     public function theFollowingAdminTranslatableElementsWereRegistered(TableNode $elements)
     {
         /** @var Manager $manager */
-        $manager = $this->kernel->getContainer()->get('admin.manager');
+        $manager = $this->kernel->getContainer()->get('test.admin.manager');
 
         foreach ($elements->getHash() as $serviceRow) {
             expect($manager->hasElement($serviceRow['Element Id']))->toBe(true);
