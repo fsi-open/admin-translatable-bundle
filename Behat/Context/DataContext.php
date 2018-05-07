@@ -89,7 +89,7 @@ class DataContext implements KernelAwareContext
     {
         $this->kernel
             ->getContainer()
-            ->get('fsi_doctrine_extensions.listener.translatable')
+            ->get('test.fsi_doctrine_extensions.listener.translatable')
             ->setDefaultLocale($defaultLocale);
     }
 

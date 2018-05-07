@@ -13,7 +13,7 @@
 
     <services>
         <!-- Controller -->
-        <service id="admin_translatable.controller.resource" class="%admin_translatable.controller.resource.class%">
+        <service id="admin_translatable.controller.resource" class="%admin_translatable.controller.resource.class%" public="true">
             <argument type="service" id="templating"/>
             <argument type="service" id="admin.context.manager"/>
             <argument type="service" id="event_dispatcher"/>

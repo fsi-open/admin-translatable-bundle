@@ -1,6 +1,14 @@
 parameters:
     locale:          en
 
+services:
+    test.admin.manager:
+        alias: admin.manager
+        public: true
+    test.fsi_doctrine_extensions.listener.translatable:
+        alias: fsi_doctrine_extensions.listener.translatable
+        public: true
+
 framework:
     secret:          this_is_secret
     translator:      { fallback: "%locale%" }
