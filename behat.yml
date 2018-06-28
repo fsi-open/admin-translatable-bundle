@@ -9,13 +9,14 @@ default: &default
                 - FSi\Bundle\AdminTranslatableBundle\Behat\Context\PopoverContext
     extensions:
         Behat\MinkExtension:
+            base_url: 'http://admin-translatable-bundle-web'
             sessions:
                 default:
                     symfony2: ~
                 javascript:
                     selenium2:
                         browser: firefox
-            base_url: 'http://fsi-admin-translatable-bundle.dev/app_test.php/'
+                        wd_host: http://admin-translatable-bundle-selenium:4444/wd/hub
             javascript_session: javascript
         Behat\Symfony2Extension:
             kernel:
@@ -32,3 +33,7 @@ travis:
     extensions:
         Behat\MinkExtension:
             base_url: "http://localhost:8080/app_test.php"
+            sessions:
+                javascript:
+                    selenium2:
+                        wd_host: http://localhost:4444/wd/hub
