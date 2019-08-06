@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -58,9 +57,14 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
         ];
     }
 
+    public static function getExtendedTypes()
+    {
+        return [FormType::class];
+    }
+
     public function getExtendedType()
     {
-        return TypeSolver::getFormType(FormType::class, 'form');
+        return FormType::class;
     }
 
     public function buildForm(FormBuilderInterface $formBuilder, array $options)

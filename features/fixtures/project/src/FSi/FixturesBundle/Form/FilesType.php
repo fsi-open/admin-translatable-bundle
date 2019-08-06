@@ -1,37 +1,31 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace FSi\FixturesBundle\Form;
 
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
+use FSi\Bundle\DoctrineExtensionsBundle\Form\Type\FSi\RemovableFileType;
+use FSi\FixturesBundle\Entity\File;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class FilesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $removableFileType = TypeSolver::getFormType(
-            'FSi\Bundle\DoctrineExtensionsBundle\Form\Type\FSi\RemovableFileType',
-            'fsi_removable_file'
-        );
-
-        $builder->add('file', $removableFileType, ['required' => false]);
+        $builder->add('file', RemovableFileType::class, ['required' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => 'FSi\FixturesBundle\Entity\File']);
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
-
-    public function getName()
-    {
-        return 'files';
+        $resolver->setDefault('data_class', File::class);
     }
 }

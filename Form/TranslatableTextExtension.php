@@ -11,15 +11,17 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class TranslatableTextExtension extends AbstractSimpleTranslatableExtension
 {
-    /**
-     * @inheritdoc
-     */
+    public static function getExtendedTypes()
+    {
+        return [TextType::class];
+    }
+
     public function getExtendedType()
     {
-        return TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\TextType', 'text');
+        return TextType::class;
     }
 }

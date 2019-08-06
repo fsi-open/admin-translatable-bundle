@@ -14,7 +14,6 @@ namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper;
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
@@ -43,9 +42,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
 
     function it_extends_text_form()
     {
-        $this->getExtendedType()->shouldReturn(
-            TypeSolver::getFormType(TextType::class, 'text')
-        );
+        $this->getExtendedType()->shouldReturn(TextType::class);
     }
 
     function it_does_nothing_if_form_has_no_property_path(
