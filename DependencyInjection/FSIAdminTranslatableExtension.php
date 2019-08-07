@@ -11,12 +11,11 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\DependencyInjection;
 
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class FSIAdminTranslatableExtension extends Extension implements PrependExtensionInterface
 {
@@ -41,10 +40,7 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
         );
         $loader->load('services.xml');
         $loader->load('controller.xml');
-        $loader->load(TypeSolver::isSymfony3FormNamingConvention()
-            ? 'form-symfony-3.xml'
-            : 'form-symfony-2.xml'
-        );
+        $loader->load('form.xml');
         $loader->load('datagrid.xml');
         $loader->load('menu.xml');
 

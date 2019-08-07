@@ -1,7 +1,17 @@
 parameters:
     locale: en
+    locales: [pl,en,de]
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    FSi\FixturesBundle\:
+        resource: '../../src/FSi/FixturesBundle/*'
+        exclude: '../../src/FSi/FixturesBundle/{Entity,FSiFixturesBundle.php}'
+
     test.admin.manager:
         alias: admin.manager
         public: true
@@ -44,14 +54,8 @@ fsi_resource_repository:
     resource_class: FSi\FixturesBundle\Entity\Resource
 
 fsi_admin_translatable:
-    locales:
-        - pl
-        - en
-        - de
+    locales: '%locales%'
 
 fsi_admin:
     default_locale: "%locale%"
-    locales:
-        - pl
-        - en
-        - de
+    locales: '%locales%'

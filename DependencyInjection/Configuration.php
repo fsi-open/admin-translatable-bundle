@@ -28,8 +28,14 @@ class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fsi_admin_translatable');
+        if (true === method_exists(TreeBuilder::class, 'getRootNode')) {
+            $treeBuilder = new TreeBuilder('fsi_admin_translatable');
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('fsi_admin_translatable');
+        }
+
         $rootNode
             ->children()
                 ->arrayNode('locales')

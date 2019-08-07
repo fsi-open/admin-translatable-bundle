@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper;
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\Bundle\DoctrineExtensionsBundle\Form\Type\FSi\RemovableFileType;
 use FSi\Bundle\DoctrineExtensionsBundle\Resolver\FSiFilePathResolver;
 use FSi\DoctrineExtensions\Uploadable\File;
@@ -42,10 +41,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
 
     function it_extends_text_form()
     {
-        $this->getExtendedType()->shouldReturn(TypeSolver::getFormType(
-            RemovableFileType::class,
-            'fsi_removable_file'
-        ));
+        $this->getExtendedType()->shouldReturn(RemovableFileType::class);
     }
 
     function it_does_nothing_if_form_has_no_property_path(

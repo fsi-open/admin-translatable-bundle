@@ -1,15 +1,21 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace FSi\FixturesBundle\Admin;
 
-use FSi\Bundle\AdminBundle\Annotation as Admin;
 use FSi\Bundle\AdminBundle\Display\Display;
 use FSi\Bundle\AdminBundle\Display\PropertyAccessDisplay;
 use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableDisplayElement;
+use FSi\FixturesBundle\Entity\Event;
 
-/**
- * @Admin\Element
- */
 class EventPreview extends TranslatableDisplayElement
 {
     public function getId(): string
@@ -19,7 +25,7 @@ class EventPreview extends TranslatableDisplayElement
 
     public function getClassName(): string
     {
-        return 'FSi\FixturesBundle\Entity\Event';
+        return Event::class;
     }
 
     protected function initDisplay($object): Display

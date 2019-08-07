@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\ORM\EntityManagerInterface;
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
@@ -46,9 +45,7 @@ class LocaleExtensionSpec extends ObjectBehavior
 
     function it_extends_from_type()
     {
-        $this->getExtendedType()->shouldReturn(
-            TypeSolver::getFormType(FormType::class, 'form')
-        );
+        $this->getExtendedType()->shouldReturn(FormType::class);
     }
 
     function it_adds_itself_as_form_event_subscriber(FormBuilderInterface $formBuilder)

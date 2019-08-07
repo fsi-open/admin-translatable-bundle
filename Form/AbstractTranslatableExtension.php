@@ -22,17 +22,11 @@ abstract class AbstractTranslatableExtension extends AbstractTypeExtension
      */
     protected $translatableFormHelper;
 
-    /**
-     * @param TranslatableFormHelper $translatableFormHelper
-     */
     public function __construct(TranslatableFormHelper $translatableFormHelper)
     {
         $this->translatableFormHelper = $translatableFormHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['translatable'] = false;

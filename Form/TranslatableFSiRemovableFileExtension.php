@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use FSi\Bundle\DoctrineExtensionsBundle\Form\Type\FSi\RemovableFileType;
 use FSi\Bundle\DoctrineExtensionsBundle\Resolver\FSiFilePathResolver;
 use Symfony\Component\Form\FormInterface;
@@ -32,33 +31,21 @@ class TranslatableFSiRemovableFileExtension extends AbstractTranslatableExtensio
         $this->filePathResolver = $filePathResolver;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExtendedType()
+    public static function getExtendedTypes()
     {
-        return TypeSolver::getFormType(
-            RemovableFileType::class,
-            'fsi_removable_file'
-        );
+        return [RemovableFileType::class];
     }
 
-    /**
-     * @param FormView $view
-     * @param FormInterface $form
-     * @param array $options
-     * @return bool
-     */
+    public function getExtendedType()
+    {
+        return RemovableFileType::class;
+    }
+
     protected function hasCurrentValue(FormView $view, FormInterface $form, array $options): bool
     {
         return isset($view[$form->getName()]->vars['data']);
     }
 
-    /**
-     * @param FormView $view
-     * @param FormInterface $form
-     * @param array $options
-     */
     protected function moveCurrentValueToDefaultLocaleValue(
         FormView $view,
         FormInterface $form,
