@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class TranslatableCollectionExtension extends AbstractSimpleTranslatableExtension
@@ -29,20 +29,16 @@ class TranslatableCollectionExtension extends AbstractSimpleTranslatableExtensio
         $this->listener = $listener;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExtendedType()
+    public static function getExtendedTypes()
     {
-        return TypeSolver::getFormType(
-            'Symfony\Component\Form\Extension\Core\Type\CollectionType',
-            'collection'
-        );
+        return [CollectionType::class];
     }
 
-    /**
-     * @inheritdoc
-     */
+    public function getExtendedType()
+    {
+        return CollectionType::class;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventSubscriber($this->listener);

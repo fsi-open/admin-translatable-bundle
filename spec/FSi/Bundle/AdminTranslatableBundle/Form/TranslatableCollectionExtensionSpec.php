@@ -13,7 +13,6 @@ namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
 use FSi\Bundle\AdminTranslatableBundle\Form\TranslatableCollectionListener;
 use FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper;
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -35,10 +34,7 @@ class TranslatableCollectionExtensionSpec extends ObjectBehavior
 
     public function it_extends_collection()
     {
-        $this->getExtendedType()->shouldReturn(TypeSolver::getFormType(
-            CollectionType::class,
-            'collection'
-        ));
+        $this->getExtendedType()->shouldReturn(CollectionType::class);
     }
 
     public function it_adds_listener(

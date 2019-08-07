@@ -1,16 +1,23 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace FSi\FixturesBundle\Admin;
 
-use FSi\Bundle\AdminBundle\Annotation as Admin;
 use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableFormElement;
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
+use FSi\FixturesBundle\Entity\Comment;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 
-/**
- * @Admin\Element
- */
 class Form extends TranslatableFormElement
 {
     public function getId(): string
@@ -20,16 +27,13 @@ class Form extends TranslatableFormElement
 
     public function getClassName(): string
     {
-        return 'FSi\FixturesBundle\Entity\Comment';
+        return Comment::class;
     }
 
     protected function initForm(FormFactoryInterface $factory, $data = null): FormInterface
     {
-        $formType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\FormType', 'form');
-        $textareaType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\TextareaType', 'textarea');
-
-        $form = $factory->create($formType, $data, ['data_class' => $this->getClassName()]);
-        $form->add('text', $textareaType);
+        $form = $factory->create(FormType::class, $data, ['data_class' => $this->getClassName()]);
+        $form->add('text', TextareaType::class);
 
         return $form;
     }

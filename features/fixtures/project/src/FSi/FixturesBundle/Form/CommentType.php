@@ -1,33 +1,31 @@
 <?php
 
+/**
+ * (c) FSi sp. z o.o. <info@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace FSi\FixturesBundle\Form;
 
-use FSi\Bundle\AdminTranslatableBundle\Form\TypeSolver;
+use FSi\FixturesBundle\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class CommentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $textareaType = TypeSolver::getFormType('Symfony\Component\Form\Extension\Core\Type\TextType', 'text');
-        $builder->add('text', $textareaType);
+        $builder->add('text', TextType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => 'FSi\FixturesBundle\Entity\Comment']);
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
-
-    public function getName()
-    {
-        return 'comment';
+        $resolver->setDefault('data_class', Comment::class);
     }
 }
