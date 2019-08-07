@@ -11,8 +11,8 @@
         }
     ],
     "require": {
-        "fsi/admin-bundle": "^3.1",
-        "fsi/doctrine-extensions-bundle": "^2.0",
+        "fsi/admin-bundle": "^4.0@dev",
+        "fsi/doctrine-extensions-bundle": "^2.1",
         "php": ">=7.1",
         "symfony/form": "^3.4|^4.0",
         "symfony/framework-bundle": "^3.4|^4.0",
@@ -22,7 +22,8 @@
         "symfony/translation": "^3.4|^4.0",
         "symfony/twig-bridge": "^3.4|^4.0",
         "symfony/validator": "^3.4|^4.0",
-        "symfony/twig-bundle": "^3.4|^4.0"
+        "symfony/twig-bundle": "^3.4|^4.0",
+        "twig/twig": "^2.11"
     },
     "require-dev": {
         "behat/behat": "^3.3",
@@ -34,9 +35,7 @@
         "bossa/phpspec2-expect": "^3.0",
         "doctrine/doctrine-bundle": "^1.6",
         "ext-pdo_sqlite": "*",
-        "friendsofsymfony/ckeditor-bundle": "^1.0",
-        "fsi/datagrid": "^2.0",
-        "fsi/datasource": "^2.0",
+        "friendsofsymfony/ckeditor-bundle": "^2.1",
         "fsi/resource-repository-bundle": "^2.0",
         "phpspec/phpspec": "^5.0",
         "phpspec/prophecy": "^1.7",
@@ -47,7 +46,6 @@
         "symfony/debug": "^3.4|^4.0",
         "symfony/dom-crawler": "^3.4|^4.0",
         "symfony/var-dumper": "^3.4|^4.0",
-        "twig/twig": "^2.0",
         "symfony/phpunit-bridge": "^4.3"
     },
     "config": {

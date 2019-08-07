@@ -26,7 +26,6 @@ framework:
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
-    templating:      { engines: ['twig'] }
     default_locale:  "%locale%"
     profiler:        { only_exceptions: false }
     test:            ~
