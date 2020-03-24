@@ -16,7 +16,6 @@ use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\DoctrineExtensions\Metadata\ClassMetadataInterface;
-use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPath;
@@ -101,8 +100,10 @@ class Translatable extends ColumnAbstractTypeExtension
             return false;
         }
 
-        $translatableMetadata = $this->getTranslatableMetadata($view, $propertyPath);
-        if (false === $translatableMetadata->hasTranslatableProperties()) {
+        $translatableMetadata = $this->getObjectTranslatableMetadata(
+            $this->getMostNestedObject($view, $propertyPath)
+        );
+        if (null === $translatableMetadata || false === $translatableMetadata->hasTranslatableProperties()) {
             return false;
         }
 
@@ -123,30 +124,37 @@ class Translatable extends ColumnAbstractTypeExtension
             return false;
         }
 
-        return $this->getObjectLocale($view, $propertyPath) !== $this->translatableListener->getLocale();
+        $locale = $this->translatableListener->getLocale();
+        if (null === $locale) {
+            return false;
+        }
+
+        $objectLocale = $this->getObjectLocale($view, $propertyPath);
+        if (null === $objectLocale) {
+            return false;
+        }
+
+        return $objectLocale !== $locale;
     }
 
     private function getObjectLocale(CellViewInterface $view, $propertyPath): ?string
     {
         $object = $this->getMostNestedObject($view, $propertyPath);
         $translatableMetadata = $this->getObjectTranslatableMetadata($object);
+        if (null === $translatableMetadata) {
+            return null;
+        }
 
         return $this->propertyAccessor->getValue($object, $translatableMetadata->localeProperty);
     }
 
-    private function getTranslatableMetadata(
-        CellViewInterface $view,
-        PropertyPathInterface $propertyPath
-    ): ClassMetadata {
-        return $this->getObjectTranslatableMetadata(
-            $this->getMostNestedObject($view, $propertyPath)
-        );
-    }
-
-    private function getObjectTranslatableMetadata($object): ClassMetadataInterface
+    private function getObjectTranslatableMetadata($object): ?ClassMetadataInterface
     {
         $class = get_class($object);
         $manager = $this->managerRegistry->getManagerForClass($class);
+        if (null === $manager) {
+            return null;
+        }
 
         return $this->translatableListener->getExtendedMetadata($manager, $class);
     }
