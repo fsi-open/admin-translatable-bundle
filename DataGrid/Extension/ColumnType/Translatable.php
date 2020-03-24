@@ -20,6 +20,7 @@ use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
+use function get_class;
 
 class Translatable extends ColumnAbstractTypeExtension
 {

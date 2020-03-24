@@ -9,15 +9,14 @@ sudo: required
 addons:
     firefox: "47.0.1"
 
-services:
-    - xvfb
+services: xvfb
 
 matrix:
     include:
         - php: 7.1
           env:
               - COMPOSER_FLAGS='--prefer-lowest'
-        - php: 7.3
+        - php: 7.4
 
 before_install:
     - phpenv config-rm xdebug.ini
