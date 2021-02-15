@@ -17,25 +17,16 @@ abstract class TranslatableResourceElement extends ResourceElement implements Tr
 {
     use TranslatableAwareElementImpl;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRoute(): string
     {
         return 'fsi_admin_translatable_resource';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteParameters(): array
     {
         return $this->appendLocaleParameter(parent::getRouteParameters());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSuccessRouteParameters(): array
     {
         return $this->appendLocaleParameter(parent::getSuccessRouteParameters());

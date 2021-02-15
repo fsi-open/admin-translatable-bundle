@@ -27,40 +27,36 @@ use function expect;
 
 class TranslatableTextExtensionSpec extends ObjectBehavior
 {
-    function let(
-        TranslatableFormHelper $translatableFormHelper,
-        FormInterface $form
-    ) {
+    public function let(TranslatableFormHelper $translatableFormHelper, FormInterface $form): void
+    {
         $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(false);
         $this->beConstructedWith($translatableFormHelper);
     }
 
-    function it_is_form_type_extension()
+    public function it_is_form_type_extension(): void
     {
         $this->shouldBeAnInstanceOf(AbstractTypeExtension::class);
     }
 
-    function it_extends_text_form()
+    public function it_extends_text_form(): void
     {
         $this->getExtendedType()->shouldReturn(TextType::class);
     }
 
-    function it_does_nothing_if_form_has_no_property_path(
-        FormView $view,
-        FormInterface $form
-    ) {
+    public function it_does_nothing_if_form_has_no_property_path(FormView $view, FormInterface $form): void
+    {
         $form->getPropertyPath()->willReturn(null);
 
         $this->finishView($view, $form, []);
     }
 
-    function it_does_nothing_if_form_has_no_translatable_parent(
+    public function it_does_nothing_if_form_has_no_translatable_parent(
         FormView $view,
         FormInterface $form,
         FormConfigInterface $formConfig,
         FormInterface $parentForm,
         FormConfigInterface $parentFormConfig
-    ) {
+    ): void {
         $form->getPropertyPath()->willReturn('translatable_property');
         $form->getConfig()->willReturn($formConfig);
 
@@ -73,7 +69,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
         $this->finishView($view, $form, []);
     }
 
-    function it_does_nothing_if_forms_property_is_not_translatable_in_first_translatable_parent(
+    public function it_does_nothing_if_forms_property_is_not_translatable_in_first_translatable_parent(
         ManagerRegistry $managerRegistry,
         EntityManagerInterface $manager,
         TranslatableListener $translatableListener,
@@ -86,7 +82,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
         FormConfigInterface $parentFormConfig,
         FormInterface $grandParentForm,
         FormConfigInterface $grandParentFormConfig
-    ) {
+    ): void {
         $propertyPath->__toString()->willReturn('translatable_property');
         $form->getPropertyPath()->willReturn($propertyPath);
         $form->getConfig()->willReturn($formConfig);
@@ -111,12 +107,12 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
         expect($view->vars['not_translated'])->toBe(false);
     }
 
-    function it_sets_translatable_attribute_when_property_is_translatable(
+    public function it_sets_translatable_attribute_when_property_is_translatable(
         FormView $view,
         FormInterface $form,
         FormInterface $parentForm,
         TranslatableFormHelper $translatableFormHelper
-    ) {
+    ): void {
         $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
         $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(true);
 
@@ -126,11 +122,11 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
         expect($view->vars['not_translated'])->toBe(false);
     }
 
-    function it_sets_not_translated_attribute_when_property_no_translation(
+    public function it_sets_not_translated_attribute_when_property_no_translation(
         FormInterface $form,
         FormInterface $parentForm,
         TranslatableFormHelper $translatableFormHelper
-    ) {
+    ): void {
         $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
         $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(true);
         $translatableFormHelper->isFormDataInCurrentLocale($parentForm)->willReturn(false);

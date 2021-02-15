@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context;
 
+use FSi\Bundle\AdminBundle\Admin\Context\Request\HandlerInterface;
 use FSi\Bundle\AdminBundle\Admin\CRUD\Context\BatchElementContext as BaseBatchElementContext;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +23,11 @@ class BatchElementContext extends BaseBatchElementContext
      */
     private $localeManager;
 
+    /**
+     * @param array<HandlerInterface> $requestHandlers
+     * @param FormBuilderInterface $formBuilder
+     * @param LocaleManager $localeManager
+     */
     public function __construct(
         array $requestHandlers,
         FormBuilderInterface $formBuilder,
@@ -31,9 +37,6 @@ class BatchElementContext extends BaseBatchElementContext
         $this->localeManager = $localeManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getData(): array
     {
         $data = parent::getData();
@@ -42,9 +45,6 @@ class BatchElementContext extends BaseBatchElementContext
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getSupportedRoute(): string
     {
         return 'fsi_admin_translatable_batch';

@@ -12,8 +12,10 @@ declare(strict_types=1);
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
+use RuntimeException;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
@@ -22,6 +24,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+
+use function get_class;
+use function sprintf;
 
 class LocaleExtension extends AbstractTypeExtension implements EventSubscriberInterface
 {
@@ -74,15 +79,15 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
 
     public function setTranslatableLocale(FormEvent $event): void
     {
-        if (!$this->isCurrentLocaleSet()) {
+        if (false === $this->isCurrentLocaleSet()) {
             return;
         }
 
-        if (!$this->formHasDataClass($event)) {
+        if (false === $this->formHasDataClass($event)) {
             return;
         }
 
-        if (!$this->isFormDataClassTranslatable($event)) {
+        if (false === $this->isFormDataClassTranslatable($event)) {
             return;
         }
 
@@ -115,26 +120,44 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
             return false;
         }
 
-        $translatableMetadata = $this->getFormDataTranslatableMetadata($event);
-        if (null === $translatableMetadata) {
-            return false;
-        }
-
-        return $translatableMetadata->hasTranslatableProperties();
+        return $this->getFormDataTranslatableMetadata($event)->hasTranslatableProperties();
     }
 
-    private function getFormDataTranslatableMetadata(FormEvent $event): ?ClassMetadata
+    private function getFormDataTranslatableMetadata(FormEvent $event): ClassMetadata
     {
-        return $this->translatableListener->getExtendedMetadata(
-            $this->getManagerForDataClass($event),
+        $entityManager = $this->getManagerForDataClass($event);
+        if (false === $entityManager instanceof EntityManagerInterface) {
+            throw new RuntimeException(
+                sprintf(
+                    "Expected instance of %s but got instance of %s",
+                    EntityManagerInterface::class,
+                    get_class($entityManager)
+                )
+            );
+        }
+
+        $classMetadata = $this->translatableListener->getExtendedMetadata(
+            $entityManager,
             $this->getFormDataClass($event)
         );
+
+        if (false === $classMetadata instanceof ClassMetadata) {
+            throw new RuntimeException(
+                sprintf(
+                    "Expected instance of %s but got instance of %s",
+                    ClassMetadata::class,
+                    get_class($classMetadata)
+                )
+            );
+        }
+
+        return $classMetadata;
     }
 
     private function setFormDataLocale(FormEvent $event): void
     {
         $data = $event->getData();
-        if (!$data) {
+        if (null === $data) {
             return;
         }
 

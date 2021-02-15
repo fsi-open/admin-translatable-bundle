@@ -22,22 +22,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TranslatableDisplayControllerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EngineInterface $templating,
         ContextManager $contextManager,
         EventDispatcherInterface $eventDispatcher
-    ) {
+    ): void {
         $this->beConstructedWith($templating, $contextManager, $eventDispatcher);
     }
 
-    function it_should_handle_display_action(
+    public function it_should_handle_display_action(
         DisplayElement $element,
         Request $request,
         Response $response,
         ContextManager $contextManager,
         ContextInterface $context,
         EngineInterface $templating
-    ) {
+    ): void {
         $contextManager->createContext('fsi_admin_translatable_display', $element)->willReturn($context);
         $context->handleRequest($request)->willReturn(null);
         $context->hasTemplateName()->willReturn(true);

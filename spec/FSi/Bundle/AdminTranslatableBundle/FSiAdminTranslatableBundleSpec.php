@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class FSiAdminTranslatableBundleSpec extends ObjectBehavior
 {
-    function it_is_bundle()
+    public function it_is_bundle(): void
     {
         $this->shouldHaveType(Bundle::class);
     }

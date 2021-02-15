@@ -17,20 +17,14 @@ use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableCRUDElement;
 
 class CRUDFormElementContext extends AdminCRUDFormElementContext
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getSupportedRoute(): string
     {
         return 'fsi_admin_translatable_form';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsElement(Element $element): bool
     {
-        if (!parent::supportsElement($element)) {
+        if (false === parent::supportsElement($element)) {
             return false;
         }
 

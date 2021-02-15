@@ -18,18 +18,20 @@ use PhpSpec\ObjectBehavior;
 
 class TranslatableWorkerSpec extends ObjectBehavior
 {
-    function let(LocaleManager $localeManager)
+    public function let(LocaleManager $localeManager): void
     {
         $this->beConstructedWith($localeManager);
     }
 
-    function it_is_worker()
+    public function it_is_worker(): void
     {
         $this->shouldImplement(Worker::class);
     }
 
-    function it_mounts_to_translatable_element(TranslatableCRUDElement $element, LocaleManager $localeManager)
-    {
+    public function it_mounts_to_translatable_element(
+        TranslatableCRUDElement $element,
+        LocaleManager $localeManager
+    ): void {
         $element->setLocaleManager($localeManager)->shouldBeCalled();
 
         $this->mount($element);

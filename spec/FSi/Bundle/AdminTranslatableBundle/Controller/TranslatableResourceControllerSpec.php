@@ -22,22 +22,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TranslatableResourceControllerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EngineInterface $templating,
         ContextManager $contextManager,
         EventDispatcherInterface $eventDispatcher
-    ) {
+    ): void {
         $this->beConstructedWith($templating, $contextManager, $eventDispatcher);
     }
 
-    function it_should_handle_resource_action(
+    public function it_should_handle_resource_action(
         ResourceElement $element,
         Request $request,
         Response $response,
         ContextManager $contextManager,
         ContextInterface $context,
         EngineInterface $templating
-    ) {
+    ): void {
         $contextManager->createContext('fsi_admin_translatable_resource', $element)->willReturn($context);
         $context->handleRequest($request)->willReturn(null);
         $context->hasTemplateName()->willReturn(true);

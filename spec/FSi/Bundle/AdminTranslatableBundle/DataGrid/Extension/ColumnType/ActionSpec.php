@@ -18,19 +18,17 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ActionSpec extends ObjectBehavior
 {
-    function let(
-        LocaleManager $localeManager,
-        RouterInterface $router
-    ) {
+    public function let(LocaleManager $localeManager, RouterInterface $router): void
+    {
         $this->beConstructedWith($localeManager, $router);
     }
 
-    function it_is_column_type_extension()
+    public function it_is_column_type_extension(): void
     {
         $this->shouldBeAnInstanceOf(ColumnAbstractTypeExtension::class);
     }
 
-    function it_extends_action_column()
+    public function it_extends_action_column(): void
     {
         $this->getExtendedColumnTypes()->shouldReturn(['action']);
     }

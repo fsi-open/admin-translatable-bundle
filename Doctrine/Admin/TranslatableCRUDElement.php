@@ -18,38 +18,26 @@ abstract class TranslatableCRUDElement extends CRUDElement implements Translatab
 {
     use TranslatableAwareElementImpl;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRoute(): string
     {
         return 'fsi_admin_translatable_list';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteParameters(): array
     {
         return $this->appendLocaleParameter(parent::getRouteParameters());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSuccessRouteParameters(): array
     {
         return $this->appendLocaleParameter(parent::getSuccessRouteParameters());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createDataGrid(): DataGridInterface
     {
         $datagrid = $this->initDataGrid($this->datagridFactory);
 
-        if ($this->getOption('allow_delete') && !$datagrid->hasColumnType('batch')) {
+        if (true === $this->getOption('allow_delete') && false === $datagrid->hasColumnType('batch')) {
             $datagrid->addColumn('batch', 'batch', [
                 'actions' => [
                     'delete' => [

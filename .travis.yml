@@ -32,6 +32,8 @@ before_script:
     - sleep 5
 
 script:
+    - vendor/bin/phpcs
+    - vendor/bin/phpstan analyze -c phpstan.neon
     - vendor/bin/phpspec run -f progress
     - vendor/bin/behat --no-snippets --profile=travis
 

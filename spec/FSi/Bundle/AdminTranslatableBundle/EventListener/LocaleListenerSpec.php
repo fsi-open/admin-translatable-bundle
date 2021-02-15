@@ -21,25 +21,25 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class LocaleListenerSpec extends ObjectBehavior
 {
-    function let(LocaleManager $localeManager)
+    public function let(LocaleManager $localeManager): void
     {
         $this->beConstructedWith($localeManager);
     }
 
-    function it_implements_Event_Subscriber_Interface()
+    public function it_implements_Event_Subscriber_Interface(): void
     {
         $this->beAnInstanceOf(EventSubscriberInterface::class);
     }
 
-    function it_subscribes_kernel_request_event()
+    public function it_subscribes_kernel_request_event(): void
     {
         $this->getSubscribedEvents()->shouldReturn([KernelEvents::REQUEST => 'onKernelRequest']);
     }
 
-    function it_does_nothing_if_request_is_not_master(
+    public function it_does_nothing_if_request_is_not_master(
         GetResponseEvent $event,
         Request $request,
-        LocaleManager $localeManager)
+        LocaleManager $localeManager): void
     {
         $event->getRequest()->willReturn($request);
         $request->get('locale')->willReturn(null);
@@ -49,11 +49,11 @@ class LocaleListenerSpec extends ObjectBehavior
         $this->onKernelRequest($event);
     }
 
-    function it_sets_locale_to_locale_manager(
+    public function it_sets_locale_to_locale_manager(
         GetResponseEvent $event,
         Request $request,
         LocaleManager $localeManager
-    ) {
+    ): void {
         $event->getRequest()->willReturn($request);
         $request->get('locale')->willReturn('pl');
         $localeManager->setLocale('pl')->shouldBeCalled();
