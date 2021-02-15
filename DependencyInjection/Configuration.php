@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
         $this->adminTemplates = $adminTemplates;
     }
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         if (true === method_exists(TreeBuilder::class, 'getRootNode')) {
             $treeBuilder = new TreeBuilder('fsi_admin_translatable');

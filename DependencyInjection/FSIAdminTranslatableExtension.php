@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class FSIAdminTranslatableExtension extends Extension implements PrependExtensionInterface
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration([
             'crud_list' => $container->getParameter('admin.templates.crud_list'),
@@ -36,18 +36,9 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
-        $loader->load('controller.xml');
-        $loader->load('form.xml');
-        $loader->load('datagrid.xml');
-        $loader->load('menu.xml');
-
-        $loader->load('context/batch.xml');
-        $loader->load('context/display.xml');
-        $loader->load('context/form.xml');
-        $loader->load('context/list.xml');
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $container->prependExtensionConfig('fsi_admin', [
             'templates' => [

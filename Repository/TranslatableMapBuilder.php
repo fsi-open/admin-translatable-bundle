@@ -68,6 +68,10 @@ class TranslatableMapBuilder extends BaseMapBuilder
         return $this->map[$locale];
     }
 
+    /**
+     * @param string $key
+     * @return mixed
+     */
     public function getResource(string $key)
     {
         return $this->getResourceFromMap($key);
@@ -90,12 +94,6 @@ class TranslatableMapBuilder extends BaseMapBuilder
         return parent::createResource($configuration, $path);
     }
 
-    /**
-     * @param array $configuration
-     * @param string $path
-     * @return void
-     * @throws ConfigurationException
-     */
     protected function validateConfiguration(array $configuration, string $path): void
     {
         if (strlen($path) > 255) {
@@ -112,11 +110,6 @@ class TranslatableMapBuilder extends BaseMapBuilder
         }
     }
 
-    /**
-     * @param array $configuration
-     * @return void
-     * @throws ConfigurationException
-     */
     protected function validateResourceConfiguration(array $configuration): void
     {
         $validKeys = ['form_options', 'constraints', 'translatable'];

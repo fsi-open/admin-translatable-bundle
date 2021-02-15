@@ -26,9 +26,9 @@ class FormElementContext extends BaseFormElementContext
     public function __construct(
         array $requestHandlers,
         LocaleManager $localeManager,
-        string $formTemplate
+        string $template
     ) {
-        parent::__construct($requestHandlers, $formTemplate);
+        parent::__construct($requestHandlers, $template);
         $this->localeManager = $localeManager;
     }
 

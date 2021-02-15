@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Manager;
 
 use Doctrine\Common\EventManager;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;

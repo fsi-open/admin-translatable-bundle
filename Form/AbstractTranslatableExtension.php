@@ -27,7 +27,7 @@ abstract class AbstractTranslatableExtension extends AbstractTypeExtension
         $this->translatableFormHelper = $translatableFormHelper;
     }
 
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['translatable'] = false;
         $view->vars['not_translated'] = false;

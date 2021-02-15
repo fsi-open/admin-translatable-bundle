@@ -5,40 +5,28 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="admin_translatable.controller.resource.class">FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableResourceController</parameter>
-        <parameter key="admin_translatable.context.resource.class">FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\ResourceRepositoryContext</parameter>
-        <parameter key="admin_translatable.resource.map_builder.class">FSi\Bundle\AdminTranslatableBundle\Repository\TranslatableMapBuilder</parameter>
         <parameter key="admin_translatable.form_extension.translatable_resource.class">FSi\Bundle\AdminTranslatableBundle\Repository\Form\ResourceTypeExtension</parameter>
     </parameters>
 
     <services>
-        <!-- Controller -->
-        <service id="admin_translatable.controller.resource" class="%admin_translatable.controller.resource.class%" public="true">
-            <argument type="service" id="templating"/>
-            <argument type="service" id="admin.context.manager"/>
-            <argument type="service" id="event_dispatcher"/>
-        </service>
+        <defaults autowire="true" autoconfigure="true" public="false" />
 
-        <!-- Context -->
-        <service id="admin_translatable.context.resource" class="%admin_translatable.context.resource.class%">
-            <argument type="collection">
-                <argument type="service" id="admin.context.resource.request_handler.form_submit"/>
-                <argument type="service" id="admin.context.resource.request_handler.form_valid_request"/>
-            </argument>
-            <argument type="service" id="admin.context.resource.form_builder" />
-            <argument type="service" id="admin_translatable.manager.locale" />
-            <argument type="string">%admin_translatable.templates.resource%</argument>
-        </service>
+        <prototype namespace="FSi\Bundle\AdminTranslatableBundle\Repository\"
+                   resource="../../Repository"
+        />
 
         <!--Map Builder-->
+<!--
         <service id="admin_translatable.resource.map_builder" class="%admin_translatable.resource.map_builder.class%">
             <argument />
             <argument />
             <argument type="service" id="fsi_doctrine_extensions.listener.translatable" />
         </service>
+-->
+
 
         <!-- Form -->
-        <service id="admin_translatable.form_extension.translatable_resource" class="%admin_translatable.form_extension.translatable_resource.class%">
+        <service id="FSi\Bundle\AdminTranslatableBundle\Repository\Form\ResourceTypeExtension">
             <argument type="service" id="admin_translatable.resource.map_builder" />
             <tag name="form.type_extension" alias="resource" />
         </service>

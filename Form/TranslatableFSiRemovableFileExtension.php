@@ -31,14 +31,9 @@ class TranslatableFSiRemovableFileExtension extends AbstractTranslatableExtensio
         $this->filePathResolver = $filePathResolver;
     }
 
-    public static function getExtendedTypes()
+    public static function getExtendedTypes(): iterable
     {
         return [RemovableFileType::class];
-    }
-
-    public function getExtendedType()
-    {
-        return RemovableFileType::class;
     }
 
     protected function hasCurrentValue(FormView $view, FormInterface $form, array $options): bool

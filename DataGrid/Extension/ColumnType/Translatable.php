@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\DataGrid\Extension\ColumnType;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use FSi\Bundle\AdminBundle\Exception\RuntimeException;
 use FSi\Component\DataGrid\Column\CellViewInterface;

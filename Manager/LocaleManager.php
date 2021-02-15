@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Manager;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use FSi\Bundle\AdminBundle\Exception\RuntimeException;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
@@ -55,12 +55,15 @@ class LocaleManager
         $this->locales = $locales;
     }
 
-    public function getLocales()
+    /**
+     * @return array<string>
+     */
+    public function getLocales(): array
     {
         return $this->locales;
     }
 
-    public function setLocale(string $locale)
+    public function setLocale(string $locale): void
     {
         $this->session->set(self::SESSION_KEY, $locale);
         $this->getTranslatableListener()->setLocale($locale);

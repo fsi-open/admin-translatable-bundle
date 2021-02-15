@@ -29,17 +29,12 @@ class TranslatableCollectionExtension extends AbstractSimpleTranslatableExtensio
         $this->listener = $listener;
     }
 
-    public static function getExtendedTypes()
+    public static function getExtendedTypes(): iterable
     {
         return [CollectionType::class];
     }
 
-    public function getExtendedType()
-    {
-        return CollectionType::class;
-    }
-
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventSubscriber($this->listener);
     }

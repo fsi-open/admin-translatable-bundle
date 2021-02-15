@@ -33,11 +33,11 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        return sys_get_temp_dir() . '/FSiAdminTranslatableBundle/cache';
+        return $this->getProjectDir() . '/var/cache';
     }
 
     public function getLogDir()
     {
-        return sys_get_temp_dir() . '/FSiAdminTranslatableBundle/logs';
+        return $this->getProjectDir() . '/var/logs';
     }
 }

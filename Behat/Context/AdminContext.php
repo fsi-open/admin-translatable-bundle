@@ -137,7 +137,7 @@ class AdminContext extends DefaultContext
     public function theFollowingAdminTranslatableElementsWereRegistered(TableNode $elements): void
     {
         /** @var Manager $manager */
-        $manager = $this->kernel->getContainer()->get('test.admin.manager');
+        $manager = $this->kernel->getContainer()->get(sprintf('test.%s', Manager::class));
 
         foreach ($elements->getHash() as $serviceRow) {
             expect($manager->hasElement($serviceRow['Element Id']))->toBe(true);

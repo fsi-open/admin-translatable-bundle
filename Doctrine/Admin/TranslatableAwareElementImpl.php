@@ -25,7 +25,7 @@ trait TranslatableAwareElementImpl
         $this->localeManager = $localeManager;
     }
 
-    protected function appendLocaleParameter(array $parameters)
+    protected function appendLocaleParameter(array $parameters): array
     {
         $parameters['locale'] = $this->localeManager->getLocale();
 

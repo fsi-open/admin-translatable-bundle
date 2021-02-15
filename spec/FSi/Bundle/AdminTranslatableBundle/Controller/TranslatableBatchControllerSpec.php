@@ -15,19 +15,19 @@ use FSi\Bundle\AdminBundle\Admin\Context\ContextInterface;
 use FSi\Bundle\AdminBundle\Admin\Context\ContextManager;
 use FSi\Bundle\AdminBundle\Admin\CRUD\BatchElement;
 use PhpSpec\ObjectBehavior;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 class TranslatableBatchControllerSpec extends ObjectBehavior
 {
     public function let(
-        EngineInterface $templating,
+        Environment $twig,
         ContextManager $contextManager,
         EventDispatcherInterface $eventDispatcher
     ): void {
-        $this->beConstructedWith($templating, $contextManager, $eventDispatcher);
+        $this->beConstructedWith($twig, $contextManager, $eventDispatcher);
     }
 
     public function it_should_handle_batch_action(

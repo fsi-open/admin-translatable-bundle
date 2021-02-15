@@ -12,20 +12,22 @@ declare(strict_types=1);
 namespace FSi\Bundle\AdminTranslatableBundle\EventListener;
 
 use FSi\Bundle\AdminBundle\Event\MenuEvent;
+use FSi\Bundle\AdminBundle\Event\MenuEvents;
 use FSi\Bundle\AdminBundle\Menu\Item\Item;
 use FSi\Bundle\AdminBundle\Menu\Item\RoutableItem;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
+use FSi\Bundle\DataGridBundle\DataGrid\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Intl\Intl;
+use Symfony\Component\Intl\Languages;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function array_key_exists;
 
-class TranslationLocaleMenuListener
+class TranslationLocaleMenuListener implements EventSubscriberInterface
 {
     /**
      * @var TranslatorInterface
@@ -52,6 +54,13 @@ class TranslationLocaleMenuListener
      */
     private $request;
 
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            MenuEvents::TOOLS => 'createTranslationLocaleMenu',
+        ];
+    }
+
     public function __construct(
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
@@ -66,7 +75,7 @@ class TranslationLocaleMenuListener
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    public function createTranslationLocaleMenu(MenuEvent $event)
+    public function createTranslationLocaleMenu(MenuEvent $event): void
     {
         $translation = $this->createRootItem();
         $event->getMenu()->addChild($translation);
@@ -110,8 +119,6 @@ class TranslationLocaleMenuListener
         $requestParameters = $this->getRequestParameters();
         $route = $this->request->get('_route');
 
-        $languageBundle = Intl::getLanguageBundle();
-
         if (true === array_key_exists('redirect_uri', $requestParameters)) {
             $redirectRequest = $this->createRedirectRequest($requestParameters['redirect_uri']);
         }
@@ -134,7 +141,7 @@ class TranslationLocaleMenuListener
                 $route,
                 $requestParameters
             );
-            $localeItem->setLabel($languageBundle->getLanguageName($locale, null, $this->request->getLocale()));
+            $localeItem->setLabel(Languages::getName($locale, $this->request->getLocale()));
 
             $menu->addChild($localeItem);
         }
@@ -166,8 +173,7 @@ class TranslationLocaleMenuListener
             $parameters['locale'] = $locale;
         }
         $route = $parameters['_route'];
-        unset($parameters['_route']);
-        unset($parameters['_controller']);
+        unset($parameters['_route'], $parameters['_controller']);
 
         $requestUri = $this->urlGenerator->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
         if (null !== $redirectRequest->getQueryString() && '' !== $redirectRequest->getQueryString()) {

@@ -11,12 +11,12 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use RuntimeException;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -55,26 +55,21 @@ class LocaleExtension extends AbstractTypeExtension implements EventSubscriberIn
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             FormEvents::POST_SUBMIT => 'setTranslatableLocale'
         ];
     }
 
-    public static function getExtendedTypes()
+    public static function getExtendedTypes(): iterable
     {
         return [FormType::class];
     }
 
-    public function getExtendedType()
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        return FormType::class;
-    }
-
-    public function buildForm(FormBuilderInterface $formBuilder, array $options)
-    {
-        $formBuilder->addEventSubscriber($this);
+        $builder->addEventSubscriber($this);
     }
 
     public function setTranslatableLocale(FormEvent $event): void

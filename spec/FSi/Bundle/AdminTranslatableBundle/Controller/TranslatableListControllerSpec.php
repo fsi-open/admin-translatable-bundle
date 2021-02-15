@@ -15,19 +15,19 @@ use FSi\Bundle\AdminBundle\Admin\Context\ContextInterface;
 use FSi\Bundle\AdminBundle\Admin\Context\ContextManager;
 use FSi\Bundle\AdminBundle\Doctrine\Admin\ListElement;
 use PhpSpec\ObjectBehavior;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 class TranslatableListControllerSpec extends ObjectBehavior
 {
     public function let(
-        EngineInterface $templating,
+        Environment $twig,
         ContextManager $contextManager,
         EventDispatcherInterface $eventDispatcher
     ): void {
-        $this->beConstructedWith($templating, $contextManager, $eventDispatcher);
+        $this->beConstructedWith($twig, $contextManager, $eventDispatcher);
     }
 
     public function it_should_handle_list_action(
@@ -36,7 +36,7 @@ class TranslatableListControllerSpec extends ObjectBehavior
         Response $response,
         ContextManager $contextManager,
         ContextInterface $context,
-        EngineInterface $templating
+        Environment $twig
     ): void {
         $contextManager->createContext('fsi_admin_translatable_list', $element)->willReturn($context);
         $context->handleRequest($request)->willReturn(null);
@@ -44,8 +44,8 @@ class TranslatableListControllerSpec extends ObjectBehavior
         $context->getTemplateName()->willReturn('translatable_template');
         $context->getData()->willReturn([1, 2, 3]);
 
-        $templating->renderResponse('translatable_template', [1, 2, 3])->willReturn($response);
+        $twig->render('translatable_template', [1, 2, 3])->willReturn('response');
 
-        $this->listAction($element, $request)->shouldReturn($response);
+        $this->listAction($element, $request)->getContent()->shouldReturn('response');
     }
 }
