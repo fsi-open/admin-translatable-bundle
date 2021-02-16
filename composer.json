@@ -11,9 +11,9 @@
         }
     ],
     "require": {
+        "php": "^7.1",
         "fsi/admin-bundle": "^3.1",
         "fsi/doctrine-extensions-bundle": "^2.0",
-        "php": ">=7.1",
         "symfony/form": "^3.4|^4.0",
         "symfony/framework-bundle": "^3.4|^4.0",
         "symfony/http-kernel": "^3.4|^4.0",
@@ -38,9 +38,10 @@
         "fsi/datagrid": "^2.0",
         "fsi/datasource": "^2.0",
         "fsi/resource-repository-bundle": "^2.0",
-        "phpspec/phpspec": "^5.0",
-        "phpspec/prophecy": "^1.7",
-        "sensiolabs/behat-page-object-extension": "^3.0@dev",
+        "phpspec/phpspec": "^5.0|^6.0",
+        "phpstan/phpstan": "^0.12.66",
+        "sensiolabs/behat-page-object-extension": "^2.1",
+        "squizlabs/php_codesniffer": "^3.5",
         "symfony/browser-kit": "^3.4|^4.0",
         "symfony/console": "^3.4|^4.0",
         "symfony/css-selector": "^3.4|^4.0",
@@ -48,7 +49,7 @@
         "symfony/dom-crawler": "^3.4|^4.0",
         "symfony/var-dumper": "^3.4|^4.0",
         "twig/twig": "^2.0",
-        "symfony/phpunit-bridge": "^4.3"
+        "symfony/phpunit-bridge": "^5.0"
     },
     "config": {
         "bin-dir": "vendor/bin"

@@ -46,25 +46,22 @@ class Grid extends Element
         foreach ($items as $i => $item) {
             /** @var $item NodeElement */
             $spanElement = $item->find('css', 'span');
-            if ($spanElement && $columnTitle === $spanElement->getText()) {
+            if (null !== $spanElement && $spanElement->getText() === $columnTitle) {
                 return $i + 1;
             }
         }
 
-        $availableColumns = array_map(function (NodeElement $item) {
+        $availableColumns = array_map(static function (NodeElement $item) {
             return $item->getText();
         }, $items);
 
         throw new ElementNotFoundException(sprintf(
             'Unable to find column "%s". Available columns: %s',
             $columnTitle,
-            join(', ', $availableColumns)
+            implode(', ', $availableColumns)
         ));
     }
 
-    /**
-     * @throws BehaviorException
-     */
     public function getCell(int $rowPosition, int $columnPosition): NodeElement
     {
         $row = $this->find('xpath', sprintf('//tbody/tr[%d]', $rowPosition));

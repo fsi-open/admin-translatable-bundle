@@ -13,15 +13,15 @@ namespace spec\FSi\Bundle\AdminTranslatableBundle\Repository;
 
 use FSi\Bundle\ResourceRepositoryBundle\Exception\ConfigurationException;
 use FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\TextType;
-use FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\TypeIntegerType;
+use FSi\Bundle\ResourceRepositoryBundle\Repository\Resource\Type\IntegerType;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use PhpSpec\ObjectBehavior;
 
 class TranslatableMapBuilderSpec extends ObjectBehavior
 {
-    protected $resources = ['text' => TextType::class, 'integer' => TypeIntegerType::class];
+    protected $resources = ['text' => TextType::class, 'integer' => IntegerType::class];
 
-    function let(TranslatableListener $translatableListener)
+    public function let(TranslatableListener $translatableListener): void
     {
         $this->beConstructedWith(
             __DIR__ . '/../../../../fixtures/resource_map.yml',
@@ -30,9 +30,9 @@ class TranslatableMapBuilderSpec extends ObjectBehavior
         );
     }
 
-    function it_should_throw_exception_when_translatable_option_is_not_boolean(
+    public function it_should_throw_exception_when_translatable_option_is_not_boolean(
         TranslatableListener $translatableListener
-    ) {
+    ): void {
         $this->shouldThrow(ConfigurationException::class)->during(
             '__construct',
             [
@@ -43,25 +43,25 @@ class TranslatableMapBuilderSpec extends ObjectBehavior
         );
     }
 
-    function it_should_return_translatable_resource_when_translatable_option_is_enabled(
+    public function it_should_return_translatable_resource_when_translatable_option_is_enabled(
         TranslatableListener $translatableListener
-    ) {
+    ): void {
         $translatableListener->getLocale()->willReturn('en');
         $resource = new TextType('resource_group.resource_block.resource_a.en');
         $this->getResource('resource_group.resource_block.resource_a')->shouldBeLike($resource);
     }
 
-    function it_should_return_original_resource_when_translatable_option_is_disabled(
+    public function it_should_return_original_resource_when_translatable_option_is_disabled(
         TranslatableListener $translatableListener
-    ) {
+    ): void {
         $translatableListener->getLocale()->willReturn('en');
         $resource = new TextType('resource_group.resource_block.resource_b');
         $this->getResource('resource_group.resource_block.resource_b')->shouldBeLike($resource);
     }
 
-    function it_should_return_map_in_current_locale(
+    public function it_should_return_map_in_current_locale(
         TranslatableListener $translatableListener
-    ) {
+    ): void {
         $translatableListener->getLocale()->willReturn('en');
 
         $map = $this->getMap();

@@ -11,10 +11,15 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Manager;
 
+use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use FSi\Bundle\AdminBundle\Exception\RuntimeException;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
+use function get_class;
+use function sprintf;
 
 class LocaleManager
 {
@@ -31,10 +36,15 @@ class LocaleManager
     private $session;
 
     /**
-     * @var array
+     * @var array<string>
      */
     private $locales;
 
+    /**
+     * @param ManagerRegistry $managerRegistry
+     * @param SessionInterface $session
+     * @param array<string> $locales
+     */
     public function __construct(
         ManagerRegistry $managerRegistry,
         SessionInterface $session,
@@ -66,21 +76,51 @@ class LocaleManager
         return $this->session->get(self::SESSION_KEY, $this->getDefaultLocale());
     }
 
-    /**
-     * @return TranslatableListener|null
-     * @throws RuntimeException
-     */
-    private function getTranslatableListener(): ?TranslatableListener
+    private function getTranslatableListener(): TranslatableListener
     {
-        $eventManager = $this->managerRegistry->getManager()->getEventManager();
-        foreach ($eventManager->getListeners() as $listeners) {
-            foreach ($listeners as $listener) {
-                if ($listener instanceof TranslatableListener) {
-                    return $listener;
-                }
-            }
+        $objectManager = $this->managerRegistry->getManager();
+        if (false === $objectManager instanceof EntityManagerInterface) {
+            throw new RuntimeException(
+                sprintf("Expected %s but got %s", EntityManagerInterface::class, get_class($objectManager))
+            );
         }
 
-        throw new RuntimeException('Translatable extension is not enabled in "fsi_doctrine_extensions" section of "config.yml"');
+        $eventManager = $objectManager->getEventManager();
+        $listener = array_reduce(
+            $eventManager->getListeners(),
+            function (?TranslatableListener $accumulator, array $listeners): ?TranslatableListener {
+                return $accumulator ?? $this->findTranslatableListener($listeners);
+            }
+        );
+
+        if (false === $listener instanceof TranslatableListener) {
+            throw new RuntimeException(
+                'Translatable extension is not enabled in "fsi_doctrine_extensions" section of "config.yml"'
+            );
+        }
+
+        return $listener;
+    }
+
+    /**
+     * @param array<EventSubscriber> $listeners
+     * @return TranslatableListener|null
+     */
+    private function findTranslatableListener(array $listeners): ?TranslatableListener
+    {
+        return array_reduce(
+            $listeners,
+            static function (?TranslatableListener $accumulator, $listener): ?TranslatableListener {
+                if (null !== $accumulator) {
+                    return $accumulator;
+                }
+
+                if (true === $listener instanceof TranslatableListener) {
+                    $accumulator = $listener;
+                }
+
+                return $accumulator;
+            }
+        );
     }
 }

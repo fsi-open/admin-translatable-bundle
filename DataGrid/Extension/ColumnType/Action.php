@@ -43,7 +43,8 @@ class Action extends ColumnAbstractTypeExtension
 
     public function initOptions(ColumnTypeInterface $column): void
     {
-        $column->getOptionsResolver()->setNormalizer('actions',
+        $column->getOptionsResolver()->setNormalizer(
+            'actions',
             function (Options $options, $values): array {
                 foreach ($values as $action => $actionValues) {
                     $values[$action] = $this->setRouteLocale(
@@ -59,21 +60,24 @@ class Action extends ColumnAbstractTypeExtension
 
     private function setRouteLocale(array $actionValues, LocaleManager $localeManager): array
     {
-        if (in_array('locale', $this->getRouteVariables($actionValues['route_name']))) {
+        if (true === in_array('locale', $this->getRouteVariables($actionValues['route_name']), true)) {
             $actionValues['additional_parameters']['locale'] = $localeManager->getLocale();
         }
 
         return $actionValues;
     }
 
-    private function getRouteVariables(string $route): array
+    private function getRouteVariables(string $routeName): array
     {
-        $route = $this->getRouteCollection()->get($route);
+        $route = $this->getRouteCollection()->get($routeName);
+        if (null === $route) {
+            return [];
+        }
 
-        return $route ? $route->compile()->getVariables() : [];
+        return $route->compile()->getVariables();
     }
 
-    private function getRouteCollection(): ?RouteCollection
+    private function getRouteCollection(): RouteCollection
     {
         return $this->router->getRouteCollection();
     }

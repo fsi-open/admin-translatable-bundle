@@ -32,9 +32,6 @@ class ListElementContext extends BaseListElementContext
         $this->localeManager = $localeManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getData(): array
     {
         $data = parent::getData();
@@ -43,20 +40,14 @@ class ListElementContext extends BaseListElementContext
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getSupportedRoute(): string
     {
         return 'fsi_admin_translatable_list';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsElement(Element $element): bool
     {
-        if (!parent::supportsElement($element)) {
+        if (false === parent::supportsElement($element)) {
             return false;
         }
 

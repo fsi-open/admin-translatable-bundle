@@ -18,25 +18,25 @@ use PhpSpec\ObjectBehavior;
 
 class KnpMenuTranslatableElementVoterSpec extends ObjectBehavior
 {
-    function let(VoterInterface $menuElementVoter, LocaleManager $localeManager)
+    public function let(VoterInterface $menuElementVoter, LocaleManager $localeManager): void
     {
         $this->beConstructedWith($menuElementVoter, $localeManager);
     }
 
-    function it_should_pass_through_if_inner_voter_cant_decide(
+    public function it_should_pass_through_if_inner_voter_cant_decide(
         VoterInterface $menuElementVoter,
         ItemInterface $item
-    ) {
+    ): void {
         $menuElementVoter->matchItem($item)->willReturn(null);
 
         $this->matchItem($item)->shouldReturn(null);
     }
 
-    function it_should_correctly_match_the_same_elements_with_different_locale(
+    public function it_should_correctly_match_the_same_elements_with_different_locale(
         VoterInterface $menuElementVoter,
         ItemInterface $item,
         LocaleManager $localeManager
-    ) {
+    ): void {
         $localeManager->getLocale()->willReturn('pl');
 
         $menuElementVoter->matchItem($item)->willReturn(true);

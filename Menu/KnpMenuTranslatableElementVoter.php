@@ -16,6 +16,8 @@ use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+use function array_key_exists;
+
 class KnpMenuTranslatableElementVoter implements VoterInterface
 {
     /**
@@ -43,7 +45,7 @@ class KnpMenuTranslatableElementVoter implements VoterInterface
     {
         $this->request = $request;
 
-        if (method_exists($this->menuElementVoter, 'setRequest')) {
+        if (true === method_exists($this->menuElementVoter, 'setRequest')) {
             $this->menuElementVoter->setRequest($request);
         }
     }
@@ -62,7 +64,7 @@ class KnpMenuTranslatableElementVoter implements VoterInterface
         foreach ($routes as $testedRoute) {
             $routeParameters = $testedRoute['parameters'];
 
-            if (!isset($routeParameters['locale'])) {
+            if (false === array_key_exists('locale', $routeParameters)) {
                 continue;
             }
 

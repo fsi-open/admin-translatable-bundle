@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class FSIAdminTranslatableExtensionSpec extends ObjectBehavior
 {
-    function it_is_bundle_extension()
+    public function it_is_bundle_extension(): void
     {
         $this->shouldBeAnInstanceOf(Extension::class);
     }

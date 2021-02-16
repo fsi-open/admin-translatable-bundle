@@ -14,17 +14,20 @@ namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use FSi\FixturesBundle\Entity\Comment;
 use FSi\FixturesBundle\Entity\CommentTranslation;
 use FSi\FixturesBundle\Entity\Event;
 use FSi\FixturesBundle\Entity\EventTranslation;
 use FSi\FixturesBundle\Entity\File;
+use RuntimeException;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\ElementNotFoundException;
 use SplFileInfo;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+
+use function get_class;
 
 class DataContext implements KernelAwareContext
 {
@@ -41,7 +44,7 @@ class DataContext implements KernelAwareContext
     /**
      * @BeforeScenario
      */
-    public function createDatabase()
+    public function createDatabase(): void
     {
         $this->deleteDatabaseIfExist();
         $metadata = $this->getDoctrine()->getManager()->getMetadataFactory()->getAllMetadata();
@@ -49,11 +52,11 @@ class DataContext implements KernelAwareContext
         $tool->createSchema($metadata);
     }
 
-    public function deleteDatabaseIfExist()
+    public function deleteDatabaseIfExist(): void
     {
         $dbFilePath = $this->kernel->getRootDir() . '/data.sqlite';
 
-        if (file_exists($dbFilePath)) {
+        if (true === file_exists($dbFilePath)) {
             unlink($dbFilePath);
         }
     }
@@ -61,7 +64,7 @@ class DataContext implements KernelAwareContext
     /**
      * @Given /^there are (\d+) events in each locale/
      */
-    public function thereAreEventsInEachLocale(int $amount)
+    public function thereAreEventsInEachLocale(int $amount): void
     {
         $locales = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.locales');
 
@@ -73,7 +76,7 @@ class DataContext implements KernelAwareContext
     /**
      * @Given /^there are (\d+) comments in each locale/
      */
-    public function thereAreCommentsInEachLocale(int $amount)
+    public function thereAreCommentsInEachLocale(int $amount): void
     {
         $locales = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.locales');
 
@@ -85,7 +88,7 @@ class DataContext implements KernelAwareContext
     /**
      * @Given /^default translatable locale is "([^"]*)"$/
      */
-    public function defaultTranslatableLocaleIs(string $defaultLocale)
+    public function defaultTranslatableLocaleIs(string $defaultLocale): void
     {
         $this->kernel
             ->getContainer()
@@ -96,7 +99,7 @@ class DataContext implements KernelAwareContext
     /**
      * @Given /^I add new event with name "([^"]*)" in "([^"]*)" locale$/
      */
-    public function iAddNewEventWithNameInLocale(string $eventName, string $locale)
+    public function iAddNewEventWithNameInLocale(string $eventName, string $locale): void
     {
         $event = new Event();
         $event->setLocale($locale);
@@ -116,7 +119,7 @@ class DataContext implements KernelAwareContext
         string $commentText,
         string $eventName,
         string $locale
-    ) {
+    ): void {
         $manager = $this->getDoctrineManager();
         $event = $manager->getRepository(EventTranslation::class)
             ->findOneBy(['name' => $eventName])
@@ -134,7 +137,7 @@ class DataContext implements KernelAwareContext
     /**
      * @Given /^I add new event with following values:$/
      */
-    public function iAddNewEventWithFollowingValues(TableNode $values)
+    public function iAddNewEventWithFollowingValues(TableNode $values): void
     {
         $manager = $this->getDoctrineManager();
         $event = new Event();
@@ -152,7 +155,7 @@ class DataContext implements KernelAwareContext
     /**
      * @Given /^I add new file to the event with name "([^"]*)" in "([^"]*)" locale$/
      */
-    public function iAddNewFileToTheNewsWithNameInLocale($eventName, $locale)
+    public function iAddNewFileToTheNewsWithNameInLocale($eventName, $locale): void
     {
         $manager = $this->getDoctrineManager();
         $eventTranslation = $manager->getRepository(EventTranslation::class)
@@ -169,7 +172,7 @@ class DataContext implements KernelAwareContext
     /**
      * @Then /^It should be saved comment entity with text "([^"]*)"$/
      */
-    public function itShouldBeSavedCommentEntityWithText($text)
+    public function itShouldBeSavedCommentEntityWithText($text): void
     {
         $manager = $this->getDoctrineManager();
         $comment = $manager->getRepository(CommentTranslation::class)->findOneBy(['text' => $text]);
@@ -184,12 +187,19 @@ class DataContext implements KernelAwareContext
         return $this->kernel->getContainer()->get('doctrine');
     }
 
-    protected function getDoctrineManager(): ObjectManager
+    protected function getDoctrineManager(): EntityManagerInterface
     {
-        return $this->getDoctrine()->getManager();
+        $manager = $this->getDoctrine()->getManager();
+        if (false === $manager instanceof EntityManagerInterface) {
+            throw new RuntimeException(
+                sprintf("Expected instance of %s but got %s", EntityManagerInterface::class, get_class($manager))
+            );
+        }
+
+        return $manager;
     }
 
-    private function addEvent(int $id, array $locales)
+    private function addEvent(int $id, array $locales): void
     {
         $event = new Event();
         $manager = $this->getDoctrineManager();
@@ -202,7 +212,7 @@ class DataContext implements KernelAwareContext
         }
     }
 
-    private function addComment(int $id, array $locales)
+    private function addComment(int $id, array $locales): void
     {
         $manager = $this->getDoctrineManager();
 

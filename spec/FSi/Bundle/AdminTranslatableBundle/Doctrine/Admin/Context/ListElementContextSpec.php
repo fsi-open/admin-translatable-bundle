@@ -24,24 +24,24 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TranslatableListElementContextSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ListElement $element,
         DataSourceInterface $datasource,
         DataGridInterface $datagrid,
         HandlerInterface $handler
-    ) {
+    ): void {
         $this->beConstructedWith([$handler], 'some_template.html.twig');
         $element->createDataGrid()->willReturn($datagrid);
         $element->createDataSource()->willReturn($datasource);
         $this->setElement($element);
     }
 
-    function it_is_context()
+    public function it_is_context(): void
     {
         $this->shouldBeAnInstanceOf(ContextInterface::class);
     }
 
-    function it_has_array_data()
+    public function it_has_array_data(): void
     {
         $this->getData()->shouldBeArray();
         $this->getData()->shouldHaveKeyInArray('datagrid_view');
@@ -49,7 +49,7 @@ class TranslatableListElementContextSpec extends ObjectBehavior
         $this->getData()->shouldHaveKeyInArray('element');
     }
 
-    function it_has_template(ListElement $element)
+    public function it_has_template(ListElement $element): void
     {
         $element->hasOption('template_list')->willReturn(true);
         $element->getOption('template_list')->willReturn('this_is_list_template.html.twig');
@@ -57,14 +57,14 @@ class TranslatableListElementContextSpec extends ObjectBehavior
         $this->getTemplateName()->shouldReturn('this_is_list_template.html.twig');
     }
 
-    function it_returns_default_template_if_no_option(ListElement $element)
+    public function it_returns_default_template_if_no_option(ListElement $element): void
     {
         $element->hasOption('template_list')->willReturn(false);
         $this->hasTemplateName()->shouldReturn(true);
         $this->getTemplateName()->shouldReturn('some_template.html.twig');
     }
 
-    function it_handles_request_with_request_handlers(HandlerInterface $handler, Request $request)
+    public function it_handles_request_with_request_handlers(HandlerInterface $handler, Request $request): void
     {
         $handler->handleRequest(Argument::type(ListEvent::class), $request)
             ->shouldBeCalled();
@@ -72,7 +72,7 @@ class TranslatableListElementContextSpec extends ObjectBehavior
         $this->handleRequest($request)->shouldReturn(null);
     }
 
-    function it_returns_response_from_handler(HandlerInterface $handler, Request $request)
+    public function it_returns_response_from_handler(HandlerInterface $handler, Request $request): void
     {
         $handler->handleRequest(Argument::type(ListEvent::class), $request)
             ->willReturn(new Response());

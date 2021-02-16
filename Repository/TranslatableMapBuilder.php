@@ -18,6 +18,8 @@ use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Yaml\Yaml;
 
+use function array_key_exists;
+
 class TranslatableMapBuilder extends BaseMapBuilder
 {
     /**
@@ -59,10 +61,10 @@ class TranslatableMapBuilder extends BaseMapBuilder
     {
         $locale = $this->getCurrentLocale();
 
-        if (!isset($this->map[$locale])) {
+        if (false === array_key_exists($locale, $this->map)) {
             $this->map[$locale] = $this->loadYamlMap($this->mapPath);
         }
-        
+
         return $this->map[$locale];
     }
 
@@ -81,7 +83,7 @@ class TranslatableMapBuilder extends BaseMapBuilder
     {
         $locale = $this->getCurrentLocale();
 
-        if ($this->isTranslatable($configuration)) {
+        if (true === $this->isTranslatable($configuration)) {
             $path = sprintf("%s.%s", $path, $locale);
         }
 
@@ -103,11 +105,10 @@ class TranslatableMapBuilder extends BaseMapBuilder
             ));
         }
 
-        if (!array_key_exists('type', $configuration)) {
-            throw new ConfigurationException(sprintf(
-                'Missing "type" declaration in "%s" element configuration',
-                $path
-            ));
+        if (false === array_key_exists('type', $configuration)) {
+            throw new ConfigurationException(
+                sprintf('Missing "type" declaration in "%s" element configuration', $path)
+            );
         }
     }
 
@@ -131,19 +132,21 @@ class TranslatableMapBuilder extends BaseMapBuilder
                 );
             }
 
-            if (!in_array($key, $validKeys)) {
-                throw new ConfigurationException(sprintf(
-                    '"%s" is not a valid resource type option. Try one from: %s',
-                    $key,
-                    implode(', ', $validKeys)
-                ));
+            if (false === in_array($key, $validKeys, true)) {
+                throw new ConfigurationException(
+                    sprintf(
+                        '"%s" is not a valid resource type option. Try one from: %s',
+                        $key,
+                        implode(', ', $validKeys)
+                    )
+                );
             }
         }
     }
 
     private function isTranslatable(array $configuration): bool
     {
-        return (isset($configuration['translatable']) && $configuration['translatable'] === true);
+        return true === array_key_exists('translatable', $configuration) && true === $configuration['translatable'];
     }
 
     private function getCurrentLocale(): ?string

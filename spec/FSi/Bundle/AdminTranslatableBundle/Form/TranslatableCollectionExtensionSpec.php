@@ -20,27 +20,23 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class TranslatableCollectionExtensionSpec extends ObjectBehavior
 {
-    public function let(
-        TranslatableFormHelper $translatableFormHelper,
-        TranslatableCollectionListener $listener
-    ) {
+    public function let(TranslatableFormHelper $translatableFormHelper, TranslatableCollectionListener $listener): void
+    {
         $this->beConstructedWith($translatableFormHelper, $listener);
     }
 
-    public function it_is_form_extension()
+    public function it_is_form_extension(): void
     {
         $this->beAnInstanceOf(AbstractTypeExtension::class);
     }
 
-    public function it_extends_collection()
+    public function it_extends_collection(): void
     {
         $this->getExtendedType()->shouldReturn(CollectionType::class);
     }
 
-    public function it_adds_listener(
-        FormBuilderInterface $builder,
-        TranslatableCollectionListener $listener
-    ) {
+    public function it_adds_listener(FormBuilderInterface $builder, TranslatableCollectionListener $listener): void
+    {
         $builder->addEventSubscriber($listener)->shouldBeCalled();
         $this->buildForm($builder, []);
     }

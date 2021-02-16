@@ -23,6 +23,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
+use function array_key_exists;
+
 class TranslationLocaleMenuListener
 {
     /**
@@ -69,7 +71,7 @@ class TranslationLocaleMenuListener
         $translation = $this->createRootItem();
         $event->getMenu()->addChild($translation);
 
-        if (!$this->isRequestTranslatable()) {
+        if (false === $this->isRequestTranslatable()) {
             return;
         }
 
@@ -85,10 +87,7 @@ class TranslationLocaleMenuListener
     {
         $query = $this->request->query->all();
 
-        return array_merge(
-            $this->request->get('_route_params'),
-            $query
-        );
+        return array_merge($this->request->get('_route_params'), $query);
     }
 
     private function createRootItem(): Item
@@ -113,7 +112,7 @@ class TranslationLocaleMenuListener
 
         $languageBundle = Intl::getLanguageBundle();
 
-        if (isset($requestParameters['redirect_uri'])) {
+        if (true === array_key_exists('redirect_uri', $requestParameters)) {
             $redirectRequest = $this->createRedirectRequest($requestParameters['redirect_uri']);
         }
 
@@ -126,7 +125,8 @@ class TranslationLocaleMenuListener
                         $redirectRequest,
                         $locale
                     );
-                } catch (ResourceNotFoundException $e) { }
+                } catch (ResourceNotFoundException $e) {
+                }
             }
 
             $localeItem = new RoutableItem(
@@ -134,9 +134,7 @@ class TranslationLocaleMenuListener
                 $route,
                 $requestParameters
             );
-            $localeItem->setLabel(
-                $languageBundle->getLanguageName($locale, null, $this->request->getLocale())
-            );
+            $localeItem->setLabel($languageBundle->getLanguageName($locale, null, $this->request->getLocale()));
 
             $menu->addChild($localeItem);
         }
@@ -145,7 +143,7 @@ class TranslationLocaleMenuListener
     private function createRedirectRequest(string $redirectUri): ?Request
     {
         $redirectUrlParts = parse_url($redirectUri);
-        if (($redirectUrlParts === false) || (isset($redirectUrlParts['host']))) {
+        if (false === $redirectUrlParts || true === array_key_exists('host', $redirectUrlParts)) {
             return null;
         }
 
@@ -154,7 +152,7 @@ class TranslationLocaleMenuListener
             'PHP_SELF' => $this->request->server->get('PHP_SELF'),
             'REQUEST_URI' => $redirectUrlParts['path'],
         ];
-        if (isset($redirectUrlParts['query'])) {
+        if (true === array_key_exists('query', $redirectUrlParts)) {
             $redirectServer['QUERY_STRING'] = $redirectUrlParts['query'];
         }
 
@@ -171,12 +169,8 @@ class TranslationLocaleMenuListener
         unset($parameters['_route']);
         unset($parameters['_controller']);
 
-        $requestUri = $this->urlGenerator->generate(
-            $route,
-            $parameters,
-            UrlGeneratorInterface::ABSOLUTE_PATH
-        );
-        if ($redirectRequest->getQueryString()) {
+        $requestUri = $this->urlGenerator->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
+        if (null !== $redirectRequest->getQueryString() && '' !== $redirectRequest->getQueryString()) {
             $requestUri .= '?' . $redirectRequest->getQueryString();
         }
 

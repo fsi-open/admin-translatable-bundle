@@ -32,9 +32,6 @@ class FormElementContext extends BaseFormElementContext
         $this->localeManager = $localeManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getData(): array
     {
         $data = parent::getData();
@@ -43,17 +40,11 @@ class FormElementContext extends BaseFormElementContext
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getSupportedRoute(): string
     {
         return 'fsi_admin_translatable_form';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportsElement(Element $element): bool
     {
         return $element instanceof TranslatableFormElement;

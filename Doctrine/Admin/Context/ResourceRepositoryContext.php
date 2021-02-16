@@ -32,9 +32,6 @@ class ResourceRepositoryContext extends BaseResourceRepositoryContext
         $this->localeManager = $localeManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getData(): array
     {
         $data = parent::getData();
@@ -43,9 +40,6 @@ class ResourceRepositoryContext extends BaseResourceRepositoryContext
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getSupportedRoute(): string
     {
         return 'fsi_admin_translatable_resource';

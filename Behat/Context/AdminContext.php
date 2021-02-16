@@ -15,14 +15,16 @@ use Behat\Gherkin\Node\TableNode;
 use FSi\Bundle\AdminBundle\Admin\Manager;
 use FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Display;
 
+use function array_key_exists;
+
 class AdminContext extends DefaultContext
 {
     /**
      * @Given /^I am on the "([^"]*)" page$/
      */
-    public function iAmOnThePage(string $pageName)
+    public function iAmOnThePage(string $pageName): void
     {
-        if (!$this->getSession()->isStarted()) {
+        if (false === $this->getSession()->isStarted()) {
             $this->getSession()->start();
         }
 
@@ -33,9 +35,9 @@ class AdminContext extends DefaultContext
      * @Given /^I am on the "([^"]*)" page with translatable locale "([^"]*)"$/
      * @Given /^I am on the "([^"]*)" page with default translatable locale "([^"]*)"$/
      */
-    public function iAmOnThePageWithTranslatableLocale(string $pageName, string $locale)
+    public function iAmOnThePageWithTranslatableLocale(string $pageName, string $locale): void
     {
-        if (!$this->getSession()->isStarted()) {
+        if (false === $this->getSession()->isStarted()) {
             $this->getSession()->start();
         }
 
@@ -45,9 +47,9 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^I am on the "([^"]*)" page with id (\d+)$/
      */
-    public function iAmOnThePageWithId(string $pageName, $id)
+    public function iAmOnThePageWithId(string $pageName, $id): void
     {
-        if (!$this->getSession()->isStarted()) {
+        if (false === $this->getSession()->isStarted()) {
             $this->getSession()->start();
         }
 
@@ -57,19 +59,19 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^the following translatable locales were defined$/
      */
-    public function theFollowingTranslatableLocalesWereDefined(TableNode $languages)
+    public function theFollowingTranslatableLocalesWereDefined(TableNode $languages): void
     {
         $definedLanguages = $this->kernel->getContainer()->getParameter('fsi_admin_translatable.locales');
 
         foreach ($languages as $language) {
-            expect(in_array($language['Locale'], $definedLanguages))->toBe(true);
+            expect(in_array($language['Locale'], $definedLanguages, true))->toBe(true);
         }
     }
 
     /**
      * @Then /^I should see translatable locale list$/
      */
-    public function iShouldSeeTranslatableLocaleList()
+    public function iShouldSeeTranslatableLocaleList(): void
     {
         expect($this->getElement('Top Menu')->hasTranslatableSwitcher())->toBe(true);
     }
@@ -77,7 +79,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^translatable locale list should have following locales$/
      */
-    public function translatableSwitcherShouldHaveFollowingLocales(TableNode $locales)
+    public function translatableSwitcherShouldHaveFollowingLocales(TableNode $locales): void
     {
         foreach ($locales->getHash() as $locale) {
             expect($this->getElement('Top Menu')->hasFollowingLocales($locale['Locale']))->toBe(true);
@@ -87,7 +89,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^translatable locale list should be inactive$/
      */
-    public function translatableLocaleListShouldBeInactive()
+    public function translatableLocaleListShouldBeInactive(): void
     {
         expect($this->getElement('Top Menu')->isTranslatableSwitcherActive())->toBe(false);
     }
@@ -95,7 +97,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^I choose "([^"]*)" from translatable locale list$/
      */
-    public function iChooseLinkFromTranslatableLocaleList(string $translatableLocale)
+    public function iChooseLinkFromTranslatableLocaleList(string $translatableLocale): void
     {
         $this->getElement('Top Menu')->clickTranslatableDropdown();
         $this->getElement('Top Menu')->findTranslatableLanguageElement($translatableLocale)->click();
@@ -104,7 +106,7 @@ class AdminContext extends DefaultContext
     /**
      * @Then /^I should see translatable list with "([^"]*)" option selected$/
      */
-    public function iShouldSeeTranslatableListWithSelected(string $locale)
+    public function iShouldSeeTranslatableListWithSelected(string $locale): void
     {
         expect($this->getElement('Top Menu')->hasActiveTranslatableLanguage($locale))->toBe(true);
     }
@@ -113,7 +115,7 @@ class AdminContext extends DefaultContext
      * @When /^I follow "([^"]*)" url from top bar$/
      * @Given /^I follow "([^"]*)" menu element$/
      */
-    public function iFollowUrlFromTopBar(string $menuElement)
+    public function iFollowUrlFromTopBar(string $menuElement): void
     {
         $this->getPage('Admin Panel')->getMenu()->clickLink($menuElement);
     }
@@ -121,7 +123,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^I should see "([^"]*)" page title "([^"]*)"$/
      */
-    public function iShouldSeePageTitle(string $page, string $title)
+    public function iShouldSeePageTitle(string $page, string $title): void
     {
         expect($this->getPage($page)->getTitle())->toBe($title);
     }
@@ -132,7 +134,7 @@ class AdminContext extends DefaultContext
      * @Given /^the following non-translatable resources were registered$/
      * @Given /^the following translatable resources were registered$/
      */
-    public function theFollowingAdminTranslatableElementsWereRegistered(TableNode $elements)
+    public function theFollowingAdminTranslatableElementsWereRegistered(TableNode $elements): void
     {
         /** @var Manager $manager */
         $manager = $this->kernel->getContainer()->get('test.admin.manager');
@@ -146,7 +148,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^I should see "([^"]*)" page header "([^"]*)"$/
      */
-    public function iShouldSeePageHeader(string $pageName, string $headerContent)
+    public function iShouldSeePageHeader(string $pageName, string $headerContent): void
     {
         expect($this->getPage($pageName)->getTitle())->toBe($headerContent);
     }
@@ -154,14 +156,14 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^there are following resources added to resource map$/
      */
-    public function thereAreFollowingResourcesAddedToResourceMap(TableNode $resources)
+    public function thereAreFollowingResourcesAddedToResourceMap(TableNode $resources): void
     {
         foreach ($resources->getHash() as $resource) {
             expect($this->kernel->getContainer()
                 ->get('fsi_resource_repository.map_builder')
                 ->hasResource($resource['Key']))->toBe(true);
 
-            if (isset($resource['Type'])) {
+            if (true === array_key_exists('Type', $resource)) {
                 expect($this->kernel->getContainer()
                     ->get('fsi_resource_repository.map_builder')
                     ->getResource($resource['Key']))->toBeAnInstanceOf(
@@ -177,7 +179,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^I fill form "([^"]*)" field with "([^"]*)"$/
      */
-    public function iFillFormFieldWith(string $field, $value)
+    public function iFillFormFieldWith(string $field, $value): void
     {
         $this->getElement('Form')->fillField($field, $value);
     }
@@ -185,7 +187,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^I should see form "([^"]*)" field with value "([^"]*)"$/
      */
-    public function iShouldSeeFormFieldWithValue(string $field, $value)
+    public function iShouldSeeFormFieldWithValue(string $field, $value): void
     {
         expect($this->getElement('Form')->findField($field)->getValue())->toBe($value);
     }
@@ -193,7 +195,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^I should see form "([^"]*)" field with empty value$/
      */
-    public function iShouldSeeFormFieldWithEmptyValue(string $field)
+    public function iShouldSeeFormFieldWithEmptyValue(string $field): void
     {
         expect($this->getElement('Form')->findField($field)->getValue())->toBe('');
     }
@@ -201,7 +203,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^I should see form "([^"]*)" file field with empty value$/
      */
-    public function iShouldSeeFormFileFieldWithEmptyValue(string $field)
+    public function iShouldSeeFormFileFieldWithEmptyValue(string $field): void
     {
         expect($this->getElement('Form')->findField($field)->getParent()->find('css', 'a'))->toBe(null);
     }
@@ -209,21 +211,20 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^I should see form "([^"]*)" collection with (\d+) value$/
      */
-    public function iShouldSeeFormCollectionWithValue(string $field, int $count)
+    public function iShouldSeeFormCollectionWithValue(string $field, int $count): void
     {
         $label = $this->getElement('Form')->findLabel($field);
         expect($label)->toNotBe(null);
 
-        expect(count($label->getParent()->findAll(
-            'css',
-            'div[data-prototype] > .collection-items > div.form-group'))
+        expect(
+            count($label->getParent()->findAll('css', 'div[data-prototype] > .collection-items > div.form-group'))
         )->toBe((int)$count);
     }
 
     /**
      * @Given /^I should see form "([^"]*)" collection with empty value$/
      */
-    public function iShouldSeeFormCollectionWithEmptyValue(string $field)
+    public function iShouldSeeFormCollectionWithEmptyValue(string $field): void
     {
         $label = $this->getElement('Form')->findLabel($field);
         expect($label)->toNotBe(null);
@@ -234,7 +235,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^form "([^"]*)" field should have translatable flag$/
      */
-    public function formFieldShouldHaveTranslatableFlag(string $field)
+    public function formFieldShouldHaveTranslatableFlag(string $field): void
     {
         $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
         $element = $this->getElement('Form');
@@ -248,7 +249,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^form "([^"]*)" field should have badge with "([^"]*)" default locale$/
      */
-    public function formFieldShouldHaveBadgeWithDefaultLocale(string $field, string $defaultLocale)
+    public function formFieldShouldHaveBadgeWithDefaultLocale(string $field, string $defaultLocale): void
     {
         $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
         $element = $this->getElement('Form');
@@ -262,7 +263,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^form "([^"]*)" field should not have badge with default locale$/
      */
-    public function formFieldShouldNotHaveBadgeWithDefaultLocale(string $field)
+    public function formFieldShouldNotHaveBadgeWithDefaultLocale(string $field): void
     {
         $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
         $element = $this->getElement('Form');
@@ -276,7 +277,7 @@ class AdminContext extends DefaultContext
     /**
      * @When /^I click default locale badge for "([^"]*)" field$/
      */
-    public function iClickDefaultLocaleBadgeForField(string $field)
+    public function iClickDefaultLocaleBadgeForField(string $field): void
     {
         $this->waitUntilObjectVisible(sprintf('//label[contains(., "%s")]', $field), true);
         $element = $this->getElement('Form');
@@ -290,7 +291,7 @@ class AdminContext extends DefaultContext
     /**
      * @Given /^I change first comment\'s text to "([^"]*)"$/
      */
-    public function iChangeFirstCommentsTextTo(string $commentText)
+    public function iChangeFirstCommentsTextTo(string $commentText): void
     {
         $this->getElement('Form')->fillField('form_comments_0_text', $commentText);
     }
@@ -298,7 +299,7 @@ class AdminContext extends DefaultContext
     /**
      * @Then /^I should see one comment with text "([^"]*)"$/
      */
-    public function iShouldSeeOneCommentWithText(string $commentText)
+    public function iShouldSeeOneCommentWithText(string $commentText): void
     {
         expect($this->getElement('Form')->findField('form_comments_0_text')->getValue())->toBe($commentText);
     }
@@ -306,7 +307,7 @@ class AdminContext extends DefaultContext
     /**
      * @Then /^I should see row "([^"]*)" with value "([^"]*)"$/
      */
-    public function iShouldSeeRowWithValue(string $name, $value)
+    public function iShouldSeeRowWithValue(string $name, $value): void
     {
         /** @var Display $display */
         $display = $this->getElement('Display');

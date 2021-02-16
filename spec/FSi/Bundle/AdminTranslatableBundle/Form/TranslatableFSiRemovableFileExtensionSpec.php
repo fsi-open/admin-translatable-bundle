@@ -25,41 +25,41 @@ use function expect;
 
 class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         TranslatableFormHelper $translatableFormHelper,
         FSiFilePathResolver $filePathResolver,
         FormInterface $form
-    ) {
+    ): void {
         $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(false);
         $this->beConstructedWith($translatableFormHelper, $filePathResolver);
     }
 
-    function it_is_form_type_extension()
+    public function it_is_form_type_extension(): void
     {
         $this->shouldBeAnInstanceOf(AbstractTypeExtension::class);
     }
 
-    function it_extends_text_form()
+    public function it_extends_text_form(): void
     {
         $this->getExtendedType()->shouldReturn(RemovableFileType::class);
     }
 
-    function it_does_nothing_if_form_has_no_property_path(
+    public function it_does_nothing_if_form_has_no_property_path(
         FormView $view,
         FormInterface $form
-    ) {
+    ): void {
         $form->getPropertyPath()->willReturn(null);
 
         $this->finishView($view, $form, []);
     }
 
-    function it_does_nothing_if_form_has_no_translatable_parent(
+    public function it_does_nothing_if_form_has_no_translatable_parent(
         FormView $view,
         FormInterface $form,
         FormConfigInterface $formConfig,
         FormInterface $parentForm,
         FormConfigInterface $parentFormConfig
-    ) {
+    ): void {
         $form->getPropertyPath()->willReturn('translatable_property');
         $form->getConfig()->willReturn($formConfig);
 
@@ -72,12 +72,12 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
         $this->finishView($view, $form, []);
     }
 
-    function it_does_nothing_if_forms_property_is_not_translatable_in_first_translatable_parent(
+    public function it_does_nothing_if_forms_property_is_not_translatable_in_first_translatable_parent(
         FormView $view,
         FormInterface $form,
         FormInterface $parentForm,
         TranslatableFormHelper $translatableFormHelper
-    ) {
+    ): void {
         $translatableFormHelper->getFirstTranslatableParent($form)->willReturn($parentForm);
         $translatableFormHelper->isFormPropertyPathTranslatable($form)->willReturn(false);
 
@@ -87,11 +87,11 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
         expect($view->vars['not_translated'])->toBe(false);
     }
 
-    function it_sets_translatable_attribute_when_property_is_translatable(
+    public function it_sets_translatable_attribute_when_property_is_translatable(
         FormInterface $form,
         FormInterface $parentForm,
         TranslatableFormHelper $translatableFormHelper
-    ) {
+    ): void {
         $view = new FormView();
         $fileView = new FormView($view);
         $view->children['translatable_property'] = $fileView;
@@ -108,13 +108,13 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
         expect($view->vars['not_translated'])->toBe(false);
     }
 
-    function it_sets_not_translated_attribute_when_property_no_translation(
+    public function it_sets_not_translated_attribute_when_property_no_translation(
         FSiFilePathResolver $filePathResolver,
         File $uploadableFile,
         FormInterface $form,
         FormInterface $parentForm,
         TranslatableFormHelper $translatableFormHelper
-    ) {
+    ): void {
         $view = new FormView();
         $fileView = new FormView($view);
         $removeView = new FormView($view);

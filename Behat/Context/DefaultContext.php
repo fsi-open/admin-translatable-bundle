@@ -38,17 +38,17 @@ abstract class DefaultContext extends PageObjectContext implements KernelAwareCo
      */
     private $minkParameters;
 
-    public function setKernel(KernelInterface $kernel)
+    public function setKernel(KernelInterface $kernel): void
     {
         $this->kernel = $kernel;
     }
 
-    public function setMink(Mink $mink)
+    public function setMink(Mink $mink): void
     {
         $this->mink = $mink;
     }
 
-    public function setMinkParameters(array $parameters)
+    public function setMinkParameters(array $parameters): void
     {
         $this->minkParameters = $parameters;
     }
@@ -70,14 +70,14 @@ abstract class DefaultContext extends PageObjectContext implements KernelAwareCo
      */
     protected function waitUntilObjectVisible(string $selector, bool $xpath = false): void
     {
-        if (!$this->isSeleniumDriver()) {
+        if (false === $this->isSeleniumDriver()) {
             throw new RuntimeException('Selenium driver is required for this function!');
         }
 
-        if ($xpath) {
+        if (true === $xpath) {
             $condition = sprintf(
                 "document.evaluate('%s', document, null, XPathResult.ANY_TYPE, null).offsetWidth > 0"
-                . " && document.evaluate('%s', document, null, XPathResult.ANY_TYPE, null).offsetHeight > 0",
+                    . " && document.evaluate('%s', document, null, XPathResult.ANY_TYPE, null).offsetHeight > 0",
                 $selector,
                 $selector
             );
