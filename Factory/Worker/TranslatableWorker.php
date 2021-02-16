@@ -30,7 +30,7 @@ class TranslatableWorker implements Worker
 
     public function mount(Element $element): void
     {
-        if ($element instanceof TranslatableAwareElement) {
+        if (true === $element instanceof TranslatableAwareElement) {
             $element->setLocaleManager($this->localeManager);
         }
     }

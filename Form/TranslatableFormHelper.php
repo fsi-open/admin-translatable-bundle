@@ -12,12 +12,17 @@ declare(strict_types=1);
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
+use FSi\Bundle\AdminBundle\Exception\RuntimeException;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
+
+use function array_key_exists;
+use function get_class;
+use function sprintf;
 
 class TranslatableFormHelper
 {
@@ -49,16 +54,16 @@ class TranslatableFormHelper
     public function isFormPropertyPathTranslatable(FormInterface $form): bool
     {
         $propertyPath = $form->getPropertyPath();
-        if (!$propertyPath) {
+        if (null === $propertyPath) {
             return false;
         }
 
         $parent = $this->getFirstTranslatableParent($form);
-        if (!$parent) {
+        if (null === $parent) {
             return false;
         }
 
-        if (!$this->hasFormTranslatableProperty($parent, $propertyPath)) {
+        if (false === $this->hasFormTranslatableProperty($parent, $propertyPath)) {
             return false;
         }
 
@@ -69,7 +74,7 @@ class TranslatableFormHelper
     {
         $classMetadata = $this->getFormTranslatableMetadata($form);
 
-        if (empty($classMetadata) || !$form->getNormData()) {
+        if (null === $classMetadata || null === $form->getNormData()) {
             return null;
         }
 
@@ -87,15 +92,16 @@ class TranslatableFormHelper
     public function getFirstTranslatableParent(FormInterface $form): ?FormInterface
     {
         for ($parent = $form; $parent !== null; $parent = $parent->getParent()) {
-            if ($parent->getConfig()->getInheritData()) {
+            if (true === $parent->getConfig()->getInheritData()) {
                 continue;
             }
 
-            if (!($class = $parent->getConfig()->getDataClass())) {
+            $class = $parent->getConfig()->getDataClass();
+            if (null === $class) {
                 continue;
             }
 
-            if ($this->isClassTranslatable($class)) {
+            if (true === $this->isClassTranslatable($class)) {
                 return $parent;
             }
         }
@@ -109,12 +115,7 @@ class TranslatableFormHelper
             return false;
         }
 
-        $translatableMetadata = $this->getTranslatableMetadata($class);
-        if (null === $translatableMetadata) {
-            return false;
-        }
-
-        return $translatableMetadata->hasTranslatableProperties();
+        return $this->getTranslatableMetadata($class)->hasTranslatableProperties();
     }
 
     private function hasFormTranslatableProperty(
@@ -122,9 +123,12 @@ class TranslatableFormHelper
         PropertyPathInterface $propertyPath
     ): bool {
         $translatableMetadata = $this->getFormTranslatableMetadata($form);
+        if (null === $translatableMetadata) {
+            return false;
+        }
 
         foreach ($translatableMetadata->getTranslatableProperties() as $translationProperties) {
-            if (isset($translationProperties[(string) $propertyPath])) {
+            if (true === array_key_exists((string) $propertyPath, $translationProperties)) {
                 return true;
             }
         }
@@ -134,23 +138,38 @@ class TranslatableFormHelper
 
     private function getFormTranslatableMetadata(FormInterface $form): ?ClassMetadata
     {
-        if (!($class = $form->getConfig()->getDataClass())) {
+        if (null === $form->getConfig()->getDataClass()) {
             return null;
         }
 
         return $this->getTranslatableMetadata($form->getConfig()->getDataClass());
     }
 
-    private function getManagerForClass(string $class): ?ObjectManager
+    private function getManagerForClass(string $class): ?EntityManagerInterface
     {
-        return $this->managerRegistry->getManagerForClass($class);
+        $objectManager = $this->managerRegistry->getManagerForClass($class);
+        if (null === $objectManager) {
+            return null;
+        }
+
+        if (false === $objectManager instanceof EntityManagerInterface) {
+            throw new RuntimeException(
+                sprintf("Expected %s but got %s", EntityManagerInterface::class, get_class($objectManager))
+            );
+        }
+
+        return $objectManager;
     }
 
     private function getTranslatableMetadata(string $class): ClassMetadata
     {
-        return $this->translatableListener->getExtendedMetadata(
-            $this->getManagerForClass($class),
-            $class
-        );
+        $classMetadata = $this->translatableListener->getExtendedMetadata($this->getManagerForClass($class), $class);
+        if (false === $classMetadata instanceof ClassMetadata) {
+            throw new RuntimeException(
+                sprintf("Expected %s but got %s", ClassMetadata::class, get_class($classMetadata))
+            );
+        }
+
+        return $classMetadata;
     }
 }

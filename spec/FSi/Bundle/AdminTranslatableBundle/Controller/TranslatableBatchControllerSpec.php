@@ -22,21 +22,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TranslatableBatchControllerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EngineInterface $templating,
         ContextManager $contextManager,
         EventDispatcherInterface $eventDispatcher
-    ) {
+    ): void {
         $this->beConstructedWith($templating, $contextManager, $eventDispatcher);
     }
 
-    function it_should_handle_batch_action(
+    public function it_should_handle_batch_action(
         BatchElement $element,
         Request $request,
         Response $response,
         ContextManager $contextManager,
         ContextInterface $context
-    ) {
+    ): void {
         $contextManager->createContext('fsi_admin_translatable_batch', $element)->willReturn($context);
         $context->handleRequest($request)->willReturn($response);
 

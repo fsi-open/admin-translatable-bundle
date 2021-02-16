@@ -21,29 +21,28 @@ class ResourceRepositoryPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if ($container->hasExtension('fsi_resource_repository')) {
-            $loader = new Loader\XmlFileLoader(
-                $container,
-                new FileLocator(__DIR__.'/../../Resources/config')
-            );
-            $loader->load('context/resource.xml');
-
-            $contextManagerDefinition = $container->getDefinition('admin.context.manager');
-            $contextManagerDefinition->addMethodCall('addContext', [
-                new Reference('admin_translatable.context.resource')
-            ]);
-
-            $definition = $container->getDefinition('fsi_resource_repository.resource.repository');
-            $translatableMapBuilderDefinition = $container->getDefinition('admin_translatable.resource.map_builder');
-            $translatableMapBuilderDefinition->setArguments([
-                '%fsi_resource_repository.resource.map_path%',
-                '%fsi_resource_repository.resource.types%',
-                new Reference('fsi_doctrine_extensions.listener.translatable')
-            ]);
-
-            $arguments = $definition->getArguments();
-            $arguments[0] = $translatableMapBuilderDefinition;
-            $definition->setArguments($arguments);
+        if (false === $container->hasExtension('fsi_resource_repository')) {
+            return;
         }
+
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../../Resources/config'));
+        $loader->load('context/resource.xml');
+
+        $contextManagerDefinition = $container->getDefinition('admin.context.manager');
+        $contextManagerDefinition->addMethodCall('addContext', [
+            new Reference('admin_translatable.context.resource')
+        ]);
+
+        $definition = $container->getDefinition('fsi_resource_repository.resource.repository');
+        $translatableMapBuilderDefinition = $container->getDefinition('admin_translatable.resource.map_builder');
+        $translatableMapBuilderDefinition->setArguments([
+            '%fsi_resource_repository.resource.map_path%',
+            '%fsi_resource_repository.resource.types%',
+            new Reference('fsi_doctrine_extensions.listener.translatable')
+        ]);
+
+        $arguments = $definition->getArguments();
+        $arguments[0] = $translatableMapBuilderDefinition;
+        $definition->setArguments($arguments);
     }
 }

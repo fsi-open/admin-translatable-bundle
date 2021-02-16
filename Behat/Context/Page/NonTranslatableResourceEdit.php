@@ -25,7 +25,7 @@ class NonTranslatableResourceEdit extends Page
 
     protected function verifyPage(): void
     {
-        if (!$this->has('css', '#page-header:contains("Edit resources")')) {
+        if (false === $this->has('css', '#page-header:contains("Edit resources")')) {
             throw new ElementNotFoundException(sprintf('%s page is missing "Edit resources" header', $this->path));
         }
     }

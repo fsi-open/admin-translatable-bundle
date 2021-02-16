@@ -22,10 +22,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use function array_key_exists;
 
 class TranslationLocaleMenuListenerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
         RequestMatcherInterface $requestMatcher,
@@ -34,7 +35,7 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         Request $request,
         ParameterBag $query,
         ParameterBag $server
-    ) {
+    ): void {
         $localeManager->getLocale()->willReturn('en');
         $request->getLocale()->willReturn('en');
         $request->get('_route_params')->willReturn(['element' => 'event', 'locale' => 'en']);
@@ -75,10 +76,10 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         );
     }
 
-    function it_should_create_translations_tools_menu(
+    public function it_should_create_translations_tools_menu(
         MenuEvent $menuEvent,
         UrlGeneratorInterface $urlGenerator
-    ) {
+    ): void {
         $menuItem = new Item();
         $menuEvent->getMenu()->willReturn($menuItem);
 
@@ -144,10 +145,10 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         expect($translationLocale->getOption('attr'))->toNotHaveOption('class', 'active');
     }
 
-    function it_creates_empty_locales_menu_for_non_translatable_elements(
+    public function it_creates_empty_locales_menu_for_non_translatable_elements(
         MenuEvent $menuEvent,
         Request $request
-    ) {
+    ): void {
         $menuItem = new Item();
         $menuEvent->getMenu()->willReturn($menuItem);
 
@@ -169,7 +170,7 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
     {
         return [
             'haveOption' => function($subject, $key, $value) {
-                if (!isset($subject[$key])) {
+                if (false === array_key_exists($key, $subject)) {
                     return false;
                 }
 

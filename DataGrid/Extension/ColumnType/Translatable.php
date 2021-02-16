@@ -12,14 +12,17 @@ declare(strict_types=1);
 namespace FSi\Bundle\AdminTranslatableBundle\DataGrid\Extension\ColumnType;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use FSi\Bundle\AdminBundle\Exception\RuntimeException;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\DoctrineExtensions\Metadata\ClassMetadataInterface;
+use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
+
 use function get_class;
 
 class Translatable extends ColumnAbstractTypeExtension
@@ -96,14 +99,12 @@ class Translatable extends ColumnAbstractTypeExtension
 
     private function isPropertyPathTranslatable(CellViewInterface $view, string $stringPath): bool
     {
-        $propertyPath = $this->transformPathToPropertPathObjectIfValid($stringPath);
+        $propertyPath = $this->transformPathToPropertyPathObjectIfValid($stringPath);
         if (null === $propertyPath) {
             return false;
         }
 
-        $translatableMetadata = $this->getObjectTranslatableMetadata(
-            $this->getMostNestedObject($view, $propertyPath)
-        );
+        $translatableMetadata = $this->getObjectTranslatableMetadata($this->getMostNestedObject($view, $propertyPath));
         if (null === $translatableMetadata || false === $translatableMetadata->hasTranslatableProperties()) {
             return false;
         }
@@ -120,7 +121,7 @@ class Translatable extends ColumnAbstractTypeExtension
 
     private function isPropertyPathTranslated(CellViewInterface $view, string $stringPath): bool
     {
-        $propertyPath = $this->transformPathToPropertPathObjectIfValid($stringPath);
+        $propertyPath = $this->transformPathToPropertyPathObjectIfValid($stringPath);
         if (null === $propertyPath) {
             return false;
         }
@@ -149,18 +150,25 @@ class Translatable extends ColumnAbstractTypeExtension
         return $this->propertyAccessor->getValue($object, $translatableMetadata->localeProperty);
     }
 
-    private function getObjectTranslatableMetadata($object): ?ClassMetadataInterface
+    private function getObjectTranslatableMetadata($object): ?ClassMetadata
     {
         $class = get_class($object);
         $manager = $this->managerRegistry->getManagerForClass($class);
-        if (null === $manager) {
+        if (false === $manager instanceof EntityManagerInterface) {
             return null;
         }
 
-        return $this->translatableListener->getExtendedMetadata($manager, $class);
+        $classMetadata = $this->translatableListener->getExtendedMetadata($manager, $class);
+        if (false === $classMetadata instanceof ClassMetadata) {
+            throw new RuntimeException(
+                sprintf("Expected %s but got %s", ClassMetadata::class, get_class($classMetadata))
+            );
+        }
+
+        return $classMetadata;
     }
 
-    private function transformPathToPropertPathObjectIfValid(string $stringPath): ?PropertyPath
+    private function transformPathToPropertyPathObjectIfValid(string $stringPath): ?PropertyPath
     {
         $propertyPath = new PropertyPath($stringPath);
         return true === $propertyPath->isProperty($propertyPath->getLength() - 1)

@@ -32,18 +32,20 @@ abstract class AbstractTranslatableExtension extends AbstractTypeExtension
         $view->vars['translatable'] = false;
         $view->vars['not_translated'] = false;
 
-        if (!$this->translatableFormHelper->isFormPropertyPathTranslatable($form)) {
+        if (false === $this->translatableFormHelper->isFormPropertyPathTranslatable($form)) {
             return;
         }
 
         $parent = $this->translatableFormHelper->getFirstTranslatableParent($form);
-        if (!$parent) {
+        if (null === $parent) {
             return;
         }
 
         $view->vars['translatable'] = true;
-        if (!$this->hasCurrentValue($view, $form, $options) ||
-            $this->translatableFormHelper->isFormDataInCurrentLocale($parent)) {
+        if (
+            false === $this->hasCurrentValue($view, $form, $options)
+            || true === $this->translatableFormHelper->isFormDataInCurrentLocale($parent)
+        ) {
             return;
         }
 

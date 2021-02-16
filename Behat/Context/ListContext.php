@@ -19,7 +19,7 @@ class ListContext extends DefaultContext
     /**
      * @Given /^I click edit in "([^"]*)" column in third row$/
      */
-    public function iClickEditInColumnInThirdRow(string $columnName)
+    public function iClickEditInColumnInThirdRow(string $columnName): void
     {
         /** @var Grid $grid */
         $grid = $this->getElement('Grid');
@@ -31,9 +31,9 @@ class ListContext extends DefaultContext
     /**
      * @Then /^I should see following list$/
      */
-    public function iShouldSeeFollowingList(TableNode $table)
+    public function iShouldSeeFollowingList(TableNode $table): void
     {
-        if ($this->isSeleniumDriver()) {
+        if (true === $this->isSeleniumDriver()) {
             $this->waitUntilObjectVisible('table.table-datagrid');
         }
 

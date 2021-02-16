@@ -103,5 +103,4 @@ class CommentTranslation
     {
         return $this->locale;
     }
-
 }

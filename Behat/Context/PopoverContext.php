@@ -11,14 +11,16 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Behat\Context;
 
+use FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Popover;
+
 class PopoverContext extends DefaultContext
 {
     /**
      * @Given /^I should see popover with value "([^"]*)" in field "([^"]*)"$/
      */
-    public function iShouldSeePopoverWithField($fieldValue, string $fieldName)
+    public function iShouldSeePopoverWithField($fieldValue, string $fieldName): void
     {
-        /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Popover $popover */
+        /** @var Popover $popover */
         $popover = $this->getElement('Popover');
 
         expect($popover->findField($fieldName)->getValue())->toBe($fieldValue);
@@ -27,9 +29,9 @@ class PopoverContext extends DefaultContext
     /**
      * @Given /^I fill in field "([^"]*)" with value "([^"]*)" at popover$/
      */
-    public function iFillInFieldWithValueAtPopover(string $fieldName, $fieldValue)
+    public function iFillInFieldWithValueAtPopover(string $fieldName, $fieldValue): void
     {
-        /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Popover $popover */
+        /** @var Popover $popover */
         $popover = $this->getElement('Popover');
 
         $popover->fillField($fieldName, $fieldValue);
@@ -38,9 +40,9 @@ class PopoverContext extends DefaultContext
     /**
      * @Given /^I submit popover form$/
      */
-    public function iSubmitPopoverForm()
+    public function iSubmitPopoverForm(): void
     {
-        /** @var \FSi\Bundle\AdminTranslatableBundle\Behat\Context\Page\Element\Popover $popover */
+        /** @var Popover $popover */
         $popover = $this->getElement('Popover');
 
         $popover->getForm()->submit();
@@ -49,7 +51,7 @@ class PopoverContext extends DefaultContext
     /**
      * @Then /^I should see popover with content "([^"]*)"$/
      */
-    public function iShouldSeePopoverWithContent(string $content)
+    public function iShouldSeePopoverWithContent(string $content): void
     {
         expect($this->getElement('Popover')->getContents()->getText())->toBe($content);
     }
@@ -57,7 +59,7 @@ class PopoverContext extends DefaultContext
     /**
      * @Then /^I should see popover with anchor to file$/
      */
-    public function iShouldSeePopoverWithAnchorToFile()
+    public function iShouldSeePopoverWithAnchorToFile(): void
     {
         expect($this->getElement('Popover')->getContents()->has('css', 'a'))->toBe(true);
     }

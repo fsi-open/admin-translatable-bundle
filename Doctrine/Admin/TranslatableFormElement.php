@@ -17,25 +17,16 @@ abstract class TranslatableFormElement extends FormElement implements Translatab
 {
     use TranslatableAwareElementImpl;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRoute(): string
     {
         return 'fsi_admin_translatable_form';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteParameters(): array
     {
         return $this->appendLocaleParameter(parent::getRouteParameters());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSuccessRouteParameters(): array
     {
         return $this->appendLocaleParameter(parent::getSuccessRouteParameters());

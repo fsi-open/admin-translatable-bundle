@@ -30,9 +30,6 @@ class DisplayElementContext extends BaseDisplayContext
         $this->localeManager = $localeManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getData(): array
     {
         $data = parent::getData();
@@ -41,9 +38,6 @@ class DisplayElementContext extends BaseDisplayContext
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getSupportedRoute(): string
     {
         return 'fsi_admin_translatable_display';

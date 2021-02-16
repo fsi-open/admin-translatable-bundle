@@ -34,10 +34,7 @@ class FSIAdminTranslatableExtension extends Extension implements PrependExtensio
 
         $this->setTemplateParameters($container, $config['templates']);
 
-        $loader = new Loader\XmlFileLoader(
-            $container,
-            new FileLocator(__DIR__.'/../Resources/config')
-        );
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
         $loader->load('controller.xml');
         $loader->load('form.xml');

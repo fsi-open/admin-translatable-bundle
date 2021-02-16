@@ -22,22 +22,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TranslatableListControllerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EngineInterface $templating,
         ContextManager $contextManager,
         EventDispatcherInterface $eventDispatcher
-    ) {
+    ): void {
         $this->beConstructedWith($templating, $contextManager, $eventDispatcher);
     }
 
-    function it_should_handle_list_action(
+    public function it_should_handle_list_action(
         ListElement $element,
         Request $request,
         Response $response,
         ContextManager $contextManager,
         ContextInterface $context,
         EngineInterface $templating
-    ) {
+    ): void {
         $contextManager->createContext('fsi_admin_translatable_list', $element)->willReturn($context);
         $context->handleRequest($request)->willReturn(null);
         $context->hasTemplateName()->willReturn(true);

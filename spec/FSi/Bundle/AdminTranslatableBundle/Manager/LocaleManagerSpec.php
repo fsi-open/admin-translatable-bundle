@@ -21,17 +21,17 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class LocaleManagerSpec extends ObjectBehavior
 {
-    const DE = 'de';
-    const EN = 'en';
-    const PL = 'pl';
+    private const DE = 'de';
+    private const EN = 'en';
+    private const PL = 'pl';
 
-    function let(
+    public function let(
         ManagerRegistry $managerRegistry,
         EntityManager $entityManager,
         EventManager $eventManager,
         TranslatableListener $translatableListener,
         SessionInterface $session
-    ) {
+    ): void {
         $managerRegistry->getManager()->willReturn($entityManager);
         $entityManager->getEventManager()->willReturn($eventManager);
         $eventManager->getListeners()->willReturn(['preFlush' => [$translatableListener]]);
@@ -39,15 +39,15 @@ class LocaleManagerSpec extends ObjectBehavior
         $this->beConstructedWith($managerRegistry, $session, [self::EN, self::DE]);
     }
 
-    function it_returns_configured_locales()
+    public function it_returns_configured_locales(): void
     {
         $this->getLocales()->shouldReturn([self::EN, self::DE]);
     }
 
-    function it_sets_locale(
+    public function it_sets_locale(
         SessionInterface $session,
         TranslatableListener $translatableListener
-    ) {
+    ): void {
 
         $session->set(LocaleManager::SESSION_KEY, self::PL)->shouldBeCalled();
         $translatableListener->setLocale(self::PL)->shouldBeCalled();
@@ -55,27 +55,27 @@ class LocaleManagerSpec extends ObjectBehavior
         $this->setLocale(self::PL);
     }
 
-    function it_gets_default_locale_when_session_is_empty(
+    public function it_gets_default_locale_when_session_is_empty(
         SessionInterface $session,
         TranslatableListener $translatableListener
-    ) {
+    ): void {
         $translatableListener->getDefaultLocale()->willReturn(self::EN);
         $session->get(LocaleManager::SESSION_KEY, self::EN)->willReturn(self::EN);
 
         $this->getLocale()->shouldReturn(self::EN);
     }
 
-    function it_gets_locale_when_session_is_not_empty(
+    public function it_gets_locale_when_session_is_not_empty(
         SessionInterface $session,
         TranslatableListener $translatableListener
-    ) {
+    ): void {
         $translatableListener->getDefaultLocale()->willReturn(self::PL);
         $session->get(LocaleManager::SESSION_KEY, self::PL)->willReturn(self::EN);
 
         $this->getLocale()->shouldReturn(self::EN);
     }
 
-    function it_gets_deafult_locale(TranslatableListener $translatableListener)
+    public function it_gets_deafult_locale(TranslatableListener $translatableListener): void
     {
         $translatableListener->getDefaultLocale()->willReturn(self::EN);
 

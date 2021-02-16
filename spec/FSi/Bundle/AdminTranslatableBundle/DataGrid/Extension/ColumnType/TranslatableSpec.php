@@ -24,12 +24,12 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class TranslatableSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ManagerRegistry $managerRegistry,
         TranslatableListener $translatableListener,
         EntityManagerInterface $manager,
         ClassMetadata $translatableMetadata
-    ) {
+    ): void {
         $managerRegistry->getManagerForClass(Argument::type('string'))->willReturn($manager);
         $translatableListener->getExtendedMetadata($manager, Argument::type('string'))
             ->willReturn($translatableMetadata);
@@ -38,12 +38,12 @@ class TranslatableSpec extends ObjectBehavior
         $this->beConstructedWith($managerRegistry, $translatableListener, new PropertyAccessor());
     }
 
-    function it_is_column_type_extension()
+    public function it_is_column_type_extension(): void
     {
         $this->shouldBeAnInstanceOf(ColumnAbstractTypeExtension::class);
     }
 
-    function it_extends_action_column()
+    public function it_extends_action_column(): void
     {
         $this->getExtendedColumnTypes()->shouldReturn([
             'text',
@@ -55,10 +55,10 @@ class TranslatableSpec extends ObjectBehavior
         ]);
     }
 
-    function it_sets_translatable_and_not_translated_to_false_when_column_has_no_properties_in_field_mapping(
+    public function it_sets_translatable_and_not_translated_to_false_when_column_has_no_properties_in_field_mapping(
         ColumnTypeInterface $column,
         CellViewInterface $view
-    ) {
+    ): void {
         $column->getOption('field_mapping')->willReturn(['[property]']);
 
         $view->setAttribute('translatable', false)->shouldBeCalled();
@@ -67,11 +67,11 @@ class TranslatableSpec extends ObjectBehavior
         $this->buildCellView($column, $view);
     }
 
-    function it_sets_translatable_and_not_translated_to_false_when_column_has_no_translatable_property_in_field_mapping(
+    public function it_sets_translatable_and_not_translated_to_false_when_column_has_no_translatable_property_in_field_mapping(
         ColumnTypeInterface $column,
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
-    ) {
+    ): void {
         $column->getOption('field_mapping')->willReturn(['property']);
         $data = (object) ['property' => 'value'];
         $view->getSource()->willReturn($data);
@@ -83,11 +83,11 @@ class TranslatableSpec extends ObjectBehavior
         $this->buildCellView($column, $view);
     }
 
-    function it_sets_translatable_and_not_translated_to_false_when_column_has_only_non_translatable_properties_in_field_mapping(
+    public function it_sets_translatable_and_not_translated_to_false_when_column_has_only_non_translatable_properties_in_field_mapping(
         ColumnTypeInterface $column,
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
-    ) {
+    ): void {
         $column->getOption('field_mapping')->willReturn(['property']);
         $data = (object) ['property' => 'value'];
         $view->getSource()->willReturn($data);
@@ -101,11 +101,11 @@ class TranslatableSpec extends ObjectBehavior
         $this->buildCellView($column, $view);
     }
 
-    function it_sets_translatable_to_true_and_not_translated_to_false_when_column_has_translatable_property_in_field_mapping(
+    public function it_sets_translatable_to_true_and_not_translated_to_false_when_column_has_translatable_property_in_field_mapping(
         ColumnTypeInterface $column,
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
-    ) {
+    ): void {
         $column->getOption('field_mapping')->willReturn(['translatable_property']);
         $data = (object) [
             'translatable_property' => 'value',
@@ -124,11 +124,11 @@ class TranslatableSpec extends ObjectBehavior
         $this->buildCellView($column, $view);
     }
 
-    function it_sets_translatable_to_true_and_not_translated_to_false_when_column_has_nested_translatable_property_in_field_mapping(
+    public function it_sets_translatable_to_true_and_not_translated_to_false_when_column_has_nested_translatable_property_in_field_mapping(
         ColumnTypeInterface $column,
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
-    ) {
+    ): void {
         $column->getOption('field_mapping')->willReturn(['nested_object.translatable_property']);
         $nested_object = (object) [
             'translatable_property' => 'value',
@@ -148,11 +148,11 @@ class TranslatableSpec extends ObjectBehavior
         $this->buildCellView($column, $view);
     }
 
-    function it_sets_translatable_and_not_translated_to_true_when_column_has_not_translated_translatable_property_in_field_mapping(
+    public function it_sets_translatable_and_not_translated_to_true_when_column_has_not_translated_translatable_property_in_field_mapping(
         ColumnTypeInterface $column,
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
-    ) {
+    ): void {
         $column->getOption('field_mapping')->willReturn(['translatable_property']);
         $data = (object) [
             'translatable_property' => 'value',
@@ -171,11 +171,11 @@ class TranslatableSpec extends ObjectBehavior
         $this->buildCellView($column, $view);
     }
 
-    function it_sets_translatable_and_not_translated_to_true_when_column_has_not_translated_nested_translatable_property_in_field_mapping(
+    public function it_sets_translatable_and_not_translated_to_true_when_column_has_not_translated_nested_translatable_property_in_field_mapping(
         ColumnTypeInterface $column,
         CellViewInterface $view,
         ClassMetadata $translatableMetadata
-    ) {
+    ): void {
         $column->getOption('field_mapping')->willReturn(['nested_object.translatable_property']);
         $nested_object = (object) [
             'translatable_property' => 'value',

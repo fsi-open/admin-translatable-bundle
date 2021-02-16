@@ -30,44 +30,42 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class LocaleExtensionSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ManagerRegistry $managerRegistry,
         TranslatableListener $translatableListener,
         PropertyAccessorInterface $propertyAccessor
-    ) {
+    ): void {
         $this->beConstructedWith($managerRegistry, $translatableListener, $propertyAccessor);
     }
 
-    function it_is_form_extension()
+    public function it_is_form_extension(): void
     {
         $this->shouldBeAnInstanceOf(AbstractTypeExtension::class);
     }
 
-    function it_extends_from_type()
+    public function it_extends_from_type(): void
     {
         $this->getExtendedType()->shouldReturn(FormType::class);
     }
 
-    function it_adds_itself_as_form_event_subscriber(FormBuilderInterface $formBuilder)
+    public function it_adds_itself_as_form_event_subscriber(FormBuilderInterface $formBuilder): void
     {
         $formBuilder->addEventSubscriber($this)->shouldBeCalled();
 
         $this->buildForm($formBuilder, []);
     }
 
-    function it_is_event_subscriber()
+    public function it_is_event_subscriber(): void
     {
         $this->shouldBeAnInstanceOf(EventSubscriberInterface::class);
     }
 
-    function it_should_listen_to_post_submit_event()
+    public function it_should_listen_to_post_submit_event(): void
     {
-        $this->getSubscribedEvents()->shouldReturn([
-            FormEvents::POST_SUBMIT => 'setTranslatableLocale'
-        ]);
+        $this->getSubscribedEvents()->shouldReturn([FormEvents::POST_SUBMIT => 'setTranslatableLocale']);
     }
 
-    function it_sets_locale_on_translatable_data(
+    public function it_sets_locale_on_translatable_data(
         ManagerRegistry $managerRegistry,
         EntityManagerInterface $objectManager,
         TranslatableListener $translatableListener,
@@ -77,7 +75,7 @@ class LocaleExtensionSpec extends ObjectBehavior
         ClassMetadata $translatableClassMetadata,
         PropertyAccessorInterface $propertyAccessor,
         stdClass $entity
-    ) {
+    ): void {
         $translatableListener->getLocale()->willReturn('de');
         $event->getData()->willReturn($entity);
         $event->getForm()->willReturn($form);
@@ -94,10 +92,10 @@ class LocaleExtensionSpec extends ObjectBehavior
         $this->setTranslatableLocale($event);
     }
 
-    function it_does_nothing_when_current_translatable_locale_is_not_set(
+    public function it_does_nothing_when_current_translatable_locale_is_not_set(
         TranslatableListener $translatableListener,
         FormEvent $event
-    ) {
+    ): void {
         $translatableListener->getLocale()->willReturn(null);
 
         $event->getForm()->shouldNotBeCalled();
@@ -106,13 +104,13 @@ class LocaleExtensionSpec extends ObjectBehavior
         $this->setTranslatableLocale($event);
     }
 
-    function it_does_nothing_when_form_has_no_data_class(
+    public function it_does_nothing_when_form_has_no_data_class(
         ManagerRegistry $managerRegistry,
         TranslatableListener $translatableListener,
         FormEvent $event,
         FormInterface $form,
         FormConfigInterface $formConfig
-    ) {
+    ): void {
         $translatableListener->getLocale()->willReturn('en');
         $event->getForm()->willReturn($form);
         $form->getConfig()->willReturn($formConfig);
@@ -124,7 +122,7 @@ class LocaleExtensionSpec extends ObjectBehavior
         $this->setTranslatableLocale($event);
     }
 
-    function it_does_nothing_when_form_data_is_not_translatable(
+    public function it_does_nothing_when_form_data_is_not_translatable(
         ManagerRegistry $managerRegistry,
         EntityManagerInterface $objectManager,
         TranslatableListener $translatableListener,
@@ -132,7 +130,7 @@ class LocaleExtensionSpec extends ObjectBehavior
         FormInterface $form,
         FormConfigInterface $formConfig,
         ClassMetadata $translatableClassMetadata
-    ) {
+    ): void {
         $translatableListener->getLocale()->willReturn('en');
         $event->getForm()->willReturn($form);
         $form->getConfig()->willReturn($formConfig);
@@ -148,7 +146,7 @@ class LocaleExtensionSpec extends ObjectBehavior
         $this->setTranslatableLocale($event);
     }
 
-    function it_does_nothing_when_form_data_has_no_translatable_properties(
+    public function it_does_nothing_when_form_data_has_no_translatable_properties(
         ManagerRegistry $managerRegistry,
         EntityManagerInterface $objectManager,
         TranslatableListener $translatableListener,
@@ -156,7 +154,7 @@ class LocaleExtensionSpec extends ObjectBehavior
         FormInterface $form,
         FormConfigInterface $formConfig,
         ClassMetadata $translatableClassMetadata
-    ) {
+    ): void {
         $translatableListener->getLocale()->willReturn('en');
         $event->getForm()->willReturn($form);
         $form->getConfig()->willReturn($formConfig);

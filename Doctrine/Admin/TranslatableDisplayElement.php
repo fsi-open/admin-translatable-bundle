@@ -17,17 +17,11 @@ abstract class TranslatableDisplayElement extends DisplayElement implements Tran
 {
     use TranslatableAwareElementImpl;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRoute(): string
     {
         return 'fsi_admin_translatable_display';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteParameters(): array
     {
         return $this->appendLocaleParameter(parent::getRouteParameters());

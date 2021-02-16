@@ -147,5 +147,4 @@ class Comment
             return null;
         }
     }
-
 }

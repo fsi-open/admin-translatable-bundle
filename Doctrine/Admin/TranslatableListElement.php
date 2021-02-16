@@ -17,17 +17,11 @@ abstract class TranslatableListElement extends ListElement implements Translatab
 {
     use TranslatableAwareElementImpl;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRoute(): string
     {
         return 'fsi_admin_translatable_list';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteParameters(): array
     {
         return $this->appendLocaleParameter(parent::getRouteParameters());

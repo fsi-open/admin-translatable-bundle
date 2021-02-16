@@ -24,24 +24,24 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TranslatableFormElementContextSpec extends ObjectBehavior
 {
-    function let(FormElement$element, FormInterface $form, HandlerInterface $handler)
+    public function let(FormElement$element, FormInterface $form, HandlerInterface $handler): void
     {
         $this->beConstructedWith([$handler], 'some_template.html.twig');
         $element->createForm(null)->willReturn($form);
         $this->setElement($element);
     }
 
-    function it_is_context()
+    public function it_is_context(): void
     {
         $this->shouldBeAnInstanceOf(ContextInterface::class);
     }
 
-    function it_have_array_data(
+    public function it_have_array_data(
         FormInterface $form,
         FormElement $element,
         DataIndexerInterface $dataIndexer,
         Request $request
-    ) {
+    ): void {
         $form->createView()->willReturn('form_view');
         $form->getData()->willReturn(null);
 
@@ -56,7 +56,7 @@ class TranslatableFormElementContextSpec extends ObjectBehavior
         $this->getData()->shouldHaveKeyInArray('id');
     }
 
-    function it_has_template(FormElement$element)
+    public function it_has_template(FormElement$element): void
     {
         $element->hasOption('template_form')->willReturn(true);
         $element->getOption('template_form')->willReturn('this_is_form_template.html.twig');
@@ -64,14 +64,14 @@ class TranslatableFormElementContextSpec extends ObjectBehavior
         $this->getTemplateName()->shouldReturn('this_is_form_template.html.twig');
     }
 
-    function it_return_default_template_if_no_option(FormElement $element)
+    public function it_return_default_template_if_no_option(FormElement $element): void
     {
         $element->hasOption('template_form')->willReturn(false);
         $this->hasTemplateName()->shouldReturn(true);
         $this->getTemplateName()->shouldReturn('some_template.html.twig');
     }
 
-    function it_handle_request_with_request_handlers(HandlerInterface $handler, Request $request)
+    public function it_handle_request_with_request_handlers(HandlerInterface $handler, Request $request): void
     {
         $handler->handleRequest(Argument::type(FormEvent::class), $request)
             ->shouldBeCalled();
@@ -79,7 +79,7 @@ class TranslatableFormElementContextSpec extends ObjectBehavior
         $this->handleRequest($request)->shouldReturn(null);
     }
 
-    function it_return_response_from_handler(HandlerInterface $handler, Request $request)
+    public function it_return_response_from_handler(HandlerInterface $handler, Request $request): void
     {
         $handler->handleRequest(Argument::type(FormEvent::class), $request)
             ->willReturn(new Response());

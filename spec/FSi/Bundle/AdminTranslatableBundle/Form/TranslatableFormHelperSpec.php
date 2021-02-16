@@ -23,7 +23,7 @@ use Symfony\Component\PropertyAccess\PropertyPath;
 
 class TranslatableFormHelperSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ManagerRegistry $managerRegistry,
         TranslatableListener $translatableListener,
         PropertyAccessor $propertyAccessor,
@@ -36,7 +36,7 @@ class TranslatableFormHelperSpec extends ObjectBehavior
         FormConfigInterface $parentFormConfig,
         FormInterface $grandParentForm,
         FormConfigInterface $grandParentFormConfig
-    ) {
+    ): void {
         $this->beConstructedWith($managerRegistry, $translatableListener, $propertyAccessor);
 
         $propertyPath->__toString()->willReturn('translatable_property');
@@ -63,10 +63,10 @@ class TranslatableFormHelperSpec extends ObjectBehavior
         $translatableMetadata->hasTranslatableProperties()->willReturn(true);
     }
 
-    function it_return_true_if_form_is_for_translatable_property(
+    public function it_return_true_if_form_is_for_translatable_property(
         ClassMetadata $translatableMetadata,
         FormInterface $form
-    ) {
+    ): void {
         $translatableMetadata->getTranslatableProperties()->willReturn(
             ['translations' => ['translatable_property' => 'translation_property']]
         );
@@ -74,20 +74,20 @@ class TranslatableFormHelperSpec extends ObjectBehavior
         $this->isFormPropertyPathTranslatable($form)->shouldReturn(true);
     }
 
-    function it_return_false_if_form_is_not_for_translatable_property(
+    public function it_return_false_if_form_is_not_for_translatable_property(
         ClassMetadata $translatableMetadata,
         FormInterface $form
-    ) {
+    ): void {
         $translatableMetadata->getTranslatableProperties()->willReturn([]);
         $this->isFormPropertyPathTranslatable($form)->shouldReturn(false);
     }
 
-    function it_gets_locale_from_form_normalized_data(FormInterface $grandParentForm)
+    public function it_gets_locale_from_form_normalized_data(FormInterface $grandParentForm): void
     {
         $this->getFormNormDataLocale($grandParentForm)->shouldReturn('en');
     }
 
-    function it_check_form_data_locale_to_current(FormInterface $grandParentForm)
+    public function it_check_form_data_locale_to_current(FormInterface $grandParentForm): void
     {
         $this->isFormDataInCurrentLocale($grandParentForm)->shouldReturn(false);
     }
