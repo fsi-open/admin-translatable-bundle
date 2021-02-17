@@ -4,23 +4,96 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="admin_translatable.controller.locale.class">FSi\Bundle\AdminTranslatableBundle\Controller\LocaleController</parameter>
-        <parameter key="admin_translatable.manager.locale.class">FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager</parameter>
-        <parameter key="admin_translatable.factory.worker.translatable.class">FSi\Bundle\AdminTranslatableBundle\Factory\Worker\TranslatableWorker</parameter>
-    </parameters>
-
     <services>
-        <!--Managers-->
-        <service id="admin_translatable.manager.locale" class="%admin_translatable.manager.locale.class%">
-            <argument type="service" id="doctrine" />
-            <argument type="service" id="session" />
-            <argument>%fsi_admin_translatable.locales%</argument>
+        <defaults autoconfigure="true" autowire="true" public="false" />
+
+        <prototype namespace="FSi\Bundle\AdminTranslatableBundle\"
+                   resource="../../{Admin,DataGrid,Doctrine,EventListener,Factory,Form,Manager,Menu}"
+        />
+
+        <prototype namespace="FSi\Bundle\AdminTranslatableBundle\Controller\"
+                   resource="../../Controller" public="true"
+        />
+
+        <service id="FSi\DoctrineExtensions\Translatable\TranslatableListener"
+                 alias="fsi_doctrine_extensions.listener.translatable"
+        />
+
+        <service id="Symfony\Component\Routing\Matcher\RequestMatcherInterface" alias="router" />
+
+        <!-- Form -->
+        <service id="FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFSiRemovableFileExtension">
+            <argument key="$filePathResolver" type="service" id="fsi_doctrine_extensions.resolver.fsi.file_path" />
         </service>
 
-        <!-- ProductionLine Workers -->
-        <service id="admin_translatable.factory.worker.translatable" class="%admin_translatable.factory.worker.translatable.class%">
-            <argument type="service" id="admin_translatable.manager.locale" />
+        <!-- Managers -->
+        <service id="FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager">
+            <argument key="$locales">%fsi_admin_translatable.locales%</argument>
+        </service>
+
+        <!-- Menu -->
+        <service id="FSi\Bundle\AdminTranslatableBundle\Menu\KnpMenuTranslatableElementVoter"
+                 decorates="FSi\Bundle\AdminBundle\Menu\KnpMenu\ElementVoter"
+        />
+
+        <!-- Contexts -->
+        <service id="FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\BatchElementContext">
+            <argument key="$requestHandlers" type="collection">
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\BatchFormSubmitHandler" />
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\BatchFormValidRequestHandler" />
+            </argument>
+            <argument key="$formBuilder" type="service" id="admin.form.builder.batch" />
+        </service>
+
+        <service id="FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\DisplayElementContext">
+            <argument key="$requestHandlers" type="collection">
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\Display\Context\Request\Handler" />
+            </argument>
+            <argument key="$defaultTemplate" type="string">%admin_translatable.templates.display%</argument>
+            <tag name="admin.context"/>
+        </service>
+
+        <service id="FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\CRUDFormElementContext">
+            <argument key="$requestHandlers" type="collection">
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\FormSubmitHandler" />
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\FormValidRequestHandler" />
+            </argument>
+            <argument key="$template" type="string">%admin_translatable.templates.crud_form%</argument>
+        </service>
+
+        <service id="FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\FormElementContext">
+            <argument key="$requestHandlers" type="collection">
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\FormSubmitHandler" />
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\FormValidRequestHandler" />
+            </argument>
+            <argument key="$template" type="string">%admin_translatable.templates.form%</argument>
+        </service>
+
+        <service id="FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\CRUDListElementContext">
+            <argument key="$requestHandlers" type="collection">
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\DataSourceBindParametersHandler" />
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\DataGridSetDataHandler" />
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\DataGridBindDataHandler" />
+            </argument>
+            <argument key="$template" type="string">%admin_translatable.templates.crud_list%</argument>
+        </service>
+
+        <service id="FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\ListElementContext">
+            <argument key="$requestHandlers" type="collection">
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\DataSourceBindParametersHandler" />
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\DataGridSetDataHandler" />
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\CRUD\Context\Request\DataGridBindDataHandler" />
+            </argument>
+            <argument key="$template" type="string">%admin_translatable.templates.list%</argument>
+        </service>
+
+        <service id="FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\Context\ResourceRepositoryContext">
+            <argument key="$requestHandlers" type="collection">
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\ResourceRepository\Context\Request\FormSubmitHandler" />
+                <argument type="service" id="FSi\Bundle\AdminBundle\Admin\ResourceRepository\Context\Request\FormValidRequestHandler" />
+            </argument>
+            <argument key="$resourceFormBuilder" type="service" id="FSi\Bundle\AdminBundle\Admin\ResourceRepository\ResourceFormBuilder" />
+            <argument key="$template" type="string">%admin_translatable.templates.resource%</argument>
         </service>
     </services>
 

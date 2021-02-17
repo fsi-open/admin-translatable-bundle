@@ -32,7 +32,7 @@ class TranslatableCollectionExtensionSpec extends ObjectBehavior
 
     public function it_extends_collection(): void
     {
-        $this->getExtendedType()->shouldReturn(CollectionType::class);
+        $this->getExtendedTypes()->shouldContain(CollectionType::class);
     }
 
     public function it_adds_listener(FormBuilderInterface $builder, TranslatableCollectionListener $listener): void

@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\AdminTranslatableBundle\Form;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use FSi\Bundle\AdminBundle\Exception\RuntimeException;
 use FSi\DoctrineExtensions\Translatable\TranslatableListener;
@@ -70,6 +70,10 @@ class TranslatableFormHelper
         return true;
     }
 
+    /**
+     * @param FormInterface $form
+     * @return mixed
+     */
     public function getFormNormDataLocale(FormInterface $form)
     {
         $classMetadata = $this->getFormTranslatableMetadata($form);

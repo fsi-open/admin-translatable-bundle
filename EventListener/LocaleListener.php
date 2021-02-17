@@ -13,7 +13,7 @@ namespace FSi\Bundle\AdminTranslatableBundle\EventListener;
 
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class LocaleListener implements EventSubscriberInterface
@@ -28,14 +28,14 @@ class LocaleListener implements EventSubscriberInterface
         $this->localeManager = $localeManager;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return  [
             KernelEvents::REQUEST => 'onKernelRequest',
         ];
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         $locale = $event->getRequest()->get('locale');
         if (null !== $locale && '' !== $locale) {

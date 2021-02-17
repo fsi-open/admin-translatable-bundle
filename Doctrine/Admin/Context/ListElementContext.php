@@ -26,9 +26,9 @@ class ListElementContext extends BaseListElementContext
     public function __construct(
         array $requestHandlers,
         LocaleManager $localeManager,
-        string $listTemplate
+        string $template
     ) {
-        parent::__construct($requestHandlers, $listTemplate);
+        parent::__construct($requestHandlers, $template);
         $this->localeManager = $localeManager;
     }
 
@@ -40,11 +40,6 @@ class ListElementContext extends BaseListElementContext
         return $data;
     }
 
-    protected function getSupportedRoute(): string
-    {
-        return 'fsi_admin_translatable_list';
-    }
-
     public function supportsElement(Element $element): bool
     {
         if (false === parent::supportsElement($element)) {
@@ -52,5 +47,10 @@ class ListElementContext extends BaseListElementContext
         }
 
         return $element instanceof TranslatableListElement;
+    }
+
+    protected function getSupportedRoute(): string
+    {
+        return 'fsi_admin_translatable_list';
     }
 }

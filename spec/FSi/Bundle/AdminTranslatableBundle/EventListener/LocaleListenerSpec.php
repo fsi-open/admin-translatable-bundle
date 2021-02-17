@@ -16,7 +16,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class LocaleListenerSpec extends ObjectBehavior
@@ -37,7 +37,7 @@ class LocaleListenerSpec extends ObjectBehavior
     }
 
     public function it_does_nothing_if_request_is_not_master(
-        GetResponseEvent $event,
+        RequestEvent $event,
         Request $request,
         LocaleManager $localeManager): void
     {
@@ -50,7 +50,7 @@ class LocaleListenerSpec extends ObjectBehavior
     }
 
     public function it_sets_locale_to_locale_manager(
-        GetResponseEvent $event,
+        RequestEvent $event,
         Request $request,
         LocaleManager $localeManager
     ): void {

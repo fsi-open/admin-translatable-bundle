@@ -41,7 +41,7 @@ class TranslatableFSiRemovableFileExtensionSpec extends ObjectBehavior
 
     public function it_extends_text_form(): void
     {
-        $this->getExtendedType()->shouldReturn(RemovableFileType::class);
+        $this->getExtendedTypes()->shouldContain(RemovableFileType::class);
     }
 
     public function it_does_nothing_if_form_has_no_property_path(

@@ -41,7 +41,7 @@ class KnpMenuTranslatableElementVoter implements VoterInterface
         $this->localeManager = $localeManager;
     }
 
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): void
     {
         $this->request = $request;
 
@@ -50,7 +50,7 @@ class KnpMenuTranslatableElementVoter implements VoterInterface
         }
     }
 
-    public function matchItem(ItemInterface $item)
+    public function matchItem(ItemInterface $item): ?bool
     {
         $elementMatch = $this->menuElementVoter->matchItem($item);
 

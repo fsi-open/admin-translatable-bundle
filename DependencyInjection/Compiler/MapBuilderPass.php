@@ -18,9 +18,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class MapBuilderPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if ($container->hasDefinition('fsi_resource_repository.resource.map_builder')) {
+        if (true === $container->hasDefinition('fsi_resource_repository.resource.map_builder')) {
             $definition = $container->getDefinition('fsi_resource_repository.resource.map_builder');
             $definition->setClass(TranslatableMapBuilder::class);
             $definition->addArgument(new Reference('fsi_doctrine_extensions.listener.translatable'));

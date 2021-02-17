@@ -17,9 +17,9 @@ use FSi\Bundle\AdminTranslatableBundle\Doctrine\Admin\TranslatableCRUDElement;
 
 class CRUDListElementContext extends AdminCRUDListElementContext
 {
-    protected function getSupportedRoute(): string
+    public static function getPriority(): int
     {
-        return 'fsi_admin_translatable_list';
+        return 5;
     }
 
     public function supportsElement(Element $element): bool
@@ -29,5 +29,10 @@ class CRUDListElementContext extends AdminCRUDListElementContext
         }
 
         return $element instanceof TranslatableCRUDElement;
+    }
+
+    protected function getSupportedRoute(): string
+    {
+        return 'fsi_admin_translatable_list';
     }
 }

@@ -13,6 +13,7 @@ namespace spec\FSi\Bundle\AdminTranslatableBundle\EventListener;
 
 use FSi\Bundle\AdminBundle\Event\MenuEvent;
 use FSi\Bundle\AdminBundle\Menu\Item\Item;
+use FSi\Bundle\AdminBundle\Menu\Item\RoutableItem;
 use FSi\Bundle\AdminTranslatableBundle\Manager\LocaleManager;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -21,7 +22,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 use function array_key_exists;
 
 class TranslationLocaleMenuListenerSpec extends ObjectBehavior
@@ -107,7 +109,7 @@ class TranslationLocaleMenuListenerSpec extends ObjectBehavior
         expect($translationLocale->getLabel())->toBe('Menu label');
         expect($translationLocale->getOption('attr'))->toHaveOption('id', 'translatable-switcher');
 
-        /** @var \FSi\Bundle\AdminBundle\Menu\Item\RoutableItem[] $subItems */
+        /** @var array<RoutableItem> $subItems */
         $subItems = $translationLocale->getChildren();
 
         $localePl = $subItems['translation-locale.pl'];

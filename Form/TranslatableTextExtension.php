@@ -15,13 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class TranslatableTextExtension extends AbstractSimpleTranslatableExtension
 {
-    public static function getExtendedTypes()
+    public static function getExtendedTypes(): iterable
     {
         return [TextType::class];
-    }
-
-    public function getExtendedType()
-    {
-        return TextType::class;
     }
 }

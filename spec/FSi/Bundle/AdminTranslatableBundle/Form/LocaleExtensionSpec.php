@@ -45,7 +45,7 @@ class LocaleExtensionSpec extends ObjectBehavior
 
     public function it_extends_from_type(): void
     {
-        $this->getExtendedType()->shouldReturn(FormType::class);
+        $this->getExtendedTypes()->shouldContain(FormType::class);
     }
 
     public function it_adds_itself_as_form_event_subscriber(FormBuilderInterface $formBuilder): void

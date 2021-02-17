@@ -6,25 +6,25 @@ admin_translatable_locale:
 fsi_admin_translatable_list:
     path: /{locale}/list/{element}
     defaults:
-        _controller: admin_translatable.controller.list:listAction
+        _controller: FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableListController:listAction
 
 fsi_admin_translatable_form:
     path: /{locale}/form/{element}/{id}
     defaults:
-        _controller: admin_translatable.controller.form:formAction
+        _controller: FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableFormController:formAction
         id: null
 
 fsi_admin_translatable_batch:
     path: /{locale}/batch/{element}
     defaults:
-        _controller: admin.controller.batch:batchAction
+        _controller: FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableBatchController:batchAction
 
 fsi_admin_translatable_resource:
     path: /{locale}/resource/{element}
     defaults:
-        _controller: admin_translatable.controller.resource:resourceAction
+        _controller: FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableResourceController:resourceAction
 
 fsi_admin_translatable_display:
     path: /{locale}/display/{element}/{id}
     defaults:
-        _controller: admin_translatable.controller.display:displayAction
+        _controller: FSi\Bundle\AdminTranslatableBundle\Controller\TranslatableDisplayController:displayAction

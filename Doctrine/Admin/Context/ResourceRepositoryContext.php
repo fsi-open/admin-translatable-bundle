@@ -26,9 +26,9 @@ class ResourceRepositoryContext extends BaseResourceRepositoryContext
         array $requestHandlers,
         ResourceFormBuilder $resourceFormBuilder,
         LocaleManager $localeManager,
-        string $defaultTemplate
+        string $template
     ) {
-        parent::__construct($requestHandlers, $defaultTemplate, $resourceFormBuilder);
+        parent::__construct($requestHandlers, $template, $resourceFormBuilder);
         $this->localeManager = $localeManager;
     }
 

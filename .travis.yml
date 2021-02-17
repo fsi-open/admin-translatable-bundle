@@ -17,6 +17,7 @@ matrix:
           env:
               - COMPOSER_FLAGS='--prefer-lowest'
         - php: 7.4
+        - php: 8.0
 
 before_install:
     - phpenv config-rm xdebug.ini
@@ -26,8 +27,8 @@ before_install:
 
 before_script:
     - nohup php -S localhost:8080 -t features/fixtures/project/web > server.log 2>&1 &
-    - features/fixtures/project/app/console ckeditor:install --clear=skip
-    - features/fixtures/project/app/console assets:install --symlink features/fixtures/project/web
+    - features/fixtures/project/bin/console ckeditor:install --clear=skip
+    - features/fixtures/project/bin/console assets:install --symlink features/fixtures/project/web
     - java -jar vendor/bin/selenium.jar > /dev/null 2>&1 &
     - sleep 5
 

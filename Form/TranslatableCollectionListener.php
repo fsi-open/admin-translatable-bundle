@@ -27,14 +27,14 @@ class TranslatableCollectionListener implements EventSubscriberInterface
         $this->translatableFormHelper = $translatableFormHelper;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             FormEvents::PRE_SET_DATA => ['onPreSetData', 10],
         ];
     }
 
-    public function onPreSetData(FormEvent $event)
+    public function onPreSetData(FormEvent $event): void
     {
         $form = $event->getForm();
         $parent = $this->translatableFormHelper->getFirstTranslatableParent($form);

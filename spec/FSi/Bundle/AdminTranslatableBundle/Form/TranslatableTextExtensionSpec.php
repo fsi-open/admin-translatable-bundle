@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace spec\FSi\Bundle\AdminTranslatableBundle\Form;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use FSi\Bundle\AdminTranslatableBundle\Form\TranslatableFormHelper;
 use FSi\DoctrineExtensions\Translatable\Mapping\ClassMetadata;
@@ -23,6 +23,7 @@ use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\PropertyAccess\PropertyPath;
+
 use function expect;
 
 class TranslatableTextExtensionSpec extends ObjectBehavior
@@ -40,7 +41,7 @@ class TranslatableTextExtensionSpec extends ObjectBehavior
 
     public function it_extends_text_form(): void
     {
-        $this->getExtendedType()->shouldReturn(TextType::class);
+        $this->getExtendedTypes()->shouldContain(TextType::class);
     }
 
     public function it_does_nothing_if_form_has_no_property_path(FormView $view, FormInterface $form): void
