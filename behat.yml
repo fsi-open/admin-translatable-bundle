@@ -22,8 +22,9 @@ default: &default
             kernel:
                 env: test
                 debug: true
-                path: features/fixtures/project/app/AppKernel.php
-                bootstrap: features/fixtures/project/app/autoload.php
+                bootstrap: null
+                class: FSi\AppKernel
+                path: features/fixtures/project/src/AppKernel.php
         Caciobanu\Behat\DeprecationExtension: ~
         SensioLabs\Behat\PageObjectExtension:
             namespaces:

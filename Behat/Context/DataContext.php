@@ -52,9 +52,12 @@ class DataContext implements KernelAwareContext
         $tool->createSchema($metadata);
     }
 
+    /**
+     * @AfterScenario
+     */
     public function deleteDatabaseIfExist(): void
     {
-        $dbFilePath = $this->kernel->getRootDir() . '/data.sqlite';
+        $dbFilePath = $this->kernel->getProjectDir() . '/var/data.sqlite';
 
         if (true === file_exists($dbFilePath)) {
             unlink($dbFilePath);

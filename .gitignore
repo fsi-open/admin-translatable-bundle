@@ -1,6 +1,5 @@
 /bin/
 /composer.lock
-/features/fixtures/project/app/data.sqlite
 /features/fixtures/project/web/bundles
 /features/fixtures/project/web/uploaded
 /var/
